@@ -10,7 +10,11 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
+import os
+from dotenv import load_dotenv
 from pathlib import Path
+
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -37,6 +41,14 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    "app_weight.apps.AppWeightConfig",
+    "app_growth.apps.AppGrowthConfig",
+    "app_pressure.apps.AppPressureConfig",
+    "app_pulse.apps.AppPulseConfig",
+    # 'app_growth',
+    # 'app_pressure',
+    # 'app_pulse',
+    # 'app_weight'
 ]
 
 MIDDLEWARE = [
@@ -74,6 +86,7 @@ WSGI_APPLICATION = 'PP_Journal.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
+# SQL lite in project
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -81,6 +94,33 @@ DATABASES = {
     }
 }
 
+  # postgre sqlserver - create .evn file - from .evn_template
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'HOST': os.getenv('postgresql.host'),
+#         'PORT': os.getenv('postgresql.port'),
+#         'NAME': os.getenv('postgresql.name'),
+#         'USER': os.getenv('postgresql.user'),
+#         'PASSWORD': os.getenv('postgresql.pass'),
+#     }
+# }
+
+#   microsoft sqlserver - create .evn file - from .evn_template - check install driver ODBC
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'mssql',
+#         'HOST': os.getenv('mssql.host'),
+#         'PORT': os.getenv('mssql.port'),
+#         'NAME': os.getenv('mssql.name'),
+#         'USER': os.getenv('mssql.user'),
+#         'PASSWORD': os.getenv('mssql.pass'),
+#         'OPTIONS': {
+#             'DRIVER': 'ODBC Driver 18 for SQL Server',
+#             'extra_params': 'Encrypt=no',
+#         }
+#     }
+# }
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
@@ -104,7 +144,8 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/5.1/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+# LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'pl'
 
 TIME_ZONE = 'UTC'
 
@@ -117,6 +158,10 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
 STATIC_URL = 'static/'
+
+STATICFILES_DIRS = [
+    BASE_DIR / 'static'
+]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field

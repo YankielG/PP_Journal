@@ -1,1 +1,2 @@
-Django~=5.1
+Django~=5.0.8
+python-dotenv~=1.0.1
