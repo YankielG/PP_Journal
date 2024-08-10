@@ -1,7 +1,7 @@
 # Opis projektu:
 
 
-![](https://github.com/YankielG/PP_Journal/static/background_m.JPG)
+![]([https://github.com/YankielG/PP_Journal/static/background_m.JPG](https://github.com/YankielG/PP_Journal/blob/master/static/background_m.JPG))
 
 ------------
 
