@@ -1,10 +1,116 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'fragments/layout.html' %}
+{% load static %}
 
-</body>
-</html>
+{% block page_title %} Waga {% endblock %}
+
+{% block page_content %}
+
+<div class="container">
+    <div class="uk-panel">
+        <img class="uk-align-left uk-margin-remove-adjacent" src="{% static 'background.JPG' %}" width="60" height="28" alt="info">
+        <h2 class="uk-heading-divider" style="position: relative">Waga</h2>
+    </div>
+
+    <a uk-icon="info" uk-tooltip="Info" href="#modal-center" uk-toggle></a>
+    <div id="modal-center" class="uk-flex-top" uk-modal>
+        <div class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">
+{#            <button class="uk-modal-close-default" type="button" uk-close></button>#}
+            <p>Całkowita masa ciała jest obliczana na zasadzie zsumowania tłuszczu niezbędnego oraz tłuszczu zapasowego.</p>
+            <p>U osób, które czynnie ćwiczą tłuszcz niezbędny do metabolizmu oraz tłuszcz zapasowy, który potencjalnie jest
+                zawsze w nadmiarze jest niezbędny do normalnego funkcjonowania organizmu. </p>
+            <p>Normalnie, tłuszcz niezbędny powinien stanowić 16% całkowitej masy ciała u mężczyzn i 27% u kobiet.</p>
+        </div>
+    </div>
+
+        <div class="uk-section">
+            <div style="max-width: 1000px; margin: 50px auto">
+                <canvas id="line-chart" width="2800" height="900"></canvas>
+            </div>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+            <script inline="javascript">
+                new Chart(document.getElementById("line-chart"), {
+                    type: 'line',
+                    data: {
+                        labels: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
+                        datasets: [{
+                            data: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
+                            label: "Waga",
+                            borderColor: "#3e95cd",
+                            fill: false
+                        },
+                        ]
+                    },
+                     options: {
+                        responsive: true,
+                        scales:{
+                            xAxes: [{
+                                display: true,
+                                scaleLabel: {
+                                    display: true,
+                                    labelString: 'Data'}
+                            }],
+                            yAxes: [{
+                                display: true,
+                                stacked: true,
+                                ticks: {
+                                    min: 0,
+                                    steps: 10,
+                                    stepValue: 5,
+                                    max: 160},
+                                scaleLabel: {
+                                    display: true,
+                                    labelString: 'Waga'}
+                            }]
+
+                        }
+                    }
+                });
+
+            </script>
+    </div>
+
+    <a href="weight" uk-icon="icon: copy" uk-tooltip="Dodaj"></a>
+    <a href="weight" uk-icon="icon: trash" uk-tooltip="Wyczyść"></a>
+    <table class="uk-table uk-table-striped uk-table-hover uk-table-small" uk-sortable>
+        <thead>
+            <tr>
+                <th>Lp.</th>
+                <th>Waga</th>
+                <th>Data</th>
+                <th>Uwagi</th>
+                <th>Opcje</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for value in weights %}
+            <tr>
+                <td>NA</td>
+                <td>{{ value.weight |floatformat:1}}</td>
+                <td>{{ value.date |date:'D, d M Y,'}} {{value.date |time:"H:i"}}</td>
+                <td>{{ value.comments }}</td>
+                <td>
+                    <a href=" " uk-icon="icon: file-edit" uk-tooltip="Edytuj"></a>
+                    <a href=" " uk-icon="icon: info" uk-tooltip="Szczegóły"></a>
+                    <a href=" " uk-icon="icon: trash" uk-tooltip="Usuń"></a>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <div class="col-sm-6">
+
+    </div>
+{#    <div class="col-sm-6">#}
+{#        <nav class="pull-right">#}
+{#            <ul class="uk-pagination uk-flex-center" sd:pagination="full">#}
+{#                <li class="uk-disabled"><a href="#" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>#}
+{#                <li class="uk-active"><a href="#">1<span class="sr-only"></span></a></li>#}
+{#            </ul>#}
+{#        </nav>#}
+{#    </div>#}
+
+    <div class="uk-padding"></div>
+
+</div>
+{% endblock %}

@@ -1,0 +1,28 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+{#    <title>Dzienniczek Zdrowia - {% block page_title %}{% endblock %}</title>#}
+    <title>Dzienniczek Zdrowia</title>
+
+    <link rel="icon" type= "image/x-icon" href="{% static 'icon.ico' %}">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="{% static 'css/uikit.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/private.css' %}">
+
+    <script src="{% static 'js/uikit.min.js' %}"></script>
+    <script src="{% static 'js/uikit-icons.min.js' %}"></script>
+</head>
+
+<body>
+<div> {% include 'fragments/menu.html' %} </div>
+<div class="uk-container uk-margin-large-top"> {% block page_content %} {% endblock %} </div>
+<div> {% include 'fragments/footer.html' %} </div>
+</body>
+
+</html>
