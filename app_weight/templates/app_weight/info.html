@@ -1,0 +1,48 @@
+{% extends 'fragments/layout.html' %}
+{% load static %}
+
+{% block page_title %} Info {% endblock %}
+
+{% block page_content %}
+
+<div class="container">
+    <div class="uk-panel">
+        <img class="uk-align-left uk-margin-remove-adjacent" src="{% static 'background.JPG' %}" width="60" height="28" alt="info">
+        <h2 class="uk-heading-divider" style="position: relative">Info</h2>
+    </div>
+
+    <p class="uk-text-lead">Informacje:</p>
+
+    <p class="uk-text-muted">Aplikacja "Dzienniczek Zdrowia" powstała jako zaliczenie studiów podyplomowych.</p>
+    <p class="uk-text-muted">Na kierunku Programista Python w Wyższej Szkole Zarządzania i Bankowiśći w Krakowie.</p>
+    <p class="uk-text-muted">Autor Projektu: Grzegorz Jankowicz.</p>
+    <p class="uk-text-muted">Rok: 2023/2024</p>
+    <br>
+    <p class="uk-text-lead"> Funkcjonalności:</p>
+
+    <span uk-icon="icon: copy" uk-tooltip="Dodaj"></span>
+    <spanp class="uk-text-muted">Dodawanie wpisu</spanp>
+    <br>
+    <span uk-icon="icon: trash" uk-tooltip="Wyczyść / Usuń" ></span>
+    <span class="uk-text-muted">Kasowanie wpisu lub całkowite czyszczenie</span>
+    <br>
+    <span uk-icon="icon: file-edit" uk-tooltip="Edytuj" ></span>
+    <span class="uk-text-muted">Edycja wpisu</span>
+    <br>
+    <span uk-icon="icon: info" uk-tooltip="Info / Szczegóły" ></span>
+    <span class="uk-text-muted">Informacje lub szczegóły</span>
+    <br>
+    <p></p>
+    <span class="uk-text-muted">Dane na wykresach można wyłączać naciskając na legędę.</span>
+    <br>
+    <span class="uk-text-muted">Wiersze w tabeli można przeciągać.</span>
+
+
+
+
+
+
+    <div class="uk-padding"></div>
+
+</div>
+{% endblock %}

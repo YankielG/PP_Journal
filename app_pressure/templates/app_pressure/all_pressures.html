@@ -1,10 +1,141 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'fragments/layout.html' %}
+{% load static %}
 
-</body>
-</html>
+{% block page_title %} Ciśnienie {% endblock %}
+
+{% block page_content %}
+
+<div class="container">
+    <div class="uk-panel">
+        <img class="uk-align-left uk-margin-remove-adjacent" src="{% static 'background.JPG' %}" width="60" height="28" alt="info">
+        <h2 class="uk-heading-divider" style="position: relative">Ciśnienie</h2>
+    </div>
+
+    <a uk-icon="info" uk-tooltip="Info" href="#modal-center" uk-toggle></a>
+    <div id="modal-center" class="uk-flex-top" uk-modal>
+        <div class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">
+{#            <button class="uk-modal-close-default" type="button" uk-close></button>#}
+            <p>Pomiary ciśnienia najlepiej wykonywać o stałej porze dnia, gdyż ciśnienie w ciągu doby ulega zmianom.</p>
+            <p>Badanie powinno odbywać się w warunkach spoczynkowych.</p>
+           <p>Kategoria - Ciśnienie skurczowe / Ciśnienie rozkurczowe:</p>
+            <ul class="uk-list uk-list-bullet">
+                <li>Ciśnienie optymalne: < 120 mm Hg / < 80 Hg,</li>
+                <li>Ciśnienie prawidłowe: 120 - 129 mm Hg / 80 - 84 mm Hg,</li>
+                <li>Ciśnienie wysokie prawidłowe: 130 - 139 mm Hg / 85 - 89 mm Hg,</li>
+                <li>Nadciśnienie tętnicze 1. stopnia: 140 - 159 mm Hg / 90 - 99 mm Hg</li>
+                <li>Nadciśnienie tętnicze 2. stopnia: 160 - 179 mm Hg / 100 - 109 mm Hg</li>
+                <li>Nadciśnienie tętnicze 3. stopnia: ≥ 180 mm Hg / ≥ 110 mm Hg.</li>
+            </ul>
+        </div>
+    </div>
+
+        <div class="uk-section">
+            <div style="max-width: 1000px; margin: 50px auto">
+                <canvas id="line-chart" width="2800" height="900"></canvas>
+            </div>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+            <script inline="javascript">
+                new Chart(document.getElementById("line-chart"), {
+                    type: 'line',
+                    data: {
+                        labels: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
+                        datasets: [{
+                            data: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
+                            label: "Ciśnienie skurczowe",
+                            borderColor: "#3e95cd",
+                            fill: false
+                        },
+
+                        {
+                            data: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
+                            label: "Ciśnienie rozkurczowe",
+                            borderColor: "#3cba9f",
+                            fill: false
+                        },
+
+                        {
+                            data: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
+                            label: "Tętno",
+                            borderColor: "#c45850",
+                            fill: false
+                        }
+                        ]
+                    },
+                     options: {
+                        responsive: true,
+                        scales:{
+                            xAxes: [{
+                                display: true,
+                                scaleLabel: {
+                                    display: true,
+                                    labelString: 'Data'}
+                            }],
+                            yAxes: [{
+                                display: true,
+                                stacked: true,
+                                ticks: {
+                                    min: 40,
+                                    steps: 10,
+                                    stepValue: 5,
+                                    max: 220},
+                                scaleLabel: {
+                                    display: true,
+                                    labelString: 'Cićnienie / Tętno'}
+                            }]
+
+                        }
+                    }
+                });
+
+            </script>
+    </div>
+
+    <a href="weight" uk-icon="icon: copy" uk-tooltip="Dodaj"></a>
+    <a href="weight" uk-icon="icon: trash" uk-tooltip="Wyczyść"></a>
+    <table class="uk-table uk-table-striped uk-table-hover uk-table-small" uk-sortable>
+        <thead>
+            <tr>
+                <th>Lp.</th>
+                <th>Ciśnienie Skurczowe</th>
+                <th>Ciśnienie Rozkurczowe</th>
+                <th>Tętno</th>
+                <th>Data</th>
+                <th>Uwagi</th>
+                <th>Opcje</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for value in pressures %}
+            <tr>
+                <td>NA</td>
+                <td>{{ value.shrink |floatformat:1}}</td>
+                <td>{{ value.diastole |floatformat:1}}</td>
+                <td>{{ value.pulse |floatformat:1}}</td>
+                <td>{{ value.date |date:'D, d M Y,'}} {{value.date |time:"H:i"}}</td>
+                <td>{{ value.comments }}</td>
+                <td>
+                    <a href=" " uk-icon="icon: file-edit" uk-tooltip="Edytuj"></a>
+                    <a href=" " uk-icon="icon: info" uk-tooltip="Szczegóły"></a>
+                    <a href=" " uk-icon="icon: trash" uk-tooltip="Usuń"></a>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <div class="col-sm-6">
+
+    </div>
+{#    <div class="col-sm-6">#}
+{#        <nav class="pull-right">#}
+{#            <ul class="uk-pagination uk-flex-center" sd:pagination="full">#}
+{#                <li class="uk-disabled"><a href="#" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>#}
+{#                <li class="uk-active"><a href="#">1<span class="sr-only"></span></a></li>#}
+{#            </ul>#}
+{#        </nav>#}
+{#    </div>#}
+
+    <div class="uk-padding"></div>
+
+</div>
+{% endblock %}

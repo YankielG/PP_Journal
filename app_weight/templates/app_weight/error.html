@@ -1,0 +1,20 @@
+{% extends 'fragments/layout.html' %}
+{% load static %}
+
+{% block page_title %} Error {% endblock %}
+
+{% block page_content %}
+
+<div class="container">
+    <div class="uk-panel">
+        <img class="uk-align-left uk-margin-remove-adjacent" src="{% static 'background.JPG' %}" width="60" height="28" alt="info">
+        <h2 class="uk-heading-divider" style="position: relative">Error</h2>
+    </div>
+</div>
+
+<div>
+    <img class="uk-align-center uk-margin-auto" style="margin-top: 100px" src="{% static 'background.JPG' %}" width="60%" height="60%" alt="info">
+</div>
+<div class="uk-padding"></div>
+
+{% endblock %}
