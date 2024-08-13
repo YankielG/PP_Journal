@@ -31,9 +31,9 @@
                 new Chart(document.getElementById("line-chart"), {
                     type: 'line',
                     data: {
-                        labels: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
+                        labels: {{chart_x}},
                         datasets: [{
-                            data: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
+                            data: {{chart_y}},
                             label: "Waga",
                             borderColor: "#3e95cd",
                             fill: false
@@ -86,11 +86,12 @@
             <tr>
                 <td>NA</td>
                 <td>{{ value.weight |floatformat:1}}</td>
-                <td>{{ value.date |date:'D, d M Y,'}} {{value.date |time:"H:i"}}</td>
+{#                <td>{{ value.date |date:'D, d M Y,'}} {{value.date |time:"H:i"}}</td>#}
+                <td>{{ value.date}}</td>
                 <td>{{ value.comments }}</td>
                 <td>
                     <a href=" " uk-icon="icon: file-edit" uk-tooltip="Edytuj"></a>
-                    <a href=" " uk-icon="icon: info" uk-tooltip="Szczegóły"></a>
+                    <a href="{% url 'weight_details_url' id=value.id %}" uk-icon="icon: info" uk-tooltip="Szczegóły"></a>
                     <a href=" " uk-icon="icon: trash" uk-tooltip="Usuń"></a>
                 </td>
             </tr>

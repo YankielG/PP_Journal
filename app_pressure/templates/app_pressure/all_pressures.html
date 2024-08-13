@@ -38,23 +38,23 @@
                 new Chart(document.getElementById("line-chart"), {
                     type: 'line',
                     data: {
-                        labels: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
+                        labels: {{chart_x}},
                         datasets: [{
-                            data: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
+                            data: {{chart_y1}},
                             label: "Ciśnienie skurczowe",
                             borderColor: "#3e95cd",
                             fill: false
                         },
 
                         {
-                            data: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
+                            data: {{chart_y2}},
                             label: "Ciśnienie rozkurczowe",
                             borderColor: "#3cba9f",
                             fill: false
                         },
 
                         {
-                            data: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
+                            data: {{chart_y3}},
                             label: "Tętno",
                             borderColor: "#c45850",
                             fill: false

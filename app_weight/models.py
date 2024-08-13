@@ -6,5 +6,5 @@ class Weight(models.Model):
     date = models.DateTimeField()
     comments = models.CharField(max_length=255)
 
-    def __str__(self):
-        return f'Waga: {self.weight} Data: {self.date} Uwagi: {self.comments}'
+    # def __str__(self):
+    #     return f'Waga: {self.weight} Data: {self.date} Uwagi: {self.comments}'

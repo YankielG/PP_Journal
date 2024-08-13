@@ -1,0 +1,61 @@
+{% extends 'fragments/layout.html' %}
+{% load static %}
+
+{% block page_title %} Waga - Szczegóły {% endblock %}
+
+{% block page_content %}
+
+    <div class="container">
+        <div class="uk-panel">
+            <img class="uk-align-left uk-margin-remove-adjacent" src="{% static 'background.JPG' %}" width="60"
+                 height="28" alt="info">
+            <h2 class="uk-heading-divider" style="position: relative">Waga - Szczegóły</h2>
+        </div>
+
+        <div class="uk-card uk-card-default uk-border-rounded">
+            <div class="uk-card-header">
+                <div>
+                    <div class="uk-width-expand">
+                        <h3 class="uk-card-title uk-position-relative uk-position-center">Statystyki:</h3>
+                        <div class="uk-position-relative uk-position-center"><b> Liczba
+                            Wpisów:</b> {{ statistical_data.weight__count }}</div>
+                        <div class="uk-flex uk-flex-between ">
+                            <div><b> MIn. Waga:</b> {{ statistical_data.weight__min|floatformat:2 }}</div>
+                            <div><b> Śr. Waga: </b>{{ statistical_data.weight__avg|floatformat:2 }}</div>
+                            <div><b> Max. Waga:</b> {{ statistical_data.weight__max|floatformat:2 }}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="uk-card-body">
+                <span> <b>Lp.: </b> </span>
+                <span> 5 </span> <br>
+                <span> <b>Waga: </b> </span>
+                <span>{{ weight.weight }}</span><br>
+                <span> <b>Data: </b> </span>
+                <span>{{ weight.date }}</span><br>
+                <span> <b>Uwagi: </b> </span>
+                <span>{{ weight.comments }}</span>
+                <br><br>
+                <b>Nasza ocena: </b>
+
+                {% if weight.weight > statistical_data.weight__avg  %}
+                    <span class="uk-text-danger"> Jesteś powyżej średniej - Zastosuj dietę </span>
+
+                {% elif  weight.weight < statistical_data.weight__avg  %}
+                    <span class="uk-text-success">  Jesteś poniżej średniej - Brawo !!! </span>
+
+                {% else %}
+                    <span class="uk-text-warning"> Jesteś na poziomie średniej - Prawie idealnie, popracuj jeszcze trochę </span>
+                {% endif %}
+
+            </div>
+            <div class="uk-card-footer">
+                <a href="/weights"
+                   class="uk-button uk-button-text uk-position-relative uk-position-top-center">Zamknij</a>
+            </div>
+        </div>
+
+
+    </div>
+{% endblock %}
