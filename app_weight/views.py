@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from .models import Weight
 from django.http import HttpResponseNotFound
 from django.db.models import Avg, Min, Max, Count
@@ -25,6 +25,22 @@ def weight_details(request, id):
         'statistical_data': weight_statistical_data
     }
     return render(request,'app_weight/weight_details.html', context)
+
+def add_weight(request):
+    return render(request, 'app_weight/add_weight.html')
+
+def delete_weight(request, id):
+    found_weight = Weight.objects.get(pk=id)
+    found_weight.delete()
+    return redirect('all_weights_url')
+
+def delete_all_weight(request):
+    found_weights = Weight.objects.all()
+    found_weights.delete()
+    return redirect('all_weights_url')
+
+def edit_weight(request, id):
+    return render(request, 'app_weight/edit_weight.html')
 
 def info(request):
     return  render(request,'app_weight/info.html')
