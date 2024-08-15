@@ -1,12 +1,14 @@
+from datetime import datetime
+
 from django.shortcuts import render, redirect
 from .models import Weight
-from django.http import HttpResponseNotFound
+from django.http import HttpResponseNotFound, HttpResponseForbidden
+from .forms import Add_weight_Form
 from django.db.models import Avg, Min, Max, Count
 
 # Create your views here.
 def all_weights(request):
     found_weights = Weight.objects.all()
-    print(found_weights)
     context = {
         'weights': found_weights,
         'chart_x': [1,2,3,4,5],
@@ -29,7 +31,20 @@ def weight_details(request, id):
     return render(request,'app_weight/weight_details.html', context)
 
 def add_weight(request):
-    return render(request, 'app_weight/add_weight.html')
+
+    if request.method == 'POST':
+        weight = request.POST['weight']
+        date = request.POST['date']
+        comments = request.POST['comment']
+        object = Weight(weight=weight, date=date, comments=comments)
+        object.save()
+        return redirect('all_weights_url')
+
+    context = {
+        'time_now': datetime.now().strftime("%Y-%m-%dT%H:%M")
+    }
+    print(context)
+    return render(request, 'app_weight/add_weight.html',context)
 
 def delete_weight(request, id):
     found_weight = Weight.objects.get(pk=id)

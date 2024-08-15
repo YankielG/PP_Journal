@@ -3,5 +3,8 @@ from django.core.validators import MinValueValidator, RegexValidator, MaxValueVa
 from django.forms.utils import ErrorList
 from . import models
 
-# class Add_weight_Form(forms.Form:
-#     pass
+class Add_weight_Form(forms.Form):
+    weight = forms.DecimalField(label='Waga', max_digits=3, decimal_places=1),
+    date = forms.DateTimeField(label='Data'),
+    comments = forms.CharField(label='Uwagi', max_length=255)
+    # comments = forms.CharField(label='Uwagi', max_length=255, validators=[MinLengthValidator(3, 'Za mało danych')])
