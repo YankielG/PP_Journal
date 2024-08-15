@@ -1,0 +1,59 @@
+{% extends 'fragments/layout.html' %}
+{% load static %}
+
+{% block page_title %} Ciśnienie - Dodaj {% endblock %}
+
+{% block page_content %}
+
+    <div class="container">
+        <div class="uk-panel">
+            <img class="uk-align-left uk-margin-remove-adjacent" src="{% static 'background.JPG' %}" width="60"
+                 height="28" alt="info">
+            <h2 class="uk-heading-divider" style="position: relative">Ciśnienie - Dodaj</h2>
+        </div>
+
+        <form style="width:300px; margin: auto" action="{% url 'add_pressure_url' %}" method="POST">
+
+            {% csrf_token %}
+
+            <div class="uk-margin">
+                <label>Cisnienie Skurczowe</label>
+                <input value="{{ shrink }}" type="number" class="uk-input" step="0.1" min="50" max="200"
+                       required="required">
+            </div>
+
+            <div class="uk-margin">
+                <label>Cisnienie Rozkurczowe</label>
+                <input value="{{ diastole }}" type="number" class="uk-input" step="0.1" min="50" max="150"
+                       required="required">
+            </div>
+
+            <div class="uk-margin">
+                <label>Tętno</label>
+                <input value="{{ pulse }}" type="number" class="uk-input" step="0.1" min="40" max="150"
+                       required="required">
+            </div>
+
+            <div class="uk-margin">
+                <label>Data</label>
+                <Input value="{{ date }}" type="date" class="uk-input" required="required">
+            </div>
+
+            <div class="uk-margin">
+                <label>Uwagi</label>
+                <textarea value="{{ comment }}" class="uk-textarea" rows="4"></textarea>
+            </div>
+
+{#            <a href="/pressures/" class="uk-icon-link uk-margin-small-right" uk-icon="close" uk-tooltip="Anuluj"></a>#}
+{#            <a href="/pressures/add" class="uk-icon-link uk-margin-small-right" uk-icon="trash" uk-tooltip="Wyczyść"></a>#}
+{#            <a href="/pressures/add" class="uk-icon-link uk-margin-small-right" uk-icon="check" type="submit" uk-tooltip="Zapisz"></a>#}
+
+            <a href="/pressures/"><input class="uk-button uk-button-danger" type="button" value="Anuluj"></a>
+            <input class="uk-button uk-button-primary" type="submit" value="Zapisz">
+
+        </form>
+
+        <div class="uk-padding"></div>
+
+    </div>
+{% endblock %}

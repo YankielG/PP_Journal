@@ -1,7 +1,7 @@
 {% extends 'fragments/layout.html' %}
 {% load static %}
 
-{% block page_title %} Waga - Dodaj {% endblock %}
+{% block page_title %} Tętno - Dodaj {% endblock %}
 
 {% block page_content %}
 
@@ -9,16 +9,16 @@
         <div class="uk-panel">
             <img class="uk-align-left uk-margin-remove-adjacent" src="{% static 'background.JPG' %}" width="60"
                  height="28" alt="info">
-            <h2 class="uk-heading-divider" style="position: relative">Waga - Dodaj</h2>
+            <h2 class="uk-heading-divider" style="position: relative">Tętno - Dodaj</h2>
         </div>
 
-        <form style="width:300px; margin: auto" action="{% url 'add_weight_url' %}" method="POST">
+        <form style="width:300px; margin: auto" action="{% url 'add_pulse_url' %}" method="POST">
 
             {% csrf_token %}
 
             <div class="uk-margin">
-                <label>Waga</label>
-                <input value="{{ weight }}" type="number" class="uk-input" step="0.1" min="10" max="150"
+                <label>Tętno</label>
+                <input value="{{ pulse }}" type="number" class="uk-input" step="0.1" min="40" max="150"
                        required="required">
             </div>
 
@@ -32,11 +32,11 @@
                 <textarea value="{{ comment }}" class="uk-textarea" rows="4"></textarea>
             </div>
 
-{#            <a href="/weights/" class="uk-icon-link uk-margin-small-right" uk-icon="close" uk-tooltip="Anuluj"></a>#}
-{#            <a href="/weights/add" class="uk-icon-link uk-margin-small-right" uk-icon="trash" uk-tooltip="Wyczyść"></a>#}
-{#            <a href="/weights/add" class="uk-icon-link uk-margin-small-right" uk-icon="check" type="submit" uk-tooltip="Zapisz"></a>#}
+{#            <a href="/pulses/" class="uk-icon-link uk-margin-small-right" uk-icon="close" uk-tooltip="Anuluj"></a>#}
+{#            <a href="/pulses/add" class="uk-icon-link uk-margin-small-right" uk-icon="trash" uk-tooltip="Wyczyść"></a>#}
+{#            <a href="/pulses/add" class="uk-icon-link uk-margin-small-right" uk-icon="check" type="submit" uk-tooltip="Zapisz"></a>#}
 
-            <a href="/weights/"><input class="uk-button uk-button-danger" type="button" value="Anuluj"></a>
+            <a href="/pulses/"><input class="uk-button uk-button-danger" type="button" value="Anuluj"></a>
             <input class="uk-button uk-button-primary" type="submit" value="Zapisz">
 
         </form>

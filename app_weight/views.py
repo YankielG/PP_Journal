@@ -2,9 +2,11 @@ from django.shortcuts import render, redirect
 from .models import Weight
 from django.http import HttpResponseNotFound
 from django.db.models import Avg, Min, Max, Count
+
 # Create your views here.
 def all_weights(request):
     found_weights = Weight.objects.all()
+    print(found_weights)
     context = {
         'weights': found_weights,
         'chart_x': [1,2,3,4,5],
@@ -41,6 +43,7 @@ def delete_all_weight(request):
 
 def edit_weight(request, id):
     return render(request, 'app_weight/edit_weight.html')
+
 
 def info(request):
     return  render(request,'app_weight/info.html')

@@ -90,8 +90,8 @@
             </script>
     </div>
 
-    <a href="weight" uk-icon="icon: copy" uk-tooltip="Dodaj"></a>
-    <a href="weight" uk-icon="icon: trash" uk-tooltip="Wyczyść"></a>
+    <a href="add" uk-icon="icon: copy" uk-tooltip="Dodaj"></a>
+    <a href="delete/all" uk-icon="icon: trash" uk-tooltip="Wyczyść"></a>
     <table class="uk-table uk-table-striped uk-table-hover uk-table-small" uk-sortable>
         <thead>
             <tr>
@@ -114,9 +114,9 @@
                 <td>{{ value.date |date:'D, d M Y,'}} {{value.date |time:"H:i"}}</td>
                 <td>{{ value.comments }}</td>
                 <td>
-                    <a href=" " uk-icon="icon: file-edit" uk-tooltip="Edytuj"></a>
-                    <a href=" " uk-icon="icon: info" uk-tooltip="Szczegóły"></a>
-                    <a href=" " uk-icon="icon: trash" uk-tooltip="Usuń"></a>
+                    <a href=" {% url 'edit_pressure_url' id=value.id %}" uk-icon="icon: file-edit" uk-tooltip="Edytuj"></a>
+                    <a href="{% url 'pressure_details_url' id=value.id %}" uk-icon="icon: info" uk-tooltip="Szczegóły"></a>
+                    <a href="{% url 'delete_pressure_url' id=value.id %}" uk-icon="icon: trash" uk-tooltip="Usuń"></a>
                 </td>
             </tr>
         {% endfor %}

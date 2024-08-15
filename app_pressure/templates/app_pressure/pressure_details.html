@@ -1,0 +1,77 @@
+{% extends 'fragments/layout.html' %}
+{% load static %}
+
+{% block page_title %} Ciśnienie - Szczegóły {% endblock %}
+
+{% block page_content %}
+
+    <div class="container">
+        <div class="uk-panel">
+            <img class="uk-align-left uk-margin-remove-adjacent" src="{% static 'background.JPG' %}" width="60"
+                 height="28" alt="info">
+            <h2 class="uk-heading-divider" style="position: relative">Ciśnienie - Szczegóły</h2>
+        </div>
+
+        <div class="uk-card uk-card-default uk-border-rounded">
+            <div class="uk-card-header">
+                <div>
+                    <div class="uk-width-expand">
+                        <h3 class="uk-card-title uk-position-relative uk-position-center">Statystyki:</h3>
+                        <div class="uk-position-relative uk-position-center"><b> Liczba
+                            Wpisów:</b> {{ shrink_statistical_data.pressure__count }}</div>
+                        <div class="uk-flex uk-flex-between ">
+                            <div><b> MIn. Cisnienie Skurczowe:</b> {{ shrink_statistical_data.shrink__min|floatformat:2 }}</div>
+                            <div><b> Śr. Cisnienie Skurczowe: </b>{{ shrink_statistical_data.shrink__avg|floatformat:2 }}</div>
+                            <div><b> Max. Cisnienie Skurczowe:</b> {{ shrink_statistical_data.shrink__max|floatformat:2 }}</div>
+                        </div>
+                        <div class="uk-flex uk-flex-between ">
+                            <div><b> MIn. Cisnienie Rozkurczowe:</b> {{ diastole_statistical_data.diastole__min|floatformat:2 }}</div>
+                            <div><b> Śr. Cisnienie Rozkurczowe: </b>{{ diastole_statistical_data.diastole__avg|floatformat:2 }}</div>
+                            <div><b> Max. Cisnienie Rozkurczowe:</b> {{ diastole_statistical_data.diastole__max|floatformat:2 }}</div>
+                        </div>
+                        <div class="uk-flex uk-flex-between ">
+                            <div><b> MIn. Tętno:</b> {{ pulse_statistical_data.pulse__min|floatformat:2 }}</div>
+                            <div><b> Śr. Tętno: </b>{{ pulse_statistical_data.pulse__avg|floatformat:2 }}</div>
+                            <div><b> Max. Tętno:</b> {{ pulse_statistical_data.pulse__max|floatformat:2 }}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="uk-card-body">
+                <span> <b>Lp.: </b> </span>
+                <span> 5 </span> <br>
+                <span> <b>Cisnienie Skurczowe: </b> </span>
+                <span>{{ pressure.shrink }}</span><br>
+                <span> <b>Cisnienie Rozkurczowe: </b> </span>
+                <span>{{ pressure.diastole }}</span><br>
+                <span> <b>Tętno: </b> </span>
+                <span>{{ pressure.pulse }}</span><br>
+                <span> <b>Data: </b> </span>
+                <span>{{ pressure.date }}</span><br>
+                <span> <b>Uwagi: </b> </span>
+                <span>{{ pressure.comments }}</span>
+                <br><br>
+                <b>Nasza ocena: </b>
+
+                {% if pressure.pulse > 100 %}
+                    <span class="uk-text-danger"> Jesteś powyżej normy - Nie denerwuj się. </span>
+                    <span class="uk-text-danger"> Prawdopodobnie masz tachykardię (częstoskurcz), Skontaktuj sie z lekarzem. </span>
+
+                {% elif  pressure.pulse < 60  %}
+                    <span class="uk-text-danger">  Jesteś powyżej normy - Nie denerwuj się.</span>
+                    <span class="uk-text-danger">  Prawdopodobnie masz bradykardię, Skontaktuj sie z lekarzem. </span>
+
+                {% else %}
+                    <span class="uk-text-success"> Jesteś na dobrym poziomie - Tak trzymaj. </span>
+                {% endif %}
+
+            </div>
+            <div class="uk-card-footer">
+                <a href="/pressures"
+                   class="uk-button uk-button-text uk-position-relative uk-position-top-center">Zamknij</a>
+            </div>
+        </div>
+
+
+    </div>
+{% endblock %}

@@ -1,0 +1,63 @@
+{% extends 'fragments/layout.html' %}
+{% load static %}
+
+{% block page_title %} Tętno - Szczegóły {% endblock %}
+
+{% block page_content %}
+
+    <div class="container">
+        <div class="uk-panel">
+            <img class="uk-align-left uk-margin-remove-adjacent" src="{% static 'background.JPG' %}" width="60"
+                 height="28" alt="info">
+            <h2 class="uk-heading-divider" style="position: relative">Tętno - Szczegóły</h2>
+        </div>
+
+        <div class="uk-card uk-card-default uk-border-rounded">
+            <div class="uk-card-header">
+                <div>
+                    <div class="uk-width-expand">
+                        <h3 class="uk-card-title uk-position-relative uk-position-center">Statystyki:</h3>
+                        <div class="uk-position-relative uk-position-center"><b> Liczba
+                            Wpisów:</b> {{ statistical_data.pulse__count }}</div>
+                        <div class="uk-flex uk-flex-between ">
+                            <div><b> MIn. Puls:</b> {{ statistical_data.pulse__min|floatformat:2 }}</div>
+                            <div><b> Śr. Puls: </b>{{ statistical_data.pulse__avg|floatformat:2 }}</div>
+                            <div><b> Max. Puls:</b> {{ statistical_data.pulse__max|floatformat:2 }}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="uk-card-body">
+                <span> <b>Lp.: </b> </span>
+                <span> 5 </span> <br>
+                <span> <b>Puls: </b> </span>
+                <span>{{ pulse.pulse }}</span><br>
+                <span> <b>Data: </b> </span>
+                <span>{{ pulse.date }}</span><br>
+                <span> <b>Uwagi: </b> </span>
+                <span>{{ pulse.comments }}</span>
+                <br><br>
+                <b>Nasza ocena: </b>
+
+                {% if pulse.pulse > 100  %}
+                    <span class="uk-text-danger"> Jesteś powyżej normy - Nie denerwuj się. </span>
+                    <span class="uk-text-danger"> Prawdopodobnie masz tachykardię (częstoskurcz), Skontaktuj sie z lekarzem. </span>
+
+                {% elif  pulse.pulse < 60 %}
+                    <span class="uk-text-danger">  Jesteś powyżej normy - Nie denerwuj się.</span>
+                    <span class="uk-text-danger">  Prawdopodobnie masz bradykardię, Skontaktuj sie z lekarzem. </span>
+
+                {% else %}
+                    <span class="uk-text-success"> Jesteś na dobrym poziomie - Tak trzymaj. </span>
+                {% endif %}
+
+            </div>
+            <div class="uk-card-footer">
+                <a href="/pulses"
+                   class="uk-button uk-button-text uk-position-relative uk-position-top-center">Zamknij</a>
+            </div>
+        </div>
+
+
+    </div>
+{% endblock %}
