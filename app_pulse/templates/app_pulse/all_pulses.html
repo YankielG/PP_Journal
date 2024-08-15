@@ -85,8 +85,8 @@
             <tr>
                 <td>NA</td>
                 <td>{{ value.pulse |floatformat:1}}</td>
-{#                <td>{{ value.date |date:'D, d M Y,'}} {{value.date |time:"H:i"}}</td>#}
-                <td>{{ value.date}}</td>
+                <td>{{ value.date |date:'D, d M Y,'}} {{value.date |time:"H:i"}}</td>
+{#                <td>{{ value.date}}</td>#}
                 <td>{{ value.comments }}</td>
                 <td>
                     <a href="{% url 'edit_pulse_url' id=value.id %}" uk-icon="icon: file-edit" uk-tooltip="Edytuj"></a>

@@ -96,9 +96,9 @@
                 <td>{{ value.date |date:'D, d M Y,'}} {{value.date |time:"H:i"}}</td>
                 <td>{{ value.comments }}</td>
                 <td>
-{#                    <a href="{% url 'edit_growth_url' id=value.id %}" uk-icon="icon: file-edit" uk-tooltip="Edytuj"></a>#}
-{#                    <a href="{% url 'growth_details_url' id=value.id %}" uk-icon="icon: info" uk-tooltip="Szczegóły"></a>#}
-{#                    <a href="{% url 'delete_growth_url' id=value.id %}" uk-icon="icon: trash" uk-tooltip="Usuń"></a>#}
+                    <a href="{% url 'edit_growth_url' id=value.id %}" uk-icon="icon: file-edit" uk-tooltip="Edytuj"></a>
+                    <a href="{% url 'growth_details_url' id=value.id %}" uk-icon="icon: info" uk-tooltip="Szczegóły"></a>
+                    <a href="{% url 'delete_growth_url' id=value.id %}" uk-icon="icon: trash" uk-tooltip="Usuń"></a>
                 </td>
             </tr>
         {% endfor %}
