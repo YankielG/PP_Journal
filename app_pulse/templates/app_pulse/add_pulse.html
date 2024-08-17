@@ -12,35 +12,41 @@
             <h2 class="uk-heading-divider" style="position: relative">Tętno - Dodaj</h2>
         </div>
 
-        <form style="width:300px; margin: auto" action="{% url 'add_pulse_url' %}" method="POST">
+        <div style="height: 50px"></div>
+        <div class="uk-card uk-card-default uk-border-rounded">
+            <div class="uk-card-body">
+                <form style="width:300px; margin: auto" action="" method="POST">
 
-            {% csrf_token %}
+                    {% csrf_token %}
 
-            <div class="uk-margin">
-                <label>Tętno</label>
-                <input value="{{ pulse }}" type="number" class="uk-input" step="0.1" min="40" max="150"
-                       required="required">
+                    <div class="uk-margin">
+                        <label>Tętno<span uk-icon="icon: question; ratio: 0.6" uk-tooltip="min 40, max 150" style="margin-left: 10px"></span></label>
+                        <input name="pulse" type="number" class="uk-input" step="0.1" min="40" max="150"
+                               required="required">
+                    </div>
+
+                    <div class="uk-margin">
+                        <label>Data<span uk-icon="icon: question; ratio: 0.6" uk-tooltip="od bieżącej do roku wstecz" style="margin-left: 10px"></span></label>
+                        <Input name="date" type="datetime-local" class="uk-input" min="{{time_min}}" value="{{ time_value }}" max="{{time_max}}" required="required">
+                    </div>
+
+                    <div class="uk-margin">
+                        <label>Uwagi<span uk-icon="icon: question; ratio: 0.6" uk-tooltip="max 255 znaków" style="margin-left: 10px"></span></label>
+                        <textarea name="comment" class="uk-textarea" rows="4"></textarea>
+                    </div>
+
+                    <div class="uk-position-relative uk-position-center uk-position-top-center" >
+                        <a href="/pulses/" class="uk-icon-link uk-margin-small-right" uk-icon="close"
+                           uk-tooltip="Anuluj"></a>
+                        <a href="/pulses/add" class="uk-icon-link uk-margin-small-right" uk-icon="trash"
+                           uk-tooltip="Wyczyść"></a>
+                        <button href="" class="uk-icon-link uk-margin-small-right" uk-icon="check" type="submit"
+                                uk-tooltip="Zapisz"></button>
+
+                    </div>
+                </form>
             </div>
-
-            <div class="uk-margin">
-                <label>Data</label>
-                <Input value="{{ date }}" type="date" class="uk-input" required="required">
-            </div>
-
-            <div class="uk-margin">
-                <label>Uwagi</label>
-                <textarea value="{{ comment }}" class="uk-textarea" rows="4"></textarea>
-            </div>
-
-{#            <a href="/pulses/" class="uk-icon-link uk-margin-small-right" uk-icon="close" uk-tooltip="Anuluj"></a>#}
-{#            <a href="/pulses/add" class="uk-icon-link uk-margin-small-right" uk-icon="trash" uk-tooltip="Wyczyść"></a>#}
-{#            <a href="/pulses/add" class="uk-icon-link uk-margin-small-right" uk-icon="check" type="submit" uk-tooltip="Zapisz"></a>#}
-
-            <a href="/pulses/"><input class="uk-button uk-button-danger" type="button" value="Anuluj"></a>
-            <input class="uk-button uk-button-primary" type="submit" value="Zapisz">
-
-        </form>
-
+        </div>
         <div class="uk-padding"></div>
 
     </div>

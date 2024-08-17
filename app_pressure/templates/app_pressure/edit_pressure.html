@@ -12,18 +12,53 @@
             <h2 class="uk-heading-divider" style="position: relative">Ciśnienie - Edytuj</h2>
         </div>
 
+        <div style="height: 50px"></div>
+        <div class="uk-card uk-card-default uk-border-rounded">
+            <div class="uk-card-body">
+                <form style="width:300px; margin: auto" action="" method="POST">
 
+                    {% csrf_token %}
 
+                    <div class="uk-margin">
+                        <label>Cisnienie Skurczowe<span uk-icon="icon: question; ratio: 0.6" uk-tooltip="min 50, max 200" style="margin-left: 10px"></span></label>
+                        <input name="shrink" type="number" class="uk-input" step="0.1" min="50" max="150" value="{{ pressure.shrink }}"
+                               required="required">
+                    </div>
 
+                    <div class="uk-margin">
+                        <label>Cisnienie Rozkurczowe<span uk-icon="icon: question; ratio: 0.6" uk-tooltip="min 50, max 150" style="margin-left: 10px"></span></label>
+                        <input name="diastole" type="number" class="uk-input" step="0.1" min="50" max="150" value="{{ pressure.diastole }}"
+                               required="required">
+                    </div>
 
+                    <div class="uk-margin">
+                        <label>Tętno<span uk-icon="icon: question; ratio: 0.6" uk-tooltip="min 40, max 150" style="margin-left: 10px"></span></label>
+                        <input name="pulse" type="number" class="uk-input" step="0.1" min="40" max="150" value="{{ pressure.pulse }}"
+                               required="required">
+                    </div>
 
+                    <div class="uk-margin">
+                        <label>Data<span uk-icon="icon: question; ratio: 0.6" uk-tooltip="od bieżącej do roku wstecz" style="margin-left: 10px"></span></label>
+                        <Input name="date" type="datetime-local" class="uk-input" min="{{time_min}}" value="{{ time_value }}" max="{{time_max}}" required="required">
+                    </div>
 
+                    <div class="uk-margin">
+                        <label>Uwagi<span uk-icon="icon: question; ratio: 0.6" uk-tooltip="max 255 znaków" style="margin-left: 10px"></span></label>
+                        <textarea name="comment" class="uk-textarea" rows="4">{{ pressure.comments }}</textarea>
+                    </div>
 
+                    <div class="uk-position-relative uk-position-center uk-position-top-center" >
+                        <a href="/pressures/" class="uk-icon-link uk-margin-small-right" uk-icon="close"
+                           uk-tooltip="Anuluj"></a>
+                        <a href="{% url 'edit_pressure_url' id=pressure.id %}" class="uk-icon-link uk-margin-small-right" uk-icon="trash"
+                           uk-tooltip="Wyczyść"></a>
+                        <button href="" class="uk-icon-link uk-margin-small-right" uk-icon="check" type="submit"
+                                uk-tooltip="Zapisz"></button>
 
-
-
-
-
+                    </div>
+                </form>
+            </div>
+        </div>
         <div class="uk-padding"></div>
 
     </div>

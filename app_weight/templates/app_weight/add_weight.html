@@ -20,18 +20,18 @@
                     {% csrf_token %}
 
                     <div class="uk-margin">
-                        <label>Waga</label>
+                        <label>Waga<span uk-icon="icon: question; ratio: 0.6" uk-tooltip="min 10, max 150" style="margin-left: 10px"></span></label>
                         <input name="weight" type="number" class="uk-input" step="0.1" min="10" max="150"
                                required="required">
                     </div>
 
                     <div class="uk-margin">
-                        <label>Data</label>
-                        <Input name="date" type="datetime-local" class="uk-input" min="2020-01-01T00:00" value="{{ time_now }}" max="{{time_now}}" required="required">
+                        <label>Data<span uk-icon="icon: question; ratio: 0.6" uk-tooltip="od bieżącej do roku wstecz" style="margin-left: 10px"></span></label>
+                        <Input name="date" type="datetime-local" class="uk-input" min="{{time_min}}" value="{{ time_value }}" max="{{time_max}}" required="required">
                     </div>
 
                     <div class="uk-margin">
-                        <label>Uwagi</label>
+                        <label>Uwagi<span uk-icon="icon: question; ratio: 0.6" uk-tooltip="max 255 znaków" style="margin-left: 10px"></span></label>
                         <textarea name="comment" class="uk-textarea" rows="4"></textarea>
                     </div>
 
@@ -43,9 +43,6 @@
                         <button href="" class="uk-icon-link uk-margin-small-right" uk-icon="check" type="submit"
                                 uk-tooltip="Zapisz"></button>
 
-                    </div>
-                    <div class="uk-text-danger uk-margin-small-top">
-                    {{ field.errors }}
                     </div>
                 </form>
             </div>

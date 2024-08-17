@@ -1,6 +1,9 @@
+from datetime import datetime, timedelta
+
 from django.shortcuts import render, redirect
 from .models import Pressure
-from django.http import HttpResponseNotFound
+from django.http import HttpResponseNotFound, HttpResponseForbidden
+from .forms import Add_pressure_Form
 from django.db.models import Avg, Min, Max, Count
 
 # Create your views here.
@@ -34,7 +37,41 @@ def pressure_details(request, id):
     return render(request,'app_pressure/pressure_details.html', context)
 
 def add_pressure(request):
-    return render(request, 'app_pressure/add_pressure.html')
+    if request.method == 'POST':
+        shrink = request.POST['shrink']
+        diastole = request.POST['diastole']
+        pulse = request.POST['pulse']
+        date = request.POST['date']
+        comments = request.POST['comment']
+        Pressure.objects.create(shrink=shrink, diastole=diastole, pulse=pulse, date=date, comments=comments)
+        return redirect('all_pressures_url')
+
+    context = {
+        'time_value': datetime.now().strftime("%Y-%m-%dT%H:%M"),
+        'time_max': datetime.now().strftime("%Y-%m-%dT%H:%M"),
+        'time_min': (datetime.now() - timedelta(weeks=52)).strftime("%Y-%m-%dT%H:%M")
+    }
+    return render(request, 'app_pressure/add_pressure.html', context)
+
+def edit_pressure(request, id):
+    found_pressure = Pressure.objects.get(pk=id)
+    if request.method == 'POST':
+        shrink = request.POST['shrink']
+        diastole = request.POST['diastole']
+        pulse = request.POST['pulse']
+        date = request.POST['date']
+        comments = request.POST['comment']
+        found_pressure.delete()
+        Pressure.objects.create(pk=id, shrink=shrink, diastole=diastole, pulse=pulse, date=date, comments=comments)
+        return redirect('all_pressures_url')
+
+    context = {
+        'pressure': found_pressure,
+        'time_value': found_pressure.date.strftime("%Y-%m-%dT%H:%M"),
+        'time_max': datetime.now().strftime("%Y-%m-%dT%H:%M"),
+        'time_min': (datetime.now() - timedelta(weeks=52)).strftime("%Y-%m-%dT%H:%M")
+    }
+    return render(request, 'app_pressure/edit_pressure.html',context)
 
 def delete_pressure(request, id):
     found_pressure = Pressure.objects.get(pk=id)
@@ -46,5 +83,3 @@ def delete_all_pressure(request):
     found_pressures.delete()
     return redirect('all_pressures_url')
 
-def edit_pressure(request, id):
-    return render(request, 'app_pressure/edit_pressure.html')

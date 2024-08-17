@@ -8,5 +8,5 @@ class Pressure(models.Model):
     date = models.DateTimeField()
     comments = models.CharField(max_length=255)
 
-    def __str__(self):
-        return f'Cis_skurcz: {self.shrink} Cis_rozkurcz: {self.diastole} Puls: {self.pulse} Data: {self.date} Uwagi: {self.comments}'
+    # def __str__(self):
+    #     return f'Cis_skurcz: {self.shrink} Cis_rozkurcz: {self.diastole} Puls: {self.pulse} Data: {self.date} Uwagi: {self.comments}'

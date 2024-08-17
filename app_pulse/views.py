@@ -1,8 +1,10 @@
+from datetime import datetime, timedelta
+
 from django.shortcuts import render, redirect
 from .models import Pulse
-from django.http import HttpResponseNotFound
+from django.http import HttpResponseNotFound, HttpResponseForbidden
+from .forms import Add_pulse_Form
 from django.db.models import Avg, Min, Max, Count
-
 
 # Create your views here.
 def all_pulses(request):
@@ -29,7 +31,37 @@ def pulse_details(request, id):
     return render(request,'app_pulse/pulse_details.html', context)
 
 def add_pulse(request):
-    return render(request, 'app_pulse/add_pulse.html')
+    if request.method == 'POST':
+        pulse = request.POST['pulse']
+        date = request.POST['date']
+        comments = request.POST['comment']
+        Pulse.objects.create(pulse=pulse, date=date, comments=comments)
+        return redirect('all_pulses_url')
+
+    context = {
+        'time_value': datetime.now().strftime("%Y-%m-%dT%H:%M"),
+        'time_max': datetime.now().strftime("%Y-%m-%dT%H:%M"),
+        'time_min': (datetime.now() - timedelta(weeks=52)).strftime("%Y-%m-%dT%H:%M")
+    }
+    return render(request, 'app_pulse/add_pulse.html', context)
+
+def edit_pulse(request, id):
+    found_pulse = Pulse.objects.get(pk=id)
+    if request.method == 'POST':
+        pulse = request.POST['pulse']
+        date = request.POST['date']
+        comments = request.POST['comment']
+        found_pulse.delete()
+        Pulse.objects.create(pk=id, pulse=pulse, date=date, comments=comments)
+        return redirect('all_pulses_url')
+
+    context = {
+        'pulse': found_pulse,
+        'time_value': found_pulse.date.strftime("%Y-%m-%dT%H:%M"),
+        'time_max': datetime.now().strftime("%Y-%m-%dT%H:%M"),
+        'time_min': (datetime.now() - timedelta(weeks=52)).strftime("%Y-%m-%dT%H:%M")
+    }
+    return render(request, 'app_pulse/edit_pulse.html', context)
 
 def delete_pulse(request, id):
     found_pulse = Pulse.objects.get(pk=id)
@@ -41,5 +73,3 @@ def delete_all_pulse(request):
     found_pulses.delete()
     return redirect('all_pulses_url')
 
-def edit_pulse(request, id):
-    return render(request, 'app_pulse/edit_pulse.html')

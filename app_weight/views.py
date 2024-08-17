@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timedelta
 
 from django.shortcuts import render, redirect
 from .models import Weight
@@ -31,7 +31,6 @@ def weight_details(request, id):
     return render(request,'app_weight/weight_details.html', context)
 
 def add_weight(request):
-
     if request.method == 'POST':
         weight = request.POST['weight']
         date = request.POST['date']
@@ -41,23 +40,41 @@ def add_weight(request):
         return redirect('all_weights_url')
 
     context = {
-        'time_now': datetime.now().strftime("%Y-%m-%dT%H:%M")
+        'time_value': datetime.now().strftime("%Y-%m-%dT%H:%M"),
+        'time_max': datetime.now().strftime("%Y-%m-%dT%H:%M"),
+        'time_min': (datetime.now() - timedelta(weeks=52)).strftime("%Y-%m-%dT%H:%M")
     }
-    print(context)
     return render(request, 'app_weight/add_weight.html',context)
+
+def edit_weight(request, id):
+    found_weight = Weight.objects.get(pk=id)
+    if request.method == 'POST':
+        weight = request.POST['weight']
+        date = request.POST['date']
+        comments = request.POST['comment']
+        found_weight.delete()
+        Weight.objects.create(pk=id, weight=weight, date=date, comments=comments)
+        return redirect('all_weights_url')
+
+    context = {
+        'weight': found_weight,
+        'time_value': found_weight.date.strftime("%Y-%m-%dT%H:%M"),
+        'time_max': datetime.now().strftime("%Y-%m-%dT%H:%M"),
+        'time_min': (datetime.now() - timedelta(weeks=52)).strftime("%Y-%m-%dT%H:%M")
+    }
+    return render(request, 'app_weight/edit_weight.html', context)
+
 
 def delete_weight(request, id):
     found_weight = Weight.objects.get(pk=id)
     found_weight.delete()
     return redirect('all_weights_url')
 
+
 def delete_all_weight(request):
     found_weights = Weight.objects.all()
     found_weights.delete()
     return redirect('all_weights_url')
-
-def edit_weight(request, id):
-    return render(request, 'app_weight/edit_weight.html')
 
 
 def info(request):
@@ -65,7 +82,7 @@ def info(request):
 
 
 def error(request):
-    return  render(request,'app_weight/error.html')
+    return  render(request, '404.html')
 
 
 def home(request):

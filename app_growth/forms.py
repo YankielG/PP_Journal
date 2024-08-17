@@ -3,5 +3,7 @@ from django.core.validators import MinValueValidator, RegexValidator, MaxValueVa
 from django.forms.utils import ErrorList
 from . import models
 
-# class Add_growth_Form(forms.Form:
-#     pass
+class Add_growth_Form(forms.Form):
+    growth = forms.DecimalField(label='Wzrost', max_digits=3, decimal_places=1),
+    date = forms.DateTimeField(label='Data'),
+    comments = forms.CharField(label='Uwagi', max_length=255)
