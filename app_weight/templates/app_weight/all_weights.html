@@ -28,12 +28,18 @@
             </div>
             <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
             <script inline="javascript">
+
+                var label_list = [];
+                {% for value in chart_x %}
+                label_list.push("{{ value }}");
+                {% endfor %}
+
                 new Chart(document.getElementById("line-chart"), {
                     type: 'line',
                     data: {
-                        labels: {{chart_x}},
+                        labels:  label_list,
                         datasets: [{
-                            data: {{chart_y}},
+                            data: {{ chart_y }},
                             label: "Waga",
                             borderColor: "#3e95cd",
                             fill: false

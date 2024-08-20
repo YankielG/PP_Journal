@@ -9,12 +9,25 @@ from django.db.models import Avg, Min, Max, Count
 # Create your views here.
 def all_pressures(request):
     found_pressures = Pressure.objects.all()
+
+    value_y1 = Pressure.objects.values_list('shrink', flat=True)
+    chart_y1 = [float(y) for y in value_y1]
+
+    value_y2 = Pressure.objects.values_list('diastole', flat=True)
+    chart_y2 = [float(y) for y in value_y2]
+
+    value_y3 = Pressure.objects.values_list('pulse', flat=True)
+    chart_y3 = [float(y) for y in value_y3]
+
+    value_x = found_pressures.values_list('date', flat=True)
+    chart_x = [x.strftime("%Y-%m-%d %H:%M") for x in value_x]
+
     context = {
         'pressures': found_pressures,
-        'chart_x': [1, 2, 3, 4, 5],
-        'chart_y1': [45, 55, 70, 61, 78], #ciśnienie skurczowe
-        'chart_y2': [55, 75, 58, 99, 88], #ciśnienei rozkurczowe
-        'chart_y3': [50, 53, 68, 77, 85]  #tetno
+        'chart_x':  chart_x,
+        'chart_y1': chart_y1, #ciśnienie skurczowe
+        'chart_y2': chart_y2, #ciśnienei rozkurczowe
+        'chart_y3': chart_y3  #tetno
     }
     return render(request,'app_pressure/all_pressures.html', context)
 

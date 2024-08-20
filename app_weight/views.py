@@ -9,10 +9,17 @@ from django.db.models import Avg, Min, Max, Count
 # Create your views here.
 def all_weights(request):
     found_weights = Weight.objects.all()
+
+    value_y = Weight.objects.values_list('weight', flat=True)
+    chart_y = [float(y) for y in value_y]
+
+    value_x =found_weights.values_list('date', flat=True)
+    chart_x = [x.strftime("%Y-%m-%d %H:%M") for x in value_x]
+
     context = {
         'weights': found_weights,
-        'chart_x': [1,2,3,4,5],
-        'chart_y': [50,55,60,65,70]
+        'chart_x': chart_x,
+        'chart_y': chart_y
     }
     return render(request,'app_weight/all_weights.html', context)
 
