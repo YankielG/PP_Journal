@@ -26,8 +26,8 @@
             <div style="max-width: 1000px; margin: 50px auto">
                 <canvas id="line-chart" width="2800" height="900"></canvas>
             </div>
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
-            <script inline="javascript">
+            <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+            <script>
 
                 var label_list = [];
                 {% for value in chart_x %}
@@ -42,32 +42,39 @@
                             data: {{ chart_y }},
                             label: "Waga",
                             borderColor: "#3e95cd",
-                            fill: false
-                        },
-                        ]
+                            fill: false,
+                        }]
                     },
                      options: {
+                         plugins: {
+                             legend: {display: true},
+                             title: {
+                                text: 'Wartości w czasie',
+                                display: false
+                             }
+                         },
                         responsive: true,
                         scales:{
-                            xAxes: [{
-                                display: true,
-                                scaleLabel: {
-                                    display: true,
-                                    labelString: 'Data'}
-                            }],
-                            yAxes: [{
+                            x: {
                                 display: true,
                                 stacked: true,
-                                ticks: {
-                                    min: 40,
-                                    steps: 10,
-                                    stepValue: 5,
-                                    max: 160},
-                                scaleLabel: {
+                                title: {
                                     display: true,
-                                    labelString: 'Waga'}
-                            }]
-
+                                    text: 'Data'}
+                            },
+                            y: {
+                                display: true,
+                                stacked: true,
+                                title:{
+                                    display: true,
+                                    text: 'Waga'
+                                },
+                                suggestedMin: 40,
+                                suggestedMax: 160,
+                                ticks: {
+                                    stepSize: 20
+                                }
+                            }
                         }
                     }
                 });

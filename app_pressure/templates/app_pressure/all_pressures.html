@@ -33,8 +33,8 @@
             <div style="max-width: 1000px; margin: 50px auto">
                 <canvas id="line-chart" width="2800" height="900"></canvas>
             </div>
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
-            <script inline="javascript">
+            <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+            <script>
 
                 var label_list = [];
                 {% for value in chart_x %}
@@ -51,44 +51,49 @@
                             borderColor: "#3e95cd",
                             fill: false
                         },
-
                         {
                             data: {{chart_y2}},
                             label: "Ciśnienie rozkurczowe",
                             borderColor: "#3cba9f",
                             fill: false
                         },
-
                         {
                             data: {{chart_y3}},
                             label: "Tętno",
                             borderColor: "#c45850",
                             fill: false
-                        }
-                        ]
+                        }]
                     },
                      options: {
+                         plugins: {
+                             legend: {display: true},
+                             title: {
+                                text: 'Wartości w czasie',
+                                display: false
+                             }
+                         },
                         responsive: true,
                         scales:{
-                            xAxes: [{
-                                display: true,
-                                scaleLabel: {
-                                    display: true,
-                                    labelString: 'Data'}
-                            }],
-                            yAxes: [{
+                            x: {
                                 display: true,
                                 stacked: true,
-                                ticks: {
-                                    min: 40,
-                                    steps: 10,
-                                    stepValue: 5,
-                                    max: 220},
-                                scaleLabel: {
+                                title: {
                                     display: true,
-                                    labelString: 'Cićnienie / Tętno'}
-                            }]
-
+                                    text: 'Data'}
+                            },
+                            y: {
+                                display: true,
+                                stacked: true,
+                                title:{
+                                    display: true,
+                                    text: 'Cićnienie / Tętno'
+                                },
+                                suggestedMin: 40,
+                                suggestedMax: 220,
+                                ticks: {
+                                    stepSize: 20
+                                }
+                            }
                         }
                     }
                 });
