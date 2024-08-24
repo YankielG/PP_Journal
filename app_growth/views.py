@@ -68,7 +68,7 @@ def edit_growth(request, id):
         'time_max': datetime.now().strftime("%Y-%m-%dT%H:%M"),
         'time_min': (datetime.now() - timedelta(weeks=52)).strftime("%Y-%m-%dT%H:%M")
     }
-    return render(request, 'app_growth/edit_growth.html',context)
+    return render(request, 'app_growth/edit_growth.html', context)
 
 def delete_growth(request, id):
     found_growth = Growth.objects.get(pk=id)

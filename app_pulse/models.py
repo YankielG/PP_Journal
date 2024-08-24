@@ -2,7 +2,7 @@ from django.db import models
 
 # Create your models here.
 class Pulse(models.Model):
-    pulse = models.DecimalField(max_digits=3, decimal_places=1)
+    pulse = models.DecimalField(max_digits=5, decimal_places=1)
     date = models.DateTimeField()
     comments = models.CharField(max_length=255)
 

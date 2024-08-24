@@ -5,50 +5,107 @@
 
 {% block page_content %}
 
-<div class="container">
-        <h2 class="uk-heading-divider"  style="position:center">
+    <div class="container">
+        <h2 class="uk-heading-divider" style="position:center">
             <span>Witaj</span>
             <span>użytkowniku</span>
         </h2>
 
-    <div class="uk-panel">
-        <img class="uk-align-left uk-margin-remove-adjacent" src="{% static 'background.JPG' %}" width="300" height="140" alt="info">
-        <p>Przejmij kontrolę nad organizmem i zacznij decydować o swoim zdrowiu!</p>
+        <div class="uk-panel">
+            <img class="uk-align-left uk-margin-remove-adjacent" src="{% static 'background.JPG' %}" width="300"
+                 height="140" alt="info">
+            <p>Przejmij kontrolę nad organizmem i zacznij decydować o swoim zdrowiu!</p>
 
-        <p>Dobre zdrowie to nie tylko geny. Decydują o nim także styl życia, umiejętność rozładowywania stresu, sposób
-            odżywiania, a nawet relacje z innymi.
-            To doskonała wiadomość: stan naszego organizmu zależy w dużej mierze od nas samych.
-            "Twój dziennik zdrowia" to potężna dawka motywacji, by już dziś zwrócić uwagę na swoje samopoczucie.
-        </p>
+            <p>Dobre zdrowie to nie tylko geny. Decydują o nim także styl życia, umiejętność rozładowywania stresu,
+                sposób
+                odżywiania, a nawet relacje z innymi.
+                To doskonała wiadomość: stan naszego organizmu zależy w dużej mierze od nas samych.
+                "Twój dziennik zdrowia" to potężna dawka motywacji, by już dziś zwrócić uwagę na swoje samopoczucie.
+            </p>
 
-        <p> Głównym zadaniem programu jest pomoc w utrzymaniu lub poprawieniu stanu Twojego zdrowia, poprzez
-            monitorowanie pewnego zakresu parametrów zdrowotnych (profilaktyka CHUK).
-            Korzystanie z programu na co dzień, pozwoli Ci zapanować nad realizacją najczęstszych zaleceń lekarskich oraz
-            na pełniejsze wykorzystanie wizyty u lekarza.
-        </p>
-        <p>Aplikacja umożliwia rejestrowanie następujących parametrów; Temperatury, wzrostu, wagi, ciśnienia, tętna
-            zażywanych leków, oraz wyrabiać określonych nawyków.
-            Kolejnej odsłonie tej aplikacji powstanie rejestracja; lipidów, glukozy, wypalonych papierosów notatki,
-            kalorie.
-            Jeżeli cierpisz na chorobę serca, układu sercowo-naczyniowego lub cukrzycę ta aplikacja pomoże ci walczyć z
-            twoją chorobą. Osiemdziesiąt procent Polaków nie wie, jakie ma ciśnienie tętnicze krwi. Pozostali uważają, że
-            wiedzą, ale niemal 70 proc. z nich popełnia kardynalne błędy podczas pomiaru. Dzięki wpisą i wykresowi szybko je wyłapiesz.
-            Wysokie ryzyko wcale nie oznacza, że zachorujesz. Znaczy tylko tyle, że powinieneś bardziej się pilnować.
-        </p>
-    </div>
+            <p> Głównym zadaniem programu jest pomoc w utrzymaniu lub poprawieniu stanu Twojego zdrowia, poprzez
+                monitorowanie pewnego zakresu parametrów zdrowotnych (profilaktyka CHUK).
+                Korzystanie z programu na co dzień, pozwoli Ci zapanować nad realizacją najczęstszych zaleceń lekarskich
+                oraz
+                na pełniejsze wykorzystanie wizyty u lekarza.
+            </p>
+            <p>Aplikacja umożliwia rejestrowanie następujących parametrów; Temperatury, wzrostu, wagi, ciśnienia, tętna
+                zażywanych leków, oraz wyrabiać określonych nawyków.
+                Kolejnej odsłonie tej aplikacji powstanie rejestracja; lipidów, glukozy, wypalonych papierosów notatki,
+                kalorie.
+                Jeżeli cierpisz na chorobę serca, układu sercowo-naczyniowego lub cukrzycę ta aplikacja pomoże ci
+                walczyć z
+                twoją chorobą. Osiemdziesiąt procent Polaków nie wie, jakie ma ciśnienie tętnicze krwi. Pozostali
+                uważają, że
+                wiedzą, ale niemal 70 proc. z nich popełnia kardynalne błędy podczas pomiaru. Dzięki wpisą i wykresowi
+                szybko je wyłapiesz.
+                Wysokie ryzyko wcale nie oznacza, że zachorujesz. Znaczy tylko tyle, że powinieneś bardziej się
+                pilnować.
+            </p>
+        </div>
 
-    <h2>KORZYSTANIE Z PROGRAMU NIE ZASTĘPUJE PORADY LEKARSKIEJ.</h2>
+        <h2>KORZYSTANIE Z PROGRAMU NIE ZASTĘPUJE PORADY LEKARSKIEJ.</h2>
 
-    <div class="uk-grid" data-uk-grid-margin="">
-        <div class="uk-width-medium-1-1 uk-row-first">
-            <div class="uk-vertical-align" style="background-color: #F5F5F5; height: 450px;">
-                <h3 class="uk-heading-small">Twoje BMI:</h3>
+        <div style="margin-outside: 40px"><h2 class="uk-heading-divider"></h2></div>
 
+        <div style="background-color: #F5F5F5; height: 350px">
 
-
+            <div uk-grid>
+                <div class="uk-width-1-2">
+                    <h3 class="uk-heading-medium" style="margin-left: 50px; margin-top: 40px;">Twoje
+                        BMI: {{ bmi_value |floatformat:1 }}</h3>
+                    <h2 style="margin-left: 400px; margin-top: 30px; color: {{ bmi_color }}">{{ bmi_rate }}</h2>
+                    <h4 style="margin-left: 50px; margin-top: 40px; color:dodgerblue ">{{ bmi_comment }}</h4>
+                    <h5 style="margin-left: 50px; margin-top: 30px; color:gray ">BMI - Body Mass Index</h5>
                 </div>
-            </div>
 
-    <div class="uk-padding"></div>
-</div>
+                <div class="uk-width-1-2">
+                    <div class="uk-position-center uk-position-relative" style="margin-top: 15px; height: 250px; width: 250px">
+                        <canvas id="line-chart"></canvas>
+                    </div>
+                </div>
+
+                <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+                <script>
+
+                    var label_list = [];
+                    {% for value in chart_x %}
+                        label_list.push("{{ value }}");
+                    {% endfor %}
+
+                    new Chart(document.getElementById("line-chart"), {
+                        type: 'doughnut',
+                        data: {
+                            labels: [],
+                            datasets: [{
+                                data: {{chart}},
+                                label: "",
+                                borderColor: "#3e95cd",
+                                backgroundColor: [
+                                    '{{bmi_color}}',
+                                    '#FFFFE0',
+                                ],
+                                hoverOffset: 4,
+                                fill: false,
+                            }]
+                        },
+                        options: {
+                            plugins: {
+                                legend: {display: false},
+                                title: {
+                                    text: 'Wartości w czasie',
+                                    display: false
+                                }
+                            },
+                        }
+                    });
+                    Chart.defaults.plugins.tooltip.enabled = false;
+                </script>
+            </div>
+        </div>
+
+        <div class="uk-padding"></div>
+
+
+    </div>
 {% endblock %}
