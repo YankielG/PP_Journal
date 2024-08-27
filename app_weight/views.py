@@ -8,9 +8,17 @@ from django.http import HttpResponseNotFound, HttpResponseForbidden
 from .forms import Add_weight_Form
 from django.db.models import Avg, Min, Max, Count
 
+from django.core.paginator import Paginator
+
 # Create your views here.
 def all_weights(request):
     found_weights = Weight.objects.all()
+    page_num = request.GET.get('page', 1)
+    pages = Paginator(found_weights, 3)
+
+    pages_max = pages.num_pages
+    pages_max_elements = pages.count
+    page_results = pages.get_page(page_num)
 
     value_y = Weight.objects.values_list('weight', flat=True)
     chart_y = [float(y) for y in value_y]
@@ -19,7 +27,10 @@ def all_weights(request):
     chart_x = [x.strftime("%Y-%m-%d %H:%M") for x in value_x]
 
     context = {
-        'weights': found_weights,
+        'pages_max': pages_max,
+        'pages_max_elements': pages_max_elements,
+        'weights': page_results,
+        'page_obj': page_results,
         'chart_x': chart_x,
         'chart_y': chart_y
     }
@@ -58,6 +69,10 @@ def add_weight(request):
 def edit_weight(request, id):
     found_weight = Weight.objects.get(pk=id)
     if request.method == 'POST':
+        # found_weight.weight = request.POST['weight']
+        # found_weight.date = request.POST['date']
+        # found_weight.comments = request.POST['comment']
+        # found_weight.save()
         weight = request.POST['weight']
         date = request.POST['date']
         comments = request.POST['comment']

@@ -84,6 +84,8 @@
 
     <a href="add" uk-icon="icon: copy" uk-tooltip="Dodaj"></a>
     <a href="delete/all" uk-icon="icon: trash" uk-tooltip="Wyczyść"></a>
+    <span class="uk-position-relative uk-align-right"> Ilość wpisów: {{ pages_max_elements }} </span>
+
     <table class="uk-table uk-table-striped uk-table-hover uk-table-small" uk-sortable>
         <thead>
             <tr>
@@ -112,16 +114,19 @@
         </tbody>
     </table>
 
-{#    <div class="col-sm-6">#}
-{#        <nav class="pull-right">#}
-{#            <ul class="uk-pagination uk-flex-center" sd:pagination="full">#}
-{#                <li class="uk-disabled"><a href="#" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>#}
-{#                <li class="uk-active"><a href="#">1<span class="sr-only"></span></a></li>#}
-{#            </ul>#}
-{#        </nav>#}
-{#    </div>#}
-
-    <div class="uk-padding"></div>
+<div class="uk-position-center uk-position-relative">
+  <span>
+    {% if weights.has_previous %}
+      <a href="?page={{ weights.previous_page_number }}">Poprzednia </a>
+    {% endif %}
+    <span>
+      Strona {{ weights.number }} z {{ weights.paginator.num_pages }}
+    </span>
+    {% if weights.has_next %}
+      <a href="?page={{ weights.next_page_number }}"> Następna</a>
+    {% endif %}
+  </span>
+</div>
 
 </div>
 {% endblock %}
