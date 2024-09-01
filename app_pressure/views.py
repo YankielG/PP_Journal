@@ -6,9 +6,17 @@ from django.http import HttpResponseNotFound, HttpResponseForbidden
 from .forms import Add_pressure_Form
 from django.db.models import Avg, Min, Max, Count
 
+from django.core.paginator import Paginator
+
 # Create your views here.
 def all_pressures(request):
-    found_pressures = Pressure.objects.all()
+    found_pressures = Pressure.objects.all().order_by('date')
+    page_num = request.GET.get('page', 1)
+    pages = Paginator(found_pressures, 3)
+
+    pages_max = pages.num_pages
+    pages_max_elements = pages.count
+    page_results = pages.get_page(page_num)
 
     value_y1 = Pressure.objects.values_list('shrink', flat=True)
     chart_y1 = [float(y) for y in value_y1]
@@ -23,7 +31,9 @@ def all_pressures(request):
     chart_x = [x.strftime("%Y-%m-%d %H:%M") for x in value_x]
 
     context = {
-        'pressures': found_pressures,
+        'pages_max': pages_max,
+        'pages_max_elements': pages_max_elements,
+        'pressures': page_results,
         'chart_x':  chart_x,
         'chart_y1': chart_y1, #ciśnienie skurczowe
         'chart_y2': chart_y2, #ciśnienei rozkurczowe
@@ -36,12 +46,13 @@ def pressure_details(request, id):
     shrink_statistical_data = found_pressures.aggregate(Avg('shrink'), Min('shrink'), Max('shrink'), Count('shrink'))
     diastole_statistical_data = found_pressures.aggregate(Avg('diastole'), Min('diastole'), Max('diastole'), Count('diastole'))
     pulse_statistical_data = found_pressures.aggregate(Avg('pulse'), Min('pulse'), Max('pulse'), Count('pulse'))
-
+    number = request.POST.get('number')
     found_pressure = Pressure.objects.get(pk=id)
 
     if not found_pressure:
         return HttpResponseNotFound('Zasób nie został znaleziony')
     context = {
+        'number': number,
         'pressure': found_pressure,
         'shrink_statistical_data': shrink_statistical_data,
         'diastole_statistical_data': diastole_statistical_data,

@@ -91,6 +91,8 @@
 
     <a href="add" uk-icon="icon: copy" uk-tooltip="Dodaj"></a>
     <a href="delete/all" uk-icon="icon: trash" uk-tooltip="Wyczyść"></a>
+    <span class="uk-position-relative uk-align-right"> Ilość wpisów: {{ pages_max_elements }} </span>
+
     <table class="uk-table uk-table-striped uk-table-hover uk-table-small" uk-sortable>
         <thead>
             <tr>
@@ -101,34 +103,44 @@
                 <th>Opcje</th>
             </tr>
         </thead>
+
         <tbody>
         {% for value in growths %}
             <tr>
-                <td>NA</td>
-                <td>{{ value.growth |floatformat:1}}</td>
-                <td>{{ value.date |date:'D, d M Y,'}} {{value.date |time:"H:i"}}</td>
-                <td>{{ value.comments }}</td>
-                <td>
-                    <a href="{% url 'edit_growth_url' id=value.id %}" uk-icon="icon: file-edit" uk-tooltip="Edytuj"></a>
-                    <a href="{% url 'growth_details_url' id=value.id %}" uk-icon="icon: info" uk-tooltip="Szczegóły"></a>
-                    <a href="{% url 'delete_growth_url' id=value.id %}" uk-icon="icon: trash" uk-tooltip="Usuń"></a>
-                </td>
+                <form method="POST" action="{% url 'growth_details_url' id=value.id %}">
+                    {% csrf_token %}
+                    <td>
+                        <input name="number" value="{{ growths.start_index|add:forloop.counter0 }}" type="hidden">
+                        {{ growths.start_index|add:forloop.counter0 }}
+                    </td>
+                    <td>{{ value.growth |floatformat:1}}</td>
+                    <td>{{ value.date |date:'D, d M Y,'}} {{value.date |time:"H:i"}}</td>
+                    <td>{{ value.comments }}</td>
+                    <td>
+                        <a href="{% url 'edit_growth_url' id=value.id %}" uk-icon="icon: file-edit" uk-tooltip="Edytuj"></a>
+                        <button href="{% url 'growth_details_url' id=value.id %}" uk-icon="icon: info" uk-tooltip="Szczegóły" type="submit"></button>
+                        <a href="{% url 'delete_growth_url' id=value.id %}" uk-icon="icon: trash" uk-tooltip="Usuń"></a>
+                    </td>
+                </form>
             </tr>
         {% endfor %}
         </tbody>
+
     </table>
 
-    <div class="col-sm-6">
-
-    </div>
-{#    <div class="col-sm-6">#}
-{#        <nav class="pull-right">#}
-{#            <ul class="uk-pagination uk-flex-center" sd:pagination="full">#}
-{#                <li class="uk-disabled"><a href="#" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>#}
-{#                <li class="uk-active"><a href="#">1<span class="sr-only"></span></a></li>#}
-{#            </ul>#}
-{#        </nav>#}
-{#    </div>#}
+        <div class="uk-position-center uk-position-relative">
+          <span>
+             {% if growths.has_previous %}
+                <a href="?page=1" style="color: #00BFFF; margin-right: 20px">&laquo; Pierwsza</a>
+                <a href="?page={{ growths.previous_page_number }}" style="color: #32CD32">Poprzednia </a>
+             {% endif %}
+              <span>Strona {{ growths.number }} z {{ growths.paginator.num_pages }}</span>
+              {% if growths.has_next %}
+                  <a href="?page={{ growths.next_page_number }}" style="color: #32CD32"> Następna</a>
+                  <a href="?page={{ growths.paginator.num_pages }}" style="color: #00BFFF; margin-left: 20px"> Ostatnia  &raquo;</a>
+              {% endif %}
+          </span>
+        </div>
 
     <div class="uk-padding"></div>
 

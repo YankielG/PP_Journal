@@ -1,16 +1,19 @@
-/*html {*/
-/*    height: 80%;*/
-/*}*/
+.bar-outside {
+    color: orange;
+}
 
-/*body {*/
-/*    height: 80%;*/
-/*}*/
+.bar-inside {
+    color:  red;
+}
 
-/*.side-bar {*/
-/*    background: black;*/
-/*    color: white;*/
-/*}*/
+#bar-outside {
+    color: orange;
+}
 
-/*.gap-small {*/
-/*    gap: 15px;*/
-/*}*/
+#bar-inside {
+    color:  red;
+}
+
+.gap-small {
+    gap: 15px;
+}

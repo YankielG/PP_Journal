@@ -6,9 +6,17 @@ from django.http import HttpResponseNotFound, HttpResponseForbidden
 from .forms import Add_pulse_Form
 from django.db.models import Avg, Min, Max, Count
 
+from django.core.paginator import Paginator
+
 # Create your views here.
 def all_pulses(request):
-    found_pulses = Pulse.objects.all()
+    found_pulses = Pulse.objects.all().order_by('date')
+    page_num = request.GET.get('page', 1)
+    pages = Paginator(found_pulses, 3)
+
+    pages_max = pages.num_pages
+    pages_max_elements = pages.count
+    page_results = pages.get_page(page_num)
 
     value_y = Pulse.objects.values_list('pulse', flat=True)
     chart_y = [float(y) for y in value_y]
@@ -17,7 +25,9 @@ def all_pulses(request):
     chart_x = [x.strftime("%Y-%m-%d %H:%M") for x in value_x]
 
     context = {
-        'pulses': found_pulses,
+        'pages_max': pages_max,
+        'pages_max_elements': pages_max_elements,
+        'pulses': page_results,
         'chart_x': chart_x,
         'chart_y': chart_y
     }
@@ -26,12 +36,13 @@ def all_pulses(request):
 def pulse_details(request, id):
     found_pulses = Pulse.objects.all()
     pulse_statistical_data = found_pulses.aggregate(Avg('pulse'), Min('pulse'), Max('pulse'), Count('pulse'))
-
+    number = request.POST.get('number')
     found_pulse = Pulse.objects.get(pk=id)
 
     if not found_pulse:
         return HttpResponseNotFound('Zasób nie został znaleziony')
     context = {
+        'number': number,
         'pulse': found_pulse,
         'statistical_data': pulse_statistical_data
     }

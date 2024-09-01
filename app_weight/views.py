@@ -12,7 +12,7 @@ from django.core.paginator import Paginator
 
 # Create your views here.
 def all_weights(request):
-    found_weights = Weight.objects.all()
+    found_weights = Weight.objects.all().order_by('date')
     page_num = request.GET.get('page', 1)
     pages = Paginator(found_weights, 3)
 
@@ -30,7 +30,6 @@ def all_weights(request):
         'pages_max': pages_max,
         'pages_max_elements': pages_max_elements,
         'weights': page_results,
-        'page_obj': page_results,
         'chart_x': chart_x,
         'chart_y': chart_y
     }
@@ -39,12 +38,13 @@ def all_weights(request):
 def weight_details(request, id):
     found_weights = Weight.objects.all()
     weight_statistical_data = found_weights.aggregate(Avg('weight'), Min('weight'), Max('weight'), Count('weight'))
-
+    number = request.POST.get('number')
     found_weight = Weight.objects.get(pk=id)
 
     if not found_weight:
         return HttpResponseNotFound('Zasób nie został znaleziony')
     context = {
+        'number': number,
         'weight': found_weight,
         'statistical_data': weight_statistical_data
     }

@@ -5,22 +5,26 @@
 
 {% block page_content %}
 
-<div class="container">
-    <div class="uk-panel">
-        <img class="uk-align-left uk-margin-remove-adjacent" src="{% static 'background.JPG' %}" width="60" height="28" alt="info">
-        <h2 class="uk-heading-divider" style="position: relative">Waga</h2>
-    </div>
-
-    <a uk-icon="info" uk-tooltip="Info" href="#modal-center" uk-toggle></a>
-    <div id="modal-center" class="uk-flex-top" uk-modal>
-        <div class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">
-{#            <button class="uk-modal-close-default" type="button" uk-close></button>#}
-            <p>Całkowita masa ciała jest obliczana na zasadzie zsumowania tłuszczu niezbędnego oraz tłuszczu zapasowego.</p>
-            <p>U osób, które czynnie ćwiczą tłuszcz niezbędny do metabolizmu oraz tłuszcz zapasowy, który potencjalnie jest
-                zawsze w nadmiarze jest niezbędny do normalnego funkcjonowania organizmu. </p>
-            <p>Normalnie, tłuszcz niezbędny powinien stanowić 16% całkowitej masy ciała u mężczyzn i 27% u kobiet.</p>
+    <div class="container">
+        <div class="uk-panel">
+            <img class="uk-align-left uk-margin-remove-adjacent" src="{% static 'background.JPG' %}" width="60"
+                 height="28" alt="info">
+            <h2 class="uk-heading-divider" style="position: relative">Waga</h2>
         </div>
-    </div>
+
+        <a uk-icon="info" uk-tooltip="Info" href="#modal-center" uk-toggle></a>
+        <div id="modal-center" class="uk-flex-top" uk-modal>
+            <div class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">
+                {#            <button class="uk-modal-close-default" type="button" uk-close></button>#}
+                <p>Całkowita masa ciała jest obliczana na zasadzie zsumowania tłuszczu niezbędnego oraz tłuszczu
+                    zapasowego.</p>
+                <p>U osób, które czynnie ćwiczą tłuszcz niezbędny do metabolizmu oraz tłuszcz zapasowy, który
+                    potencjalnie jest
+                    zawsze w nadmiarze jest niezbędny do normalnego funkcjonowania organizmu. </p>
+                <p>Normalnie, tłuszcz niezbędny powinien stanowić 16% całkowitej masy ciała u mężczyzn i 27% u
+                    kobiet.</p>
+            </div>
+        </div>
 
         <div class="uk-section">
             <div style="max-width: 1000px; margin: 50px auto">
@@ -31,13 +35,13 @@
 
                 var label_list = [];
                 {% for value in chart_x %}
-                label_list.push("{{ value }}");
+                    label_list.push("{{ value }}");
                 {% endfor %}
 
                 new Chart(document.getElementById("line-chart"), {
                     type: 'line',
                     data: {
-                        labels:  label_list,
+                        labels: label_list,
                         datasets: [{
                             data: {{ chart_y }},
                             label: "Waga",
@@ -45,27 +49,28 @@
                             fill: false,
                         }]
                     },
-                     options: {
-                         plugins: {
-                             legend: {display: true},
-                             title: {
+                    options: {
+                        plugins: {
+                            legend: {display: true},
+                            title: {
                                 text: 'Wartości w czasie',
                                 display: false
-                             }
-                         },
+                            }
+                        },
                         responsive: true,
-                        scales:{
+                        scales: {
                             x: {
                                 display: true,
                                 stacked: true,
                                 title: {
                                     display: true,
-                                    text: 'Data'}
+                                    text: 'Data'
+                                }
                             },
                             y: {
                                 display: true,
                                 stacked: true,
-                                title:{
+                                title: {
                                     display: true,
                                     text: 'Waga'
                                 },
@@ -80,14 +85,14 @@
                 });
 
             </script>
-    </div>
+        </div>
 
-    <a href="add" uk-icon="icon: copy" uk-tooltip="Dodaj"></a>
-    <a href="delete/all" uk-icon="icon: trash" uk-tooltip="Wyczyść"></a>
-    <span class="uk-position-relative uk-align-right"> Ilość wpisów: {{ pages_max_elements }} </span>
+        <a href="add" uk-icon="icon: copy" uk-tooltip="Dodaj"></a>
+        <a href="delete/all" uk-icon="icon: trash" uk-tooltip="Wyczyść"></a>
+        <span class="uk-position-relative uk-align-right"> Ilość wpisów: {{ pages_max_elements }} </span>
 
-    <table class="uk-table uk-table-striped uk-table-hover uk-table-small" uk-sortable>
-        <thead>
+        <table class="uk-table uk-table-striped uk-table-hover uk-table-small" uk-sortable>
+            <thead>
             <tr>
                 <th>Lp.</th>
                 <th>Waga</th>
@@ -95,38 +100,48 @@
                 <th>Uwagi</th>
                 <th>Opcje</th>
             </tr>
-        </thead>
-        <tbody>
-        {% for value in weights %}
-            <tr>
-                <td>NA</td>
-                <td>{{ value.weight |floatformat:1}}</td>
-                <td>{{ value.date |date:'D, d M Y,'}} {{value.date |time:"H:i"}}</td>
-{#                <td>{{ value.date}}</td>#}
-                <td>{{ value.comments }}</td>
-                <td>
-                    <a href="{% url 'edit_weight_url' id=value.id %}" uk-icon="icon: file-edit" uk-tooltip="Edytuj"></a>
-                    <a href="{% url 'weight_details_url' id=value.id %}" uk-icon="icon: info" uk-tooltip="Szczegóły"></a>
-                    <a href="{% url 'delete_weight_url' id=value.id %}" uk-icon="icon: trash" uk-tooltip="Usuń"></a>
-                </td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+            </thead>
 
-<div class="uk-position-center uk-position-relative">
-  <span>
-    {% if weights.has_previous %}
-      <a href="?page={{ weights.previous_page_number }}">Poprzednia </a>
-    {% endif %}
-    <span>
-      Strona {{ weights.number }} z {{ weights.paginator.num_pages }}
-    </span>
-    {% if weights.has_next %}
-      <a href="?page={{ weights.next_page_number }}"> Następna</a>
-    {% endif %}
-  </span>
-</div>
+            <tbody>
+            {% for value in weights %}
+                <tr>
+                    <form method="POST" action="{% url 'weight_details_url' id=value.id %}">
+                        {% csrf_token %}
+                        <td>
+                            <input name="number" value="{{ weights.start_index|add:forloop.counter0 }}" type="hidden">
+                            {{ weights.start_index|add:forloop.counter0 }}
+                        </td>
+                        <td>{{ value.weight |floatformat:1 }}</td>
+                        <td>{{ value.date |date:'D, d M Y,' }} {{ value.date |time:"H:i" }}</td>
+                        {#                <td>{{ value.date}}</td>#}
+                        <td>{{ value.comments }}</td>
+                        <td>
+                            <a href="{% url 'edit_weight_url' id=value.id %}" uk-icon="icon: file-edit" uk-tooltip="Edytuj"></a>
+                            <button href="{% url 'weight_details_url' id=value.id %}" uk-icon="icon: info" uk-tooltip="Szczegóły" type="submit"></button>
+                            <a href="{% url 'delete_weight_url' id=value.id %}" uk-icon="icon: trash" uk-tooltip="Usuń"></a>
+                        </td>
+                    </form>
+                </tr>
+            {% endfor %}
+            </tbody>
+
+        </table>
+
+        <div class="uk-position-center uk-position-relative">
+          <span>
+             {% if weights.has_previous %}
+                <a href="?page=1" style="color: #00BFFF; margin-right: 20px">&laquo; Pierwsza</a>
+                <a href="?page={{ weights.previous_page_number }}" style="color: #32CD32">Poprzednia </a>
+             {% endif %}
+              <span>Strona {{ weights.number }} z {{ weights.paginator.num_pages }}</span>
+              {% if weights.has_next %}
+                  <a href="?page={{ weights.next_page_number }}" style="color: #32CD32"> Następna</a>
+                  <a href="?page={{ weights.paginator.num_pages }}" style="color: #00BFFF; margin-left: 20px"> Ostatnia  &raquo;</a>
+              {% endif %}
+          </span>
+        </div>
+
+    <div class="uk-padding"></div>
 
 </div>
 {% endblock %}

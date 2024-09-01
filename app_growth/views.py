@@ -6,9 +6,17 @@ from django.http import HttpResponseNotFound, HttpResponseForbidden
 from .forms import Add_growth_Form
 from django.db.models import Avg, Min, Max, Count
 
+from django.core.paginator import Paginator
+
 # Create your views here.
 def all_growths(request):
-    found_growths = Growth.objects.all()
+    found_growths = Growth.objects.all().order_by('date')
+    page_num = request.GET.get('page', 1)
+    pages = Paginator(found_growths, 3)
+
+    pages_max = pages.num_pages
+    pages_max_elements = pages.count
+    page_results = pages.get_page(page_num)
 
     value_y = Growth.objects.values_list('growth', flat=True)
     chart_y = [float(y) for y in value_y]
@@ -17,7 +25,9 @@ def all_growths(request):
     chart_x = [x.strftime("%Y-%m-%d %H:%M") for x in value_x]
 
     context = {
-        'growths': found_growths,
+        'pages_max': pages_max,
+        'pages_max_elements': pages_max_elements,
+        'growths': page_results,
         'chart_x': chart_x,
         'chart_y': chart_y
     }
@@ -26,12 +36,13 @@ def all_growths(request):
 def growth_details(request, id):
     found_growths = Growth.objects.all()
     growth_statistical_data = found_growths.aggregate(Avg('growth'), Min('growth'), Max('growth'), Count('growth'))
-
+    number = request.POST.get('number')
     found_growth = Growth.objects.get(pk=id)
 
     if not found_growth:
         return HttpResponseNotFound('Zasób nie został znaleziony')
     context = {
+        'number': number,
         'growth': found_growth,
         'statistical_data': growth_statistical_data
     }
