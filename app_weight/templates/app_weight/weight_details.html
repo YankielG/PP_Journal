@@ -18,8 +18,9 @@
                 <div>
                     <div class="uk-width-expand">
                         <h3 class="uk-card-title uk-position-relative uk-position-center">Statystyki:</h3>
-                        <div class="uk-position-relative uk-position-center"><b> Liczba
-                            Wpisów:</b> {{ statistical_data.weight__count }}</div>
+                        <div class="uk-position-relative uk-position-center">
+                            <b> Liczba Wpisów:</b> {{ statistical_data.weight__count }}
+                        </div>
                         <div class="uk-flex uk-flex-between ">
                             <div><b> MIn. Waga:</b> {{ statistical_data.weight__min|floatformat:2 }}</div>
                             <div><b> Śr. Waga: </b>{{ statistical_data.weight__avg|floatformat:2 }}</div>
