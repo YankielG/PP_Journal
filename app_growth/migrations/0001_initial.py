@@ -15,7 +15,7 @@ class Migration(migrations.Migration):
             name='Growth',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('growth', models.DecimalField(decimal_places=1, max_digits=3)),
+                ('growth', models.DecimalField(decimal_places=1, max_digits=5)),
                 ('date', models.DateTimeField()),
                 ('comments', models.CharField(max_length=255)),
             ],

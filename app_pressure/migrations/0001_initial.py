@@ -15,9 +15,9 @@ class Migration(migrations.Migration):
             name='Pressure',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('shrink', models.DecimalField(decimal_places=1, max_digits=3)),
-                ('diastole', models.DecimalField(decimal_places=1, max_digits=3)),
-                ('pulse', models.DecimalField(decimal_places=1, max_digits=3)),
+                ('shrink', models.DecimalField(decimal_places=1, max_digits=5)),
+                ('diastole', models.DecimalField(decimal_places=1, max_digits=5)),
+                ('pulse', models.DecimalField(decimal_places=1, max_digits=5)),
                 ('date', models.DateTimeField()),
                 ('comments', models.CharField(max_length=255)),
             ],
