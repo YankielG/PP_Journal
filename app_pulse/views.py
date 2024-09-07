@@ -10,7 +10,13 @@ from django.core.paginator import Paginator
 
 # Create your views here.
 def all_pulses(request):
-    found_pulses = Pulse.objects.all().order_by('date')
+    filter_value = request.GET.get('search')
+
+    if filter_value and len(filter_value) > 2:
+        found_pulses = Pulse.objects.filter(comments__contains = filter_value)
+    else:
+        found_pulses = Pulse.objects.all().order_by('date')
+
     page_num = request.GET.get('page', 1)
     pages = Paginator(found_pulses, 3)
 
@@ -25,6 +31,7 @@ def all_pulses(request):
     chart_x = [x.strftime("%Y-%m-%d %H:%M") for x in value_x]
 
     context = {
+        'filter_value': filter_value,
         'pages_max': pages_max,
         'pages_max_elements': pages_max_elements,
         'pulses': page_results,
