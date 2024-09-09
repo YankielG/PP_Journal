@@ -14,7 +14,7 @@ class Pulse(models.Model):
     pulse = models.DecimalField(max_digits=5, decimal_places=1,
                                 validators=[MinValueValidator(40), MaxValueValidator(150)])
     date = models.DateTimeField(validators=[validate_date])
-    comments = models.CharField(max_length=255, validators=[MaxLengthValidator(255)])
+    comments = models.CharField(max_length=255, validators=[MaxLengthValidator(150)])
 
     def __str__(self):
         return f'Tetno: {self.pulse} Data: {self.date} Uwagi: {self.comments}'

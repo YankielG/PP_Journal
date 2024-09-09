@@ -101,13 +101,13 @@
                 </div>
                 <div class="uk-modal-footer uk-text-center">
                     <a href="/weights/" class="uk-icon-link uk-margin-small-right" uk-icon="close" uk-tooltip="Anuluj"></a>
-                    <a href="delete/all" uk-icon="check" uk-tooltip="Wyczyść"></a>
+                    <a href="delete/all" uk-icon="check" uk-tooltip="Wyczyść" style="margin-left: 5px"></a>
                 </div>
             </div>
         </div>
 
         <a href uk-icon="icon: search" uk-tooltip="Wyszukaj" style="margin-left: 5px"></a>
-        <div class="uk-drop" uk-drop="mode: click; pos: left-center; offset: 5">
+        <div class="uk-drop" uk-drop="mode: click; pos: right-center; offset: 5">
             <form class="uk-search uk-width-1-1">
                 <input name="search" class="uk-search-input" type="search"
                        placeholder="Wyszukaj po Uwagach, 3-10 znaków." minlength="3" maxlength="10" aria-label="Search"
@@ -121,20 +121,20 @@
 
         <span class="uk-position-relative uk-align-right"> Ilość wpisów: {{ pages_max_elements }} </span>
 
-        <table class="uk-table uk-table-striped uk-table-hover uk-table-small" uk-sortable>
+        <table class="uk-table uk-table-striped uk-table-hover uk-table-small" uk-sortable >
             <thead>
-            <tr>
-                <th>Lp.</th>
-                <th>Waga</th>
-                <th>Data</th>
-                <th>Uwagi</th>
-                <th>Opcje</th>
-            </tr>
+                <tr>
+                    <th style="width:5%; text-align: center">Lp.</th>
+                    <th style="width:7%; text-align: center">Waga</th>
+                    <th style="width:20%; text-align: center">Data</th>
+                    <th style="width:58%; text-align: center">Uwagi</th>
+                    <th style="width:10%; text-align: center">Opcje</th>
+                </tr>
             </thead>
 
             <tbody>
             {% for value in weights %}
-                <tr>
+                <tr style="text-align: center">
                     <form method="POST" action="{% url 'weight_details_url' id=value.id %}">
                         {% csrf_token %}
                         <td>
@@ -144,14 +144,18 @@
                         <td>{{ value.weight |floatformat:1 }}</td>
                         <td>{{ value.date |date:'D, d M Y,' }} {{ value.date |time:"H:i" }}</td>
                         {#                <td>{{ value.date}}</td>#}
-                        <td>{{ value.comments }}</td>
+                        <td class="uk-text-break">{{ value.comments }}</td>
                         <td>
-                            <a href="{% url 'edit_weight_url' id=value.id %}" uk-icon="icon: file-edit"
-                               uk-tooltip="Edytuj"></a>
-                            <button href="{% url 'weight_details_url' id=value.id %}" uk-icon="icon: info"
-                                    uk-tooltip="Szczegóły" type="submit"></button>
-                            <a href="{% url 'delete_weight_url' id=value.id %}" uk-icon="icon: trash"
-                               uk-tooltip="Usuń"></a>
+                            <div>
+                            <a href="{% url 'edit_weight_url' id=value.id %}" uk-icon="icon: file-edit" uk-tooltip="Edytuj"></a>
+                            <button href="{% url 'weight_details_url' id=value.id %}" uk-icon="icon: info" uk-tooltip="Szczegóły" type="submit"></button>
+                            <a href="" uk-icon="icon: trash" uk-tooltip="Usuń"></a>
+                            <div class="uk-drop" uk-drop="mode: click; pos: right-center; offset: 5" >
+                              <div class="uk-position-center-left" >
+                                  <a href="{% url 'delete_weight_url' id=value.id %}" uk-icon="check" uk-tooltip="Potwierdź" ></a>
+                              </div>
+                            </div>
+                            </div>
                         </td>
                     </form>
                 </tr>

@@ -14,7 +14,7 @@ class Growth(models.Model):
     growth = models.DecimalField(max_digits=5, decimal_places=1,
                                  validators=[MinValueValidator(50), MaxValueValidator(220)])
     date = models.DateTimeField(validators=[validate_date])
-    comments = models.CharField(max_length=255, validators=[MaxLengthValidator(255)])
+    comments = models.CharField(max_length=255, validators=[MaxLengthValidator(150)])
 
     def __str__(self):
         return f'Waga: {self.growth} Data: {self.date} Uwagi: {self.comments}'
