@@ -149,7 +149,11 @@
                     <td>
                         <a href="{% url 'edit_growth_url' id=value.id %}" uk-icon="icon: file-edit" uk-tooltip="Edytuj"></a>
                         <button href="{% url 'growth_details_url' id=value.id %}" uk-icon="icon: info" uk-tooltip="Szczegóły" type="submit"></button>
-                        <a href="{% url 'delete_growth_url' id=value.id %}" uk-icon="icon: trash" uk-tooltip="Usuń"></a>
+                        <a href="" uk-icon="icon: trash" uk-tooltip="Usuń"></a>
+                        <div class="uk-card uk-card-small uk-width-small uk-card-body uk-card-default uk-border-circle uk-box-shadow-medium" uk-drop="mode: click">
+                            <p>Czy jesteś pewien? </p>
+                            <a href="{% url 'delete_growth_url' id=value.id %}" uk-icon="check" uk-tooltip="Potwierdź" style="color: #FF7F50"></a>
+                        </div>
                     </td>
                 </form>
             </tr>
