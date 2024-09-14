@@ -97,4 +97,3 @@ def delete_all_pulse(request):
     found_pulses = Pulse.objects.all()
     found_pulses.delete()
     return redirect('all_pulses_url')
-

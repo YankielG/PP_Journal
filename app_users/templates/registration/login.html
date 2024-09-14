@@ -1,0 +1,17 @@
+{% extends 'fragments/layout.html' %}
+{% load static %}
+
+{% block page_title %} Waga {% endblock %}
+
+{% block page_content %}
+
+    <h1>Zaloguj się</h1>
+    <form method="POST">
+        {% csrf_token %}
+        {{ form }}
+        <button class="uk-button-default uk-button">Zaloguj</button>
+    </form>
+    <span>Jeżeli nie masz jeszcze konta</span>
+
+
+{% endblock %}

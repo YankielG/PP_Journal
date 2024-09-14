@@ -113,4 +113,3 @@ def delete_all_pressure(request):
     found_pressures = Pressure.objects.all()
     found_pressures.delete()
     return redirect('all_pressures_url')
-

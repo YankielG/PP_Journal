@@ -18,12 +18,18 @@ from django.contrib import admin
 from django.urls import path, include
 from django.views.generic import RedirectView
 
+import app_web
+
 urlpatterns = [
     path('admin/', admin.site.urls),
 
-    path('', RedirectView.as_view(url='weights/home')),
+    # path('', RedirectView.as_view(url='web/home')),
+    path('', include('app_web.urls')),
+    path('web/', include('app_web.urls')),
     path('growths/', include('app_growth.urls')),
     path('pressures/', include('app_pressure.urls')),
     path('pulses/', include('app_pulse.urls')),
-    path('weights/', include('app_weight.urls'))
+    path('weights/', include('app_weight.urls')),
+    path('users/', include('app_users.urls')),
+    path('users/', include('django.contrib.auth.urls')),
 ]

@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 import os
+
+from django.contrib.auth import logout
 from dotenv import load_dotenv
 from pathlib import Path
 
@@ -45,10 +47,14 @@ INSTALLED_APPS = [
     "app_growth.apps.AppGrowthConfig",
     "app_pressure.apps.AppPressureConfig",
     "app_pulse.apps.AppPulseConfig",
+    'app_users.apps.AppUsersConfig',
+    'app_web.apps.AppWebConfig'
     # 'app_growth',
     # 'app_pressure',
     # 'app_pulse',
     # 'app_weight'
+    # 'app_users',
+    # 'app_web',
 ]
 
 MIDDLEWARE = [
@@ -167,3 +173,7 @@ STATICFILES_DIRS = [
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+LOGIN_REDIRECT_URL = ''
+LOGOUT_REDIRECT_URL = '/users/login'
+LOGIN_URL = '/users/login'

@@ -97,4 +97,3 @@ def delete_all_growth(request):
     found_growths = Growth.objects.all()
     found_growths.delete()
     return redirect('all_growths_url')
-

@@ -1,7 +1,7 @@
 
 <nav class="uk-navbar-container" uk-navbar uk-sticky>
     <div class="uk-navbar-center nav-overlay">
-        <a href="/weights/home/" class="uk-navbar-item uk-logo" style="margin-right: 100px" >Grzes</a>
+        <a href="{% url 'home_url' %}" class="uk-navbar-item uk-logo" style="margin-right: 100px" >Grzes</a>
         <ul class="uk-navbar-nav">
             <li class="uk-parent"><a href="/growths/">Wzrost</a></li>
             <li class="uk-parent"><a href="/weights">Waga</a></li>
@@ -11,8 +11,8 @@
                 <a href="#">Opcje</a>
                 <div class="uk-navbar-dropdown">
                     <ul class="uk-nav uk-navbar-dropdown-nav">
-                        <li><a href="/weights/info/">Info</a></li>
-                        <li><a href="/weights/home/">profil</a></li>
+                        <li><a href="{% url 'info_url' %}">Info</a></li>
+                        <li><a href="{% url 'home_url' %}">profil</a></li>
                     </ul>
                 </div>
             </li>
