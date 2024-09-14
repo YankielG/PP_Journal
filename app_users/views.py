@@ -5,3 +5,6 @@ from django.shortcuts import render, redirect
 
 def register(request):
     pass
+
+def password_reset(request):
+    pass

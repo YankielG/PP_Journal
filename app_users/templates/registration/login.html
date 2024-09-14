@@ -1,17 +1,64 @@
-{% extends 'fragments/layout.html' %}
 {% load static %}
 
-{% block page_title %} Waga {% endblock %}
+<!DOCTYPE html>
+<html lang="en">
 
-{% block page_content %}
+<head>
+    <meta charset="UTF-8">
+    {#    <title>Dzienniczek Zdrowia - {% block page_title %}{% endblock %}</title>#}
+    <title>Dzienniczek Zdrowia</title>
 
-    <h1>Zaloguj się</h1>
-    <form method="POST">
+    <link rel="icon" type="image/x-icon" href="{% static 'icon.ico' %}">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="{% static 'css/uikit.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/private.css' %}">
+
+    <script src="{% static 'js/uikit.min.js' %}"></script>
+    <script src="{% static 'js/uikit-icons.min.js' %}"></script>
+</head>
+
+<body>
+
+<div class="uk-card-default uk-card uk-card-body uk-border-rounded uk-box-shadow-hover-xlarge"
+     style="width: 400px; margin: 300px auto">
+
+    <img class="uk-align-center uk-margin-remove-adjacent" src="{% static 'background.JPG' %}" width="300" height="140">
+    <form method="POST" class="form-signin">
         {% csrf_token %}
-        {{ form.as_p }}
-        <button class="uk-button-default uk-button">Zaloguj</button>
+        <h2 class="uk-text-center uk-card-title">Dzień Dobry</h2>
+        <div class="uk-inline uk-width-1-1">
+            <span class="uk-form-icon" uk-icon="icon: user"></span>
+            <input id="user_name" name="user_name" type="text" placeholder="Użytkownik" class="uk-input"
+                   required="required">
+        </div>
+        <br><br>
+        <div class="uk-inline uk-width-1-1">
+            <span class="uk-form-icon" uk-icon="icon: lock"></span>
+            {{ form}}
+            <input id="password" name="password" type="password" placeholder="Hasło" class="uk-input" required="required"/>
+        </div>
+        <br><br>
+        <input id="remember_me" name="remember-me" type="checkbox"/>
+        <label for="remember_me" class="inline">Pamiętaj mnie</label>
+        <br><br>
+
+        <div align="center" >
+            <p style="font-size: 20; color: #ff1c19;">Nazwa użytkownika lub hasło są nieprawidłowe! Sprawdź je!</p>
+        </div>
+
+        <button class="uk-button uk-button-secondary uk-width-1-1" type="Submit">Wejdź</button>
     </form>
-    <span>Jeżeli nie masz jeszcze konta</span>
 
+    <div style="margin: 20px auto">
+        <a class="uk-align-left"  href="{% url 'register_url' %}" uk-icon="icon: user; ratio: 1.2" uk-tooltip="Dodaj konto"></a>
+        <a class="uk-align-right" href="{% url 'password_reset_url' %}" uk-icon="icon: search; ratio: 1.2" uk-tooltip="Przypomnij logowanie"></a>
+    </div>
+</div>
 
-{% endblock %}
+</div>
+
+</body>
+
+</html>
