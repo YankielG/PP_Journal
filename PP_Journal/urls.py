@@ -25,6 +25,7 @@ urlpatterns = [
 
     # path('', RedirectView.as_view(url='web/home')),
     path('', include('app_web.urls')),
+    path('info/', include('app_web.urls')),
     path('web/', include('app_web.urls')),
     path('growths/', include('app_growth.urls')),
     path('pressures/', include('app_pressure.urls')),

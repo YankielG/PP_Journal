@@ -8,7 +8,7 @@
     <h1>Zaloguj się</h1>
     <form method="POST">
         {% csrf_token %}
-        {{ form }}
+        {{ form.as_p }}
         <button class="uk-button-default uk-button">Zaloguj</button>
     </form>
     <span>Jeżeli nie masz jeszcze konta</span>

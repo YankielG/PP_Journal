@@ -8,7 +8,9 @@ from django.db.models import Avg, Min, Max, Count
 
 from django.core.paginator import Paginator
 
-# Create your views here.
+from django.contrib.auth.decorators import login_required, user_passes_test
+
+@login_required
 def all_weights(request):
     filter_value = request.GET.get('search')
 
@@ -40,6 +42,7 @@ def all_weights(request):
     }
     return render(request,'app_weight/all_weights.html', context)
 
+@login_required
 def weight_details(request, id):
     found_weights = Weight.objects.all()
     weight_statistical_data = found_weights.aggregate(Avg('weight'), Min('weight'), Max('weight'), Count('weight'))
@@ -55,6 +58,7 @@ def weight_details(request, id):
     }
     return render(request,'app_weight/weight_details.html', context)
 
+@login_required
 def add_weight(request):
     if request.method == 'POST':
         weight = request.POST['weight']
@@ -71,6 +75,7 @@ def add_weight(request):
     }
     return render(request, 'app_weight/add_weight.html',context)
 
+@login_required
 def edit_weight(request, id):
     found_weight = Weight.objects.get(pk=id)
     if request.method == 'POST':
@@ -93,12 +98,13 @@ def edit_weight(request, id):
     }
     return render(request, 'app_weight/edit_weight.html', context)
 
+@login_required
 def delete_weight(request, id):
     found_weight = Weight.objects.get(pk=id)
     found_weight.delete()
     return redirect('all_weights_url')
 
-
+@login_required
 def delete_all_weight(request):
     found_weights = Weight.objects.all()
     found_weights.delete()

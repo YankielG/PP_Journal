@@ -1,7 +1,15 @@
-
 <nav class="uk-navbar-container" uk-navbar uk-sticky>
     <div class="uk-navbar-center nav-overlay">
-        <a href="{% url 'home_url' %}" class="uk-navbar-item uk-logo" style="margin-right: 100px" >Grzes</a>
+    
+        <span class="uk-navbar-item" uk-icon="icon: user; ratio: 1" uk-tooltip="Użytkownik"></span>
+        <a href="{% url 'home_url' %}" class="uk-navbar-item uk-logo" style="margin-right: 100px">
+            {% if user.is_authenticated %}
+                {{ user.get_username }}
+            {% else %}
+                Gość
+            {% endif %}
+        </a>
+    
         <ul class="uk-navbar-nav">
             <li class="uk-parent"><a href="/growths/">Wzrost</a></li>
             <li class="uk-parent"><a href="/weights">Waga</a></li>
@@ -17,10 +25,28 @@
                 </div>
             </li>
         </ul>
-        <span class="uk-navbar-item" style="margin-left: 100px" >Użytkownik</span>
+    
+        <span class="uk-navbar-item" style="margin-left: 100px">
+            {% if user.is_authenticated %}
+                {% if user.is_superuser %}
+                    Administrator
+                {% else %}
+                    Użytkownik
+                {% endif %}
+            {% else %}
+                Gość
+            {% endif %}            
+        </span>
+    
         <span class="uk-navbar-item">{% now "D, d M Y" %}</span>
-        <a href="/" uk-icon="icon:  sign-out; ratio: 1.1" uk-tooltip="Wyloguj"></a>
-
+    
+        {% if user.is_authenticated %}
+            <form method="POST" action="{% url 'logout' %}">
+                {% csrf_token %}
+                <button href="/" uk-icon="icon: sign-out; ratio: 1.1" uk-tooltip="Wyloguj"></button>
+            </form>
+     {% endif %}
+    
     </div>
 </nav>
 
