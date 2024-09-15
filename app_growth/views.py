@@ -8,7 +8,9 @@ from django.db.models import Avg, Min, Max, Count
 
 from django.core.paginator import Paginator
 
-# Create your views here.
+from django.contrib.auth.decorators import login_required, user_passes_test
+
+@login_required
 def all_growths(request):
     filter_value = request.GET.get('search')
 
@@ -40,6 +42,7 @@ def all_growths(request):
     }
     return render(request,'app_growth/all_growths.html', context)
 
+@login_required
 def growth_details(request, id):
     found_growths = Growth.objects.all()
     growth_statistical_data = found_growths.aggregate(Avg('growth'), Min('growth'), Max('growth'), Count('growth'))
@@ -55,6 +58,7 @@ def growth_details(request, id):
     }
     return render(request,'app_growth/growth_details.html', context)
 
+@login_required
 def add_growth(request):
     if request.method == 'POST':
         growth = request.POST['growth']
@@ -70,6 +74,7 @@ def add_growth(request):
     }
     return render(request, 'app_growth/add_growth.html', context)
 
+@login_required
 def edit_growth(request, id):
     found_growth = Growth.objects.get(pk=id)
     if request.method == 'POST':
@@ -88,11 +93,13 @@ def edit_growth(request, id):
     }
     return render(request, 'app_growth/edit_growth.html', context)
 
+@login_required
 def delete_growth(request, id):
     found_growth = Growth.objects.get(pk=id)
     found_growth.delete()
     return redirect('all_growths_url')
 
+@login_required
 def delete_all_growth(request):
     found_growths = Growth.objects.all()
     found_growths.delete()

@@ -9,7 +9,9 @@ from django.db.models import Avg, Min, Max, Count
 
 from django.core.paginator import Paginator
 
-# Create your views here.
+from django.contrib.auth.decorators import login_required, user_passes_test
+
+@login_required
 def info(request):
     return  render(request, 'app_web/info.html')
 
@@ -17,7 +19,7 @@ def info(request):
 def error(request):
     return  render(request, '404.html')
 
-
+@login_required
 def home(request):
     found_weights = Weight.objects.all()
     found_growth = Growth.objects.all()

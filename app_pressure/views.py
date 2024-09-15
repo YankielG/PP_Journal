@@ -8,7 +8,9 @@ from django.db.models import Avg, Min, Max, Count
 
 from django.core.paginator import Paginator
 
-# Create your views here.
+from django.contrib.auth.decorators import login_required, user_passes_test
+
+@login_required
 def all_pressures(request):
     filter_value = request.GET.get('search')
 
@@ -48,6 +50,7 @@ def all_pressures(request):
     }
     return render(request,'app_pressure/all_pressures.html', context)
 
+@login_required
 def pressure_details(request, id):
     found_pressures = Pressure.objects.all()
     shrink_statistical_data = found_pressures.aggregate(Avg('shrink'), Min('shrink'), Max('shrink'), Count('shrink'))
@@ -67,6 +70,7 @@ def pressure_details(request, id):
     }
     return render(request,'app_pressure/pressure_details.html', context)
 
+@login_required
 def add_pressure(request):
     if request.method == 'POST':
         shrink = request.POST['shrink']
@@ -84,6 +88,7 @@ def add_pressure(request):
     }
     return render(request, 'app_pressure/add_pressure.html', context)
 
+@login_required
 def edit_pressure(request, id):
     found_pressure = Pressure.objects.get(pk=id)
     if request.method == 'POST':
@@ -104,11 +109,13 @@ def edit_pressure(request, id):
     }
     return render(request, 'app_pressure/edit_pressure.html',context)
 
+@login_required
 def delete_pressure(request, id):
     found_pressure = Pressure.objects.get(pk=id)
     found_pressure.delete()
     return redirect('all_pressures_url')
 
+@login_required
 def delete_all_pressure(request):
     found_pressures = Pressure.objects.all()
     found_pressures.delete()

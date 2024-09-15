@@ -8,7 +8,9 @@ from django.db.models import Avg, Min, Max, Count
 
 from django.core.paginator import Paginator
 
-# Create your views here.
+from django.contrib.auth.decorators import login_required, user_passes_test
+
+@login_required
 def all_pulses(request):
     filter_value = request.GET.get('search')
 
@@ -40,6 +42,7 @@ def all_pulses(request):
     }
     return render(request,'app_pulse/all_pulses.html', context)
 
+@login_required
 def pulse_details(request, id):
     found_pulses = Pulse.objects.all()
     pulse_statistical_data = found_pulses.aggregate(Avg('pulse'), Min('pulse'), Max('pulse'), Count('pulse'))
@@ -55,6 +58,7 @@ def pulse_details(request, id):
     }
     return render(request,'app_pulse/pulse_details.html', context)
 
+@login_required
 def add_pulse(request):
     if request.method == 'POST':
         pulse = request.POST['pulse']
@@ -70,6 +74,7 @@ def add_pulse(request):
     }
     return render(request, 'app_pulse/add_pulse.html', context)
 
+@login_required
 def edit_pulse(request, id):
     found_pulse = Pulse.objects.get(pk=id)
     if request.method == 'POST':
@@ -88,11 +93,13 @@ def edit_pulse(request, id):
     }
     return render(request, 'app_pulse/edit_pulse.html', context)
 
+@login_required
 def delete_pulse(request, id):
     found_pulse = Pulse.objects.get(pk=id)
     found_pulse.delete()
     return redirect('all_pulses_url')
 
+@login_required
 def delete_all_pulse(request):
     found_pulses = Pulse.objects.all()
     found_pulses.delete()

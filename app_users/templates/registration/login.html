@@ -21,44 +21,50 @@
 
 <body>
 
-<div class="uk-card-default uk-card uk-card-body uk-border-rounded uk-box-shadow-hover-xlarge"
-     style="width: 400px; margin: 300px auto">
+<div class="uk-card-default uk-card uk-card-body uk-box-shadow-hover-xlarge"
+     style="width: 400px; margin: 300px auto; border-radius: 1rem">
 
-    <img class="uk-align-center uk-margin-remove-adjacent" src="{% static 'background.JPG' %}" width="300" height="140">
+    {#    <h3 class="uk-text-center uk-card-title">Dzienniczek Zdrowia</h3>#}
+
+    <img class="uk-align-center uk-margin-remove-adjacent uk-border-rounded" src="{% static 'background.JPG' %}"
+         width="300" height="140">
     <form method="POST" class="form-signin">
         {% csrf_token %}
         <h2 class="uk-text-center uk-card-title">Dzień Dobry</h2>
+
         <div class="uk-inline uk-width-1-1">
             <span class="uk-form-icon" uk-icon="icon: user"></span>
-            <input id="user_name" name="user_name" type="text" placeholder="Użytkownik" class="uk-input"
-                   required="required">
+            <input id="id_username" name="username" type="text" placeholder="Użytkownik" autocomplete="username"
+                    class="uk-input uk-border-rounded" maxlength="20" required="" autofocus="">
         </div>
-        <br><br>
-        <div class="uk-inline uk-width-1-1">
+
+        <div class="uk-inline uk-width-1-1" style="margin-top: 20px">
             <span class="uk-form-icon" uk-icon="icon: lock"></span>
-            {{ form}}
-            <input id="password" name="password" type="password" placeholder="Hasło" class="uk-input" required="required"/>
-        </div>
-        <br><br>
-        <input id="remember_me" name="remember-me" type="checkbox"/>
-        <label for="remember_me" class="inline">Pamiętaj mnie</label>
-        <br><br>
-
-        <div align="center" >
-            <p style="font-size: 20; color: #ff1c19;">Nazwa użytkownika lub hasło są nieprawidłowe! Sprawdź je!</p>
+            <input id="id_password" name="password" type="password" placeholder="Hasło" autocomplete="current-password"
+                   class="uk-input uk-border-rounded" maxlength="20" required="">
         </div>
 
-        <button class="uk-button uk-button-secondary uk-width-1-1" type="Submit">Wejdź</button>
+        {#        <div style="margin-top: 20px">#}
+        {#            <input id="remember_me" name="remember-me" type="checkbox"/>#}
+        {#            <label for="remember_me" class="inline">Pamiętaj mnie</label>#}
+        {#        </div>#}
+
+        {% if form.errors %}
+            <div class="uk-text-center"  style="margin-top: 20px">
+                <p style="font-size: 20; color: #ff1c19;">Nazwa użytkownika lub hasło są nieprawidłowe! Sprawdź je!</p>
+            </div>
+        {% endif %}
+
+        <button class="uk-button uk-button-secondary uk-width-1-1 uk-border-rounded" style="margin-top: 20px" type="Submit">Wejdź</button>
     </form>
 
-    <div style="margin: 20px auto">
-        <a class="uk-align-left"  href="{% url 'register_url' %}" uk-icon="icon: user; ratio: 1.2" uk-tooltip="Dodaj konto"></a>
-        <a class="uk-align-right" href="{% url 'password_reset_url' %}" uk-icon="icon: search; ratio: 1.2" uk-tooltip="Przypomnij logowanie"></a>
+    <div style="margin-top: 20px">
+        <a class="uk-align-left" href="{% url 'register_url' %}" uk-icon="icon: user; ratio: 1.2"
+           uk-tooltip="Dodaj konto"></a>
+        <a class="uk-align-right" href="{% url 'password_reset_url' %}" uk-icon="icon: search; ratio: 1.2"
+           uk-tooltip="Przypomnij logowanie"></a>
     </div>
 </div>
-
-</div>
-
 </body>
 
 </html>
