@@ -10,7 +10,7 @@ from django.core.paginator import Paginator
 from django.contrib.auth.decorators import login_required, user_passes_test
 
 def register(request):
-    return  render(request, '404.html')
+    return  render(request, 'users/register.html')
 
 def password_reset(request):
     if request.method == 'POST':
