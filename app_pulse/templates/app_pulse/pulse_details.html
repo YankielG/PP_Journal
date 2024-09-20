@@ -12,28 +12,34 @@
             <h2 class="uk-heading-divider" style="position: relative">Tętno - Szczegóły</h2>
         </div>
 
+        <div style="height: 50px"></div>
         <div class="uk-card uk-card-default uk-border-rounded">
             <div class="uk-card-header">
                 <div>
                     <div class="uk-width-expand">
                         <h3 class="uk-card-title uk-position-relative uk-position-center">Statystyki:</h3>
-                        <div class="uk-position-relative uk-position-center"><b> Liczba
-                            Wpisów:</b> {{ statistical_data.pulse__count }}</div>
+                        <div class="uk-position-relative uk-position-center">
+                            <b> Liczba Wpisów:</b> {{ statistical_data.weight__count }}</div>
                         <div class="uk-flex uk-flex-between ">
-                            <div><b> MIn. Puls:</b> {{ statistical_data.pulse__min|floatformat:2 }}</div>
-                            <div><b> Śr. Puls: </b>{{ statistical_data.pulse__avg|floatformat:2 }}</div>
-                            <div><b> Max. Puls:</b> {{ statistical_data.pulse__max|floatformat:2 }}</div>
+                            <div><b> MIn. Tętno:</b> {{ statistical_data.pulse__min|floatformat:2 }}</div>
+                            <div><b> Śr. Tętno: </b>{{ statistical_data.pulse__avg|floatformat:2 }}</div>
+                            <div><b> Max. Tętno:</b> {{ statistical_data.pulse__max|floatformat:2 }}</div>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="uk-card-body">
+
                 <span> <b>Lp.: </b> </span>
                 <span> {{ number }} </span> <br>
                 <span> <b>Puls: </b> </span>
                 <span>{{ pulse.pulse }}</span><br>
-                <span> <b>Data: </b> </span>
-                <span>{{ pulse.date }}</span><br>
+                <span> <b>Data wpisu: </b> </span>
+                <span>{{ pulse.creation_date }}</span><br>
+                <span> <b>Data aktualizacji: </b> </span>
+                <span>{{ pulse.update_date }}</span><br>
+                <span> <b>Właściciel: </b> </span>
+                <span>{{ pulse.owner }}</span><br>
                 <span class="uk-text-break"> <b>Uwagi: </b> </span>
                 <span>{{ pulse.comments }}</span>
                 <br><br>

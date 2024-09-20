@@ -4,15 +4,37 @@ from django.forms.utils import ErrorList
 from django.core.exceptions import ValidationError
 from . import models
 from datetime import datetime, timedelta
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.models import User
+from django.contrib.auth.decorators import login_required, user_passes_test
 
 def validate_date(value):
     if value.date() < datetime.now().date() - timedelta(weeks=10):
         raise ValidationError(f'{value} nie jest datą max 1 rok wstecz')
 
+class RegisterForm(UserCreationForm):
+    class Meta:
+        model = User
+        fields = ['username', 'first_name', 'last_name', 'email', 'password1', 'password2']
+        labels = {
+            'username': 'Nazwa użytkownika',
+            'first_name': 'Imię',
+            'last_name': 'Nazwisko',
+            'password1': 'Hasło',
+            'password2': 'Potwierdzenie hasła',
+        }
+        error_messages = {
+            'password_mismatch': 'Podane hasła się nie zgadzają'
+        }
+
+
 class Add_users_form(forms.Form):
     user = forms.CharField(max_length=20)
-    date = forms.DateTimeField(label='Data', validators=[validate_date], widget=forms.DateTimeInput(attrs={'class': 'datepicker', 'type': datetime}), initial=datetime.now().strftime("%Y-%m-%dT%H:%M")),
+    creation_date = forms.DateTimeField(label='Data wpisu', validators=[validate_date], widget=forms.DateTimeInput(attrs={'class': 'datepicker', 'type': datetime}), initial=datetime.now().strftime("%Y-%m-%dT%H:%M")),
+    update_date = forms.DateTimeField(label='Data aktualizacji', validators=[validate_date], widget=forms.DateTimeInput(attrs={'class': 'datepicker', 'type': datetime}), initial=datetime.now().strftime("%Y-%m-%dT%H:%M")),
     comments = forms.CharField(label='Uwagi', max_length=255, validators=[MinLengthValidator(2)], widget=forms.Textarea(attrs={'class': 'form-control', 'maxlength': 150, 'rows': 5, })),
+    owner = forms.ModelChoiceField(queryset=User.objects.all(), widget=forms.HiddenInput(), required=False)
+
 
 
     def __str__(self):

@@ -2,6 +2,7 @@ from django.db import models
 from django.core.validators import MinValueValidator, MaxValueValidator, MaxLengthValidator
 from django.core.exceptions import ValidationError
 from datetime import datetime, timedelta
+from django.contrib.auth.models import User
 
 
 def validate_date(value):
@@ -17,8 +18,10 @@ class Pressure(models.Model):
                                    validators=[MinValueValidator(50), MaxValueValidator(150)])  # rozkurczowe
     pulse = models.DecimalField(max_digits=5, decimal_places=1,
                                 validators=[MinValueValidator(40), MaxValueValidator(150)])
-    date = models.DateTimeField(validators=[validate_date])
+    creation_date = models.DateTimeField(validators=[validate_date])
+    update_date = models.DateTimeField(auto_now=True, validators=[validate_date])
     comments = models.CharField(max_length=255, validators=[MaxLengthValidator(150)])
+    owner = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
-        return f'Cis_skurcz: {self.shrink} Cis_rozkurcz: {self.diastole} Puls: {self.pulse} Data: {self.date} Uwagi: {self.comments}'
+        return f'Cis_skurcz: {self.shrink} Cis_rozkurcz: {self.diastole} Puls: {self.pulse} Data wpisu: {self.creation_date} Data akt.: {self.update_date} Uwagi: {self.comments} właściciel: {self.owner}'

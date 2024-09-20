@@ -12,6 +12,7 @@
             <h2 class="uk-heading-divider" style="position: relative">Ciśnienie - Szczegóły</h2>
         </div>
 
+        <div style="height: 50px"></div>
         <div class="uk-card uk-card-default uk-border-rounded">
             <div class="uk-card-header">
                 <div>
@@ -47,8 +48,12 @@
                 <span>{{ pressure.diastole }}</span><br>
                 <span> <b>Tętno: </b> </span>
                 <span>{{ pressure.pulse }}</span><br>
-                <span> <b>Data: </b> </span>
-                <span>{{ pressure.date }}</span><br>
+                <span> <b>Data wpisu: </b> </span>
+                <span>{{ pressure.creation_date }}</span><br>
+                <span> <b>Data aktualizacji: </b> </span>
+                <span>{{ pressure.update_date }}</span><br>
+                <span> <b>Właściciel: </b> </span>
+                <span>{{ pressure.owner }}</span><br>
                 <span class="uk-text-break"> <b>Uwagi: </b> </span>
                 <span>{{ pressure.comments }}</span>
                 <br><br>

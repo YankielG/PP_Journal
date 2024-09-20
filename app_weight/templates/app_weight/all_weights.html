@@ -142,7 +142,7 @@
                             {{ weights.start_index|add:forloop.counter0 }}
                         </td>
                         <td>{{ value.weight |floatformat:1 }}</td>
-                        <td>{{ value.date |date:'D, d M Y,' }} {{ value.date |time:"H:i" }}</td>
+                        <td>{{ value.creation_date |date:'D, d M Y,' }} {{ value.creation_date |time:"H:i" }}</td>
                         {#                <td>{{ value.date}}</td>#}
                         <td class="uk-text-break">{{ value.comments }}</td>
                         <td>

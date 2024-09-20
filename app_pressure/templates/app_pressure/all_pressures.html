@@ -160,7 +160,7 @@
                     <td>{{ value.shrink |floatformat:1}}</td>
                     <td>{{ value.diastole |floatformat:1}}</td>
                     <td>{{ value.pulse |floatformat:1}}</td>
-                    <td>{{ value.date |date:'D, d M Y,'}} {{value.date |time:"H:i"}}</td>
+                    <td>{{ value.creation_date |date:'D, d M Y,'}} {{value.creation_date |time:"H:i"}}</td>
                     <td class="uk-text-break">{{ value.comments }}</td>
                     <td>
                         <a href=" {% url 'edit_pressure_url' id=value.id %}" uk-icon="icon: file-edit" uk-tooltip="Edytuj"></a>

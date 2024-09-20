@@ -19,8 +19,7 @@
                     <div class="uk-width-expand">
                         <h3 class="uk-card-title uk-position-relative uk-position-center">Statystyki:</h3>
                         <div class="uk-position-relative uk-position-center">
-                            <b> Liczba Wpisów:</b> {{ statistical_data.weight__count }}
-                        </div>
+                            <b> Liczba Wpisów:</b> {{ statistical_data.weight__count }}</div>
                         <div class="uk-flex uk-flex-between ">
                             <div><b> MIn. Waga:</b> {{ statistical_data.weight__min|floatformat:2 }}</div>
                             <div><b> Śr. Waga: </b>{{ statistical_data.weight__avg|floatformat:2 }}</div>
@@ -35,17 +34,21 @@
                 <span> {{ number }} </span> <br>
                 <span> <b>Waga: </b> </span>
                 <span>{{ weight.weight }}</span><br>
-                <span> <b>Data: </b> </span>
-                <span>{{ weight.date }}</span><br>
+                <span> <b>Data wpisu: </b> </span>
+                <span>{{ weight.creation_date }}</span><br>
+                <span> <b>Data aktualizacji: </b> </span>
+                <span>{{ weight.update_date }}</span><br>
+                <span> <b>Właściciel: </b> </span>
+                <span>{{ weight.owner }}</span><br>
                 <span> <b>Uwagi: </b> </span>
                 <span class="uk-text-break">{{ weight.comments }}</span>
                 <br><br>
                 <b>Nasza ocena: </b>
 
-                {% if weight.weight > statistical_data.weight__avg  %}
+                {% if weight.weight > statistical_data.weight__avg %}
                     <span class="uk-text-danger"> Jesteś powyżej średniej - Zastosuj dietę </span>
 
-                {% elif  weight.weight < statistical_data.weight__avg  %}
+                {% elif  weight.weight < statistical_data.weight__avg %}
                     <span class="uk-text-success">  Jesteś poniżej średniej - Brawo !!! </span>
 
                 {% else %}
@@ -54,7 +57,8 @@
 
             </div>
             <div class="uk-card-footer">
-                <a href="/weights" class="uk-button uk-button-text uk-position-relative uk-position-top-center">Zamknij</a>
+                <a href="/weights"
+                   class="uk-button uk-button-text uk-position-relative uk-position-top-center">Zamknij</a>
             </div>
         </div>
 

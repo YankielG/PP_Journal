@@ -12,12 +12,13 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 
 @login_required
 def all_growths(request):
+    logged_user = request.user
     filter_value = request.GET.get('search')
 
     if filter_value and len(filter_value) > 2:
-        found_growths = Growth.objects.filter(comments__contains = filter_value)
+        found_growths = Growth.objects.filter(owner=logged_user, comments__contains = filter_value)
     else:
-        found_growths = Growth.objects.all().order_by('date')
+        found_growths = Growth.objects.filter(owner=logged_user).order_by('-creation_date')
 
     page_num = request.GET.get('page', 1)
     pages = Paginator(found_growths, 3)
@@ -26,10 +27,10 @@ def all_growths(request):
     pages_max_elements = pages.count
     page_results = pages.get_page(page_num)
 
-    value_y = Growth.objects.values_list('growth', flat=True)
+    value_y = found_growths.values_list('growth', flat=True)
     chart_y = [float(y) for y in value_y]
 
-    value_x = found_growths.values_list('date', flat=True)
+    value_x = found_growths.values_list('creation_date', flat=True)
     chart_x = [x.strftime("%Y-%m-%d %H:%M") for x in value_x]
 
     context = {
@@ -44,7 +45,8 @@ def all_growths(request):
 
 @login_required
 def growth_details(request, id):
-    found_growths = Growth.objects.all()
+    logged_user = request.user
+    found_growths = Growth.objects.filter(owner=logged_user)
     growth_statistical_data = found_growths.aggregate(Avg('growth'), Min('growth'), Max('growth'), Count('growth'))
     number = request.POST.get('number')
     found_growth = Growth.objects.get(pk=id)
@@ -60,11 +62,12 @@ def growth_details(request, id):
 
 @login_required
 def add_growth(request):
+    logged_user = request.user
     if request.method == 'POST':
         growth = request.POST['growth']
         date = request.POST['date']
         comments = request.POST['comment']
-        Growth.objects.create(growth=growth, date=date, comments=comments)
+        Growth.objects.create(growth=growth, creation_date=date, comments=comments, owner=logged_user)
         return redirect('all_growths_url')
 
     context = {
@@ -76,18 +79,19 @@ def add_growth(request):
 
 @login_required
 def edit_growth(request, id):
+    logged_user = request.user
     found_growth = Growth.objects.get(pk=id)
     if request.method == 'POST':
         growth = request.POST['growth']
         date = request.POST['date']
         comments = request.POST['comment']
         found_growth.delete()
-        Growth.objects.create(pk=id, growth=growth, date=date, comments=comments)
+        Growth.objects.create(pk=id, growth=growth, creation_date=date, comments=comments, owner=logged_user)
         return redirect('all_growths_url')
 
     context = {
         'growth': found_growth,
-        'time_value': found_growth.date.strftime("%Y-%m-%dT%H:%M"),
+        'time_value': found_growth.creation_date.strftime("%Y-%m-%dT%H:%M"),
         'time_max': datetime.now().strftime("%Y-%m-%dT%H:%M"),
         'time_min': (datetime.now() - timedelta(weeks=52)).strftime("%Y-%m-%dT%H:%M")
     }
@@ -95,12 +99,14 @@ def edit_growth(request, id):
 
 @login_required
 def delete_growth(request, id):
+    logged_user = request.user
     found_growth = Growth.objects.get(pk=id)
     found_growth.delete()
     return redirect('all_growths_url')
 
 @login_required
 def delete_all_growth(request):
-    found_growths = Growth.objects.all()
+    logged_user = request.user
+    found_growths = Growth.objects.filter(owner=logged_user)
     found_growths.delete()
     return redirect('all_growths_url')

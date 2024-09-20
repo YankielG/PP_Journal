@@ -12,12 +12,13 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 
 @login_required
 def all_pressures(request):
+    logged_user = request.user
     filter_value = request.GET.get('search')
 
     if filter_value and len(filter_value) > 2:
-        found_pressures = Pressure.objects.filter(comments__contains = filter_value)
+        found_pressures = Pressure.objects.filter(owner=logged_user, comments__contains = filter_value)
     else:
-        found_pressures = Pressure.objects.all().order_by('date')
+        found_pressures = Pressure.objects.filter(owner=logged_user).order_by('-creation_date')
 
     page_num = request.GET.get('page', 1)
     pages = Paginator(found_pressures, 3)
@@ -26,16 +27,16 @@ def all_pressures(request):
     pages_max_elements = pages.count
     page_results = pages.get_page(page_num)
 
-    value_y1 = Pressure.objects.values_list('shrink', flat=True)
+    value_y1 = found_pressures.values_list('shrink', flat=True)
     chart_y1 = [float(y) for y in value_y1]
 
-    value_y2 = Pressure.objects.values_list('diastole', flat=True)
+    value_y2 = found_pressures.values_list('diastole', flat=True)
     chart_y2 = [float(y) for y in value_y2]
 
-    value_y3 = Pressure.objects.values_list('pulse', flat=True)
+    value_y3 = found_pressures.values_list('pulse', flat=True)
     chart_y3 = [float(y) for y in value_y3]
 
-    value_x = found_pressures.values_list('date', flat=True)
+    value_x = found_pressures.values_list('creation_date', flat=True)
     chart_x = [x.strftime("%Y-%m-%d %H:%M") for x in value_x]
 
     context = {
@@ -52,7 +53,8 @@ def all_pressures(request):
 
 @login_required
 def pressure_details(request, id):
-    found_pressures = Pressure.objects.all()
+    logged_user = request.user
+    found_pressures = Pressure.objects.filter(owner=logged_user)
     shrink_statistical_data = found_pressures.aggregate(Avg('shrink'), Min('shrink'), Max('shrink'), Count('shrink'))
     diastole_statistical_data = found_pressures.aggregate(Avg('diastole'), Min('diastole'), Max('diastole'), Count('diastole'))
     pulse_statistical_data = found_pressures.aggregate(Avg('pulse'), Min('pulse'), Max('pulse'), Count('pulse'))
@@ -72,13 +74,14 @@ def pressure_details(request, id):
 
 @login_required
 def add_pressure(request):
+    logged_user = request.user
     if request.method == 'POST':
         shrink = request.POST['shrink']
         diastole = request.POST['diastole']
         pulse = request.POST['pulse']
         date = request.POST['date']
         comments = request.POST['comment']
-        Pressure.objects.create(shrink=shrink, diastole=diastole, pulse=pulse, date=date, comments=comments)
+        Pressure.objects.create(shrink=shrink, diastole=diastole, pulse=pulse, creation_date=date, comments=comments, owner=logged_user)
         return redirect('all_pressures_url')
 
     context = {
@@ -90,6 +93,7 @@ def add_pressure(request):
 
 @login_required
 def edit_pressure(request, id):
+    logged_user = request.user
     found_pressure = Pressure.objects.get(pk=id)
     if request.method == 'POST':
         shrink = request.POST['shrink']
@@ -98,12 +102,12 @@ def edit_pressure(request, id):
         date = request.POST['date']
         comments = request.POST['comment']
         found_pressure.delete()
-        Pressure.objects.create(pk=id, shrink=shrink, diastole=diastole, pulse=pulse, date=date, comments=comments)
+        Pressure.objects.create(pk=id, shrink=shrink, diastole=diastole, pulse=pulse, creation_date=date, comments=comments, owner=logged_user)
         return redirect('all_pressures_url')
 
     context = {
         'pressure': found_pressure,
-        'time_value': found_pressure.date.strftime("%Y-%m-%dT%H:%M"),
+        'time_value': found_pressure.creation_date.strftime("%Y-%m-%dT%H:%M"),
         'time_max': datetime.now().strftime("%Y-%m-%dT%H:%M"),
         'time_min': (datetime.now() - timedelta(weeks=52)).strftime("%Y-%m-%dT%H:%M")
     }
@@ -111,12 +115,14 @@ def edit_pressure(request, id):
 
 @login_required
 def delete_pressure(request, id):
+    logged_user = request.user
     found_pressure = Pressure.objects.get(pk=id)
     found_pressure.delete()
     return redirect('all_pressures_url')
 
 @login_required
 def delete_all_pressure(request):
-    found_pressures = Pressure.objects.all()
+    logged_user = request.user
+    found_pressures = Pressure.objects.filter(owner=logged_user)
     found_pressures.delete()
     return redirect('all_pressures_url')

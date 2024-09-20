@@ -13,6 +13,7 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 
 @login_required
 def info(request):
+    logged_user = request.user
     return  render(request, 'app_web/info.html')
 
 
@@ -21,12 +22,13 @@ def error(request):
 
 @login_required
 def home(request):
-    found_weights = Weight.objects.all()
-    found_growth = Growth.objects.all()
+    logged_user = request.user
+    found_weights = Weight.objects.filter(owner=logged_user)
+    found_growth = Growth.objects.filter(owner=logged_user)
 
     if found_weights and found_growth:
-        last_weight = Weight.objects.latest('date')
-        last_growth = Growth.objects.latest("date")
+        last_weight = Weight.objects.latest('creation_date')
+        last_growth = Growth.objects.latest("creation_date")
         bmi_value = float(round(last_weight.weight / (last_growth.growth/100 * last_growth.growth/100), 2))
         value_chart = 50 - bmi_value
         chart = [bmi_value, value_chart]

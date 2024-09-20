@@ -12,12 +12,13 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 
 @login_required
 def all_weights(request):
+    logged_user = request.user
     filter_value = request.GET.get('search')
 
     if filter_value and len(filter_value) > 2:
-        found_weights = Weight.objects.filter(comments__contains = filter_value)
+        found_weights = Weight.objects.filter(owner=logged_user, comments__contains = filter_value)
     else:
-        found_weights = Weight.objects.all().order_by('date')
+        found_weights = Weight.objects.filter(owner=logged_user).order_by('-creation_date')
 
     page_num = request.GET.get('page', 1)
     pages = Paginator(found_weights, 3)
@@ -26,10 +27,10 @@ def all_weights(request):
     pages_max_elements = pages.count
     page_results = pages.get_page(page_num)
 
-    value_y = Weight.objects.values_list('weight', flat=True)
+    value_y = found_weights.values_list('weight', flat=True)
     chart_y = [float(y) for y in value_y]
 
-    value_x =found_weights.values_list('date', flat=True)
+    value_x = found_weights.values_list('creation_date', flat=True)
     chart_x = [x.strftime("%Y-%m-%d %H:%M") for x in value_x]
 
     context = {
@@ -44,7 +45,8 @@ def all_weights(request):
 
 @login_required
 def weight_details(request, id):
-    found_weights = Weight.objects.all()
+    logged_user = request.user
+    found_weights = Weight.objects.filter(owner=logged_user)
     weight_statistical_data = found_weights.aggregate(Avg('weight'), Min('weight'), Max('weight'), Count('weight'))
     number = request.POST.get('number')
     found_weight = Weight.objects.get(pk=id)
@@ -60,11 +62,12 @@ def weight_details(request, id):
 
 @login_required
 def add_weight(request):
+    logged_user = request.user
     if request.method == 'POST':
         weight = request.POST['weight']
         date = request.POST['date']
         comments = request.POST['comment']
-        object = Weight(weight=weight, date=date, comments=comments)
+        object = Weight(weight=weight, creation_date=date, comments=comments, owner=logged_user)
         object.save()
         return redirect('all_weights_url')
 
@@ -77,22 +80,23 @@ def add_weight(request):
 
 @login_required
 def edit_weight(request, id):
+    logged_user = request.user
     found_weight = Weight.objects.get(pk=id)
     if request.method == 'POST':
         # found_weight.weight = request.POST['weight']
-        # found_weight.date = request.POST['date']
+        # found_weight.creation_date = request.POST['date']
         # found_weight.comments = request.POST['comment']
         # found_weight.save()
         weight = request.POST['weight']
         date = request.POST['date']
         comments = request.POST['comment']
         found_weight.delete()
-        Weight.objects.create(pk=id, weight=weight, date=date, comments=comments)
+        Weight.objects.create(pk=id, weight=weight, creation_date=date, comments=comments, owner=logged_user)
         return redirect('all_weights_url')
 
     context = {
         'weight': found_weight,
-        'time_value': found_weight.date.strftime("%Y-%m-%dT%H:%M"),
+        'time_value': found_weight.creation_date.strftime("%Y-%m-%dT%H:%M"),
         'time_max': datetime.now().strftime("%Y-%m-%dT%H:%M"),
         'time_min': (datetime.now() - timedelta(weeks=52)).strftime("%Y-%m-%dT%H:%M")
     }
@@ -100,12 +104,14 @@ def edit_weight(request, id):
 
 @login_required
 def delete_weight(request, id):
+    logged_user = request.user
     found_weight = Weight.objects.get(pk=id)
     found_weight.delete()
     return redirect('all_weights_url')
 
 @login_required
 def delete_all_weight(request):
-    found_weights = Weight.objects.all()
+    logged_user = request.user
+    found_weights = Weight.objects.filter(owner=logged_user)
     found_weights.delete()
     return redirect('all_weights_url')
