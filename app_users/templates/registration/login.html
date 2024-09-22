@@ -44,18 +44,24 @@
                    class="uk-input uk-border-rounded" maxlength="20" required="">
         </div>
 
-        {#        <div style="margin-top: 20px">#}
-        {#            <input id="remember_me" name="remember-me" type="checkbox"/>#}
-        {#            <label for="remember_me" class="inline">Pamiętaj mnie</label>#}
-        {#        </div>#}
+        <div class="uk-grid" style="margin-top: 10px">
+            <div class="uk-inline uk-width-1-2 uk-text-left">
+                <input id="show_pass_ch" name="show_pass" type="checkbox" onclick="show_fuction()" />
+                <label for="show_pass" class="inline"> Pokaż hasło</label>
+            </div>
+{#            <div class="uk-inline uk-width-1-2 uk-text-right">#}
+{#                <input id="remember_me" name="remember-me" type="checkbox"/>#}
+{#                <label for="remember_me" class="inline">Pamiętaj mnie</label>#}
+{#            </div>#}
+        </div>
 
         {% if form.errors %}
             <div class="uk-text-center"  style="margin-top: 20px">
-                <p style="font-size: 20; color: #ff1c19;">Nazwa użytkownika lub hasło są nieprawidłowe! Sprawdź je!</p>
+                <p style="font-size: 15px; color: #ff1c19;">Nazwa użytkownika lub hasło są nieprawidłowe! Sprawdź je!</p>
             </div>
         {% endif %}
 
-        <button class="uk-button uk-button-secondary uk-width-1-1 uk-border-rounded" style="margin-top: 20px" type="Submit">Wejdź</button>
+        <button class="uk-button uk-button-secondary uk-width-1-1 uk-border-rounded" style="margin-top: 25px" type="Submit">Wejdź</button>
     </form>
 
     <div style="margin-top: 20px">
@@ -65,6 +71,18 @@
            uk-tooltip="Przypomnij logowanie"></a>
     </div>
 </div>
-</body>
 
+<script>
+    function show_fuction() {
+      let password = document.getElementById("id_password");
+
+      if (password.type === "password") {
+        password.type = "text";
+      } else {
+        password.type = "password";
+      }
+    }
+</script>
+
+</body>
 </html>

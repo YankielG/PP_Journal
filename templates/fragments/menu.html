@@ -1,7 +1,7 @@
 <nav class="uk-navbar-container" uk-navbar uk-sticky>
     <div class="uk-navbar-center nav-overlay">
     
-        <span class="uk-navbar-item" uk-icon="icon: user; ratio: 1" uk-tooltip="Użytkownik"></span>
+        <span class="uk-navbar-item" uk-icon="icon: user; ratio: 1" ></span>
         <a href="{% url 'home_url' %}" class="uk-navbar-item uk-logo" style="margin-right: 100px">
             {% if user.is_authenticated %}
                 {{ user.get_username }}

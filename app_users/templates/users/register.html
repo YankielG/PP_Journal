@@ -28,7 +28,7 @@
 
     <img class="uk-align-center uk-margin-remove-adjacent uk-border-rounded" src="{% static 'background.JPG' %}"
          width="300" height="140">
-    <form method="POST" class="form-signin">
+    <form id="myForm" method="POST" class="form-signin">
         {% csrf_token %}
         <h2 class="uk-text-center uk-card-title">Rejestracja</h2>
 
@@ -80,29 +80,47 @@
             </div>
          </div>
 
-{#        <legend class="uk-legend" style="margin-top: 40px">Szczegóły</legend>#}
-{##}
-{#        <div class="uk-form-label" style="margin-top: 20px">Data urodzenia</div>#}
-{#        <div class="uk-inline uk-width-1-1" >#}
-{#            <span class="uk-form-icon" uk-icon="icon: calendar"></span>#}
-{#            <input id="id_birthday" name="birthday" type="date" placeholder="Data urodzenia" autocomplete="birthday"#}
-{#                   class="uk-input uk-border-rounded" maxlength="20" required="">#}
-{#        </div>#}
-{##}
-{#        <div class="uk-form-label" style="margin-top: 20px">Płeć</div>#}
-{#        <div class=" uk-grid-small uk-child-width-auto uk-grid">#}
-{#            <label><input class="uk-radio" type="radio" name="radio2" checked> Kobieta</label>#}
-{#            <label><input class="uk-radio" type="radio" name="radio2"> Mężczyzna</label>#}
-{#        </div>#}
+        <div style="margin-top: 10px">
+            <input id="show_pass_ch" name="show_pass" type="checkbox" onclick="show_fuction()" />
+            <label for="show_pass" class="inline"> Pokaż hasło</label>
+        </div>
 
-{#        <div style="margin-top: 30px">#}
-{#            <input id="acceptance" name="acceptance" type="checkbox" checked/>#}
-{#            <label for="acceptance" class="inline">Zgadzam się z Regulaminem</label>#}
-{#        </div>#}
+        <legend class="uk-legend" style="margin-top: 40px">Szczegóły</legend>
+
+        <div class="uk-form-label" style="margin-top: 20px">
+        <label>Data urodzenia<span uk-icon="icon: question; ratio: 0.6" uk-tooltip="od bieżącej do 100 lat wstecz" style="margin-left: 10px"></span></label></div>
+        <div class="uk-inline uk-width-1-1" >
+            <span class="uk-form-icon" uk-icon="icon: calendar"></span>
+            <input id="id_birthday" name="birthday" type="date" autocomplete="birthday"
+                   class="uk-input uk-border-rounded" min="{{time_min}}" value="{{ time_value }}" max="{{time_max}}" required="">
+        </div>
+
+        <div class="uk-form-label" style="margin-top: 20px">Płeć</div>
+        <div class=" uk-grid-small uk-child-width-auto uk-grid">
+            <label><input class="uk-radio" type="radio" name="gender" value="woman" checked> Kobieta</label>
+            <label><input class="uk-radio" type="radio" name="gender" value="man"> Mężczyzna</label>
+        </div>
+
+        <div style="margin-top: 30px">
+            <input id="acceptance" name="acceptance" type="checkbox" value="accept" checked/>
+            <label for="acceptance" class="inline">Zgadzam się z <a href="#modal-center" uk-toggle> Regulaminem </a></label>
+
+            <div id="modal-center" class="uk-flex-top" uk-modal>
+            <div class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">
+{#            <button class="uk-modal-close-default" type="button" uk-close></button>#}
+            <h3> Regulamin:</h3>
+            <p> Konto będzie przechowywać tylko podane dane.</p>
+            <p> Konto nie zastępuje porady Lekarskiej !</p>
+            <p> Aplikacja nie udostęnia dalej danych.</p>
+            <p> Aplikacja jest tylko prywatnym notatnikem.</p>
+            </div>
+    </div>
+
+        </div>
 
         {% if register_form.errors %}
             <div class="uk-text-center" style="margin-top: 20px">
-                <p style="font-size: 20; color: #ff1c19;">Sprawdź poprawność wprowadzonych danych!</p>
+                <p style="font-size: 15px; color: #ff1c19;">Sprawdź poprawność wprowadzonych danych!</p>
             </div>
         {% endif %}
 
@@ -116,8 +134,29 @@
         <button class="uk-button uk-button-default uk-button-primary uk-width-1-1 uk-border-rounded" style="margin-top: 10px">Wyjdź
         </button>
     </a>
-
 </div>
-</body>
 
+<script>
+    document.getElementById('myForm').addEventListener('submit', function(event) {
+        let checkbox = document.getElementById('acceptance');
+        if (!checkbox.checked) {
+            alert('Musisz zaakceptować regulamin, aby kontynuować.');
+            event.preventDefault(); // Zatrzymaj wysyłanie formularza
+        }});
+
+    function show_fuction() {
+      let password1 = document.getElementById("id_password1");
+      let password2 = document.getElementById("id_password2");
+
+      if (password1.type === "password") {
+        password1.type = "text";
+        password2.type = "text";
+      } else {
+        password1.type = "password";
+        password2.type = "password";
+      }
+    }
+</script>
+
+</body>
 </html>
