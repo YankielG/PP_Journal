@@ -1,14 +1,42 @@
 from datetime import datetime, timedelta
+from functools import wraps
 
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
+from django.template.context_processors import request
+
 from .models import Growth
-from django.http import HttpResponseNotFound, HttpResponseForbidden
+from django.http import HttpResponseNotFound, HttpResponseForbidden, HttpResponseRedirect
+
 from .forms import Add_growth_Form
 from django.db.models import Avg, Min, Max, Count
 
 from django.core.paginator import Paginator
 
+from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required, user_passes_test
+
+
+def check_owner(private_view):
+
+    # @wraps(private_view)
+    def owner_view(request, id, *args, **kwargs):
+        logged_user = request.user
+        record_owner = Growth.objects.get(pk=id).owner
+        if logged_user == record_owner:
+            return private_view(request, id, *args, **kwargs)
+        else:
+            # context = {
+            #     'title': '403',
+            #     'time_value': datetime.now().strftime("%Y-%m-%d  %H:%M"),
+            #     'message': 'Nie masz dostępu do tego zasobu'
+            # }
+            # return render(request, '404.html', context)
+            return HttpResponseRedirect('/')
+            # return HttpResponseNotFound('Zasób nie został znaleziony')
+            # return HttpResponseForbidden('Nie masz dostępu do tego wpisu')
+
+    return owner_view
+
 
 @login_required
 def all_growths(request):
@@ -44,6 +72,7 @@ def all_growths(request):
     return render(request,'app_growth/all_growths.html', context)
 
 @login_required
+@check_owner
 def growth_details(request, id):
     logged_user = request.user
     found_growths = Growth.objects.filter(owner=logged_user)
@@ -78,6 +107,7 @@ def add_growth(request):
     return render(request, 'app_growth/add_growth.html', context)
 
 @login_required
+@check_owner
 def edit_growth(request, id):
     logged_user = request.user
     found_growth = Growth.objects.get(pk=id)
@@ -98,6 +128,7 @@ def edit_growth(request, id):
     return render(request, 'app_growth/edit_growth.html', context)
 
 @login_required
+@check_owner
 def delete_growth(request, id):
     logged_user = request.user
     found_growth = Growth.objects.get(pk=id)

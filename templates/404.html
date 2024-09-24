@@ -24,11 +24,15 @@
 <div class="uk-card-default uk-card uk-card-body uk-box-shadow-hover-xlarge"
      style="width: 400px; margin: 300px auto; border-radius: 1rem">
 
-    {#    <h3 class="uk-text-center uk-card-title">Dzienniczek Zdrowia</h3>#}
+{#    <h2 class="uk-text-center uk-card-title">Dzienniczek Zdrowia</h2>#}
+    <h2 class="uk-text-center uk-card-title">Error 404</h2>
 
     <img class="uk-align-center uk-margin-remove-adjacent uk-border-rounded" src="{% static 'background.JPG' %}"
          width="300" height="140">
-    <h2 class="uk-text-center uk-card-title">Error 404</h2>
+    
+    <h3 class="uk-text-center uk-card-title">{{ time_value }}</h3>
+    <h3 class="uk-text-center uk-card-title">{{ message }}</h3>
+    
 </div>
 </body>
 
