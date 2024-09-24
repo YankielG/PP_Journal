@@ -10,8 +10,8 @@ from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required, user_passes_test
 
 def validate_date(value):
-    if value.date() < datetime.now().date() - timedelta(weeks=10):
-        raise ValidationError(f'{value} nie jest datą max 1 rok wstecz')
+    if value.date() < datetime.now().date() - timedelta(weeks=5200):
+        raise ValidationError(f'{value} nie jest datą max 100 lat wstecz')
 
 class RegisterForm(UserCreationForm):
     class Meta:

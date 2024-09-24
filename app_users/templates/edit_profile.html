@@ -1,0 +1,162 @@
+{% extends 'fragments/layout.html' %}
+{% load static %}
+
+{% block page_title %} Profil - Edytuj {% endblock %}
+
+{% block page_content %}
+
+    <div class="container">
+        <div class="uk-panel">
+            <img class="uk-align-left uk-margin-remove-adjacent" src="{% static 'background.JPG' %}" width="60"
+                 height="28" alt="info">
+            <h2 class="uk-heading-divider" style="position: relative">Profil - Edytuj</h2>
+        </div>
+
+        <div style="height: 50px"></div>
+        <div class="uk-card uk-card-default uk-border-rounded">
+            <div class="uk-card-header">
+                <div class="uk-width-expand">
+                    <h3 class="uk-card-title uk-position-relative uk-position-top-center">Edycja konta</h3>
+                </div>
+            </div>
+
+            <div class="uk-card-body">
+                <form id="myForm" method="POST" class="form-signin" style="width:600px; margin: auto">
+                    {% csrf_token %}
+
+                    <legend class="uk-legend " style="margin-top: 20px">Dane podstawowe</legend>
+
+                    <div class="uk-grid" style="margin-top: 20px">
+                        <div class="uk-inline uk-width-1-2">
+                            <div class="uk-inline uk-width-1-1">
+                                <span class="uk-form-icon" uk-icon="icon: user"></span>
+                                <input id="id_username" name="username" type="text" placeholder="Użytkownik"
+                                       autocomplete="username"
+                                       class="uk-input uk-border-rounded " maxlength="15" required="" autofocus="">
+                            </div>
+                        </div>
+                        <div class="uk-inline uk-width-1-2">
+                            <div class="uk-inline uk-width-1-1">
+                                <span class="uk-form-icon" uk-icon="icon: mail"></span>
+                                <input id="id_email" name="email" type="email" placeholder="Adres e‑mail"
+                                       autocomplete="email"
+                                       class="uk-input uk-border-rounded" maxlength="15" required="">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="uk-grid" style="margin-top: 20px">
+                        <div class="uk-inline uk-width-1-2">
+                            <div class="uk-inline uk-width-1-1 ">
+                                <span class="uk-form-icon" uk-icon="icon: file-text"></span>
+                                <input id="id_first_name" name="first_name" type="text" placeholder="Imię"
+                                       autocomplete="first_name"
+                                       class="uk-input uk-border-rounded" maxlength="15" required="" autofocus="">
+                            </div>
+                        </div>
+                        <div class="uk-inline uk-width-1-2">
+                            <div class="uk-inline uk-width-1-1">
+                                <span class="uk-form-icon" uk-icon="icon: file-text"></span>
+                                <input id="id_last_name" name="last_name" type="text" placeholder="Nazwisko"
+                                       autocomplete="last_name"
+                                       class="uk-input uk-border-rounded" maxlength="15" required="" autofocus="">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="uk-grid" style="margin-top: 20px">
+                        <div class="uk-inline uk-width-1-2">
+                            <div class="uk-inline uk-width-1-1">
+                                <span class="uk-form-icon" uk-icon="icon: lock"></span>
+                                <input id="id_password1" name="password1" type="password" placeholder="Hasło"
+                                       autocomplete="current-password"
+                                       class="uk-input uk-border-rounded" maxlength="15" required="">
+                            </div>
+                        </div>
+                        <div class="uk-inline uk-width-1-2">
+                            <div class="uk-inline uk-width-1-1">
+                                <span class="uk-form-icon" uk-icon="icon: lock"></span>
+                                <input id="id_password2" name="password2" type="password" placeholder="Powtórz hasło"
+                                       autocomplete="current-password"
+                                       class="uk-input uk-border-rounded" maxlength="15" required="">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="margin-top: 10px">
+                        <input id="show_pass_ch" name="show_pass" type="checkbox" onclick="show_fuction()"/>
+                        <label for="show_pass" class="inline"> Pokaż hasło</label>
+                    </div>
+
+                    <legend class="uk-legend" style="margin-top: 40px">Szczegóły</legend>
+
+                    <div class="uk-grid" style="margin-top: 20px">
+                        <div class="uk-inline uk-width-1-2">
+                            <div class="uk-form-label">
+                                <label>Data urodzenia<span uk-icon="icon: question; ratio: 0.6"
+                                                           uk-tooltip="od bieżącej do 100 lat wstecz"
+                                                           style="margin-left: 10px"></span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="uk-inline uk-width-1-2">
+                            <div class="uk-form-label">Płeć</div>
+                        </div>
+                    </div>
+
+                    <div class="uk-grid" style="margin-top: 20px">
+                        <div class="uk-inline uk-width-1-2">
+                            <div class="uk-inline uk-width-1-1">
+                                <span class="uk-form-icon" uk-icon="icon: calendar"></span>
+                                <input id="id_birthday" name="birthday" type="date" autocomplete="birthday"
+                                       class="uk-input uk-border-rounded" min="{{ time_min }}" value="{{ time_value }}"
+                                       max="{{ time_max }}" required="">
+                            </div>
+                        </div>
+                        <div class="uk-inline uk-width-1-2" style="margin-top: 10px">
+                            <div class=" uk-grid-small uk-child-width-auto uk-grid">
+                                <label><input class="uk-radio" type="radio" name="gender" value="woman" checked> Kobieta</label>
+                                <label><input class="uk-radio" type="radio" name="gender" value="man"> Mężczyzna</label>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    {% if register_form.errors %}
+                        <div class="uk-text-center" style="margin-top: 20px">
+                            <p style="font-size: 15px; color: #ff1c19;">Sprawdź poprawność wprowadzonych danych!</p>
+                        </div>
+                    {% endif %}
+
+                    {{ register_form.errors }}
+
+
+                    <div class="uk-position-relative uk-position-center uk-position-top-center"
+                         style="margin-top: 40px">
+                        <a href="/" class="uk-icon-link uk-margin-small-right" uk-icon="close" uk-tooltip="Anuluj"></a>
+                        <a href="/" class="uk-icon-link uk-margin-small-right" uk-icon="trash" uk-tooltip="Wyczyść"></a>
+                        <button href="" class="uk-icon-link uk-margin-small-right" uk-icon="check" type="submit"
+                                uk-tooltip="Zapisz"></button>
+                    </div>
+
+                </form>
+
+            </div>
+
+            <script>
+                function show_fuction() {
+                    let password1 = document.getElementById("id_password1");
+                    let password2 = document.getElementById("id_password2");
+
+                    if (password1.type === "password") {
+                        password1.type = "text";
+                        password2.type = "text";
+                    } else {
+                        password1.type = "password";
+                        password2.type = "password";
+                    }
+                }
+            </script>
+        </div>
+    </div>
+{% endblock %}
