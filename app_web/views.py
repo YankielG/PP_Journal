@@ -14,11 +14,19 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 @login_required
 def info(request):
     logged_user = request.user
-    return  render(request, 'app_web/info.html')
+    context = {
+        'time_value': datetime.now().strftime("%Y-%m-%dT%H:%M"),
+        'message': ''
+    }
+    return  render(request, 'app_web/info.html', context)
 
 
 def error(request):
-    return  render(request, '404.html')
+    context = {
+        'time_value': datetime.now().strftime("%Y-%m-%d  %H:%M"),
+        'message': ''
+    }
+    return  render(request, '404.html', context)
 
 @login_required
 def home(request):
