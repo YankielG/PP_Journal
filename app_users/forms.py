@@ -19,15 +19,8 @@ class RegisterForm(UserCreationForm):
         fields = ['username', 'first_name', 'last_name', 'email', 'password1', 'password2']
 
 
+class UserProfileForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ['username', 'first_name', 'last_name', 'email']
 
-class Add_users_form(forms.Form):
-    user = forms.CharField(max_length=20)
-    creation_date = forms.DateTimeField(label='Data wpisu', validators=[validate_date], widget=forms.DateTimeInput(attrs={'class': 'datepicker', 'type': datetime}), initial=datetime.now().strftime("%Y-%m-%dT%H:%M")),
-    update_date = forms.DateTimeField(label='Data aktualizacji', validators=[validate_date], widget=forms.DateTimeInput(attrs={'class': 'datepicker', 'type': datetime}), initial=datetime.now().strftime("%Y-%m-%dT%H:%M")),
-    comments = forms.CharField(label='Uwagi', max_length=255, validators=[MinLengthValidator(2)], widget=forms.Textarea(attrs={'class': 'form-control', 'maxlength': 150, 'rows': 5, })),
-    owner = forms.ModelChoiceField(queryset=User.objects.all(), widget=forms.HiddenInput(), required=False)
-
-
-
-    def __str__(self):
-        return f'Użytkownik: {self.user} Data: {self.date} Uwagi: {self.comments}'
