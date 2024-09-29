@@ -31,16 +31,16 @@
                             <div class="uk-inline uk-width-1-1">
                                 <span class="uk-form-icon" uk-icon="icon: user"></span>
                                 <input id="id_username" name="username" type="text" placeholder="Użytkownik"
-                                       autocomplete="username"
-                                       class="uk-input uk-border-rounded " maxlength="15" required="" autofocus="">
+                                       autocomplete="username" class="uk-input uk-border-rounded "
+                                       maxlength="15" required="" autofocus="" value="{{ user.username }}">
                             </div>
                         </div>
                         <div class="uk-inline uk-width-1-2">
                             <div class="uk-inline uk-width-1-1">
                                 <span class="uk-form-icon" uk-icon="icon: mail"></span>
                                 <input id="id_email" name="email" type="email" placeholder="Adres e‑mail"
-                                       autocomplete="email"
-                                       class="uk-input uk-border-rounded" maxlength="15" required="">
+                                       autocomplete="email" class="uk-input uk-border-rounded"
+                                       maxlength="15" required="" value="{{ user.email }}">
                             </div>
                         </div>
                     </div>
@@ -50,43 +50,43 @@
                             <div class="uk-inline uk-width-1-1 ">
                                 <span class="uk-form-icon" uk-icon="icon: file-text"></span>
                                 <input id="id_first_name" name="first_name" type="text" placeholder="Imię"
-                                       autocomplete="first_name"
-                                       class="uk-input uk-border-rounded" maxlength="15" required="" autofocus="">
+                                       autocomplete="first_name" class="uk-input uk-border-rounded"
+                                       maxlength="15" required="" autofocus="" value="{{ user.first_name }}">
                             </div>
                         </div>
                         <div class="uk-inline uk-width-1-2">
                             <div class="uk-inline uk-width-1-1">
                                 <span class="uk-form-icon" uk-icon="icon: file-text"></span>
                                 <input id="id_last_name" name="last_name" type="text" placeholder="Nazwisko"
-                                       autocomplete="last_name"
-                                       class="uk-input uk-border-rounded" maxlength="15" required="" autofocus="">
+                                       autocomplete="last_name" class="uk-input uk-border-rounded"
+                                       maxlength="15" required="" autofocus="" value="{{ user.last_name }}">
                             </div>
                         </div>
                     </div>
 
-                    <div class="uk-grid" style="margin-top: 20px">
-                        <div class="uk-inline uk-width-1-2">
-                            <div class="uk-inline uk-width-1-1">
-                                <span class="uk-form-icon" uk-icon="icon: lock"></span>
-                                <input id="id_password1" name="password1" type="password" placeholder="Hasło"
-                                       autocomplete="current-password"
-                                       class="uk-input uk-border-rounded" maxlength="15" required="">
-                            </div>
-                        </div>
-                        <div class="uk-inline uk-width-1-2">
-                            <div class="uk-inline uk-width-1-1">
-                                <span class="uk-form-icon" uk-icon="icon: lock"></span>
-                                <input id="id_password2" name="password2" type="password" placeholder="Powtórz hasło"
-                                       autocomplete="current-password"
-                                       class="uk-input uk-border-rounded" maxlength="15" required="">
-                            </div>
-                        </div>
-                    </div>
+{#                    <div class="uk-grid" style="margin-top: 20px">#}
+{#                        <div class="uk-inline uk-width-1-2">#}
+{#                            <div class="uk-inline uk-width-1-1">#}
+{#                                <span class="uk-form-icon" uk-icon="icon: lock"></span>#}
+{#                                <input id="id_password1" name="password1" type="password" placeholder="Hasło"#}
+{#                                       autocomplete="current-password" class="uk-input uk-border-rounded"#}
+{#                                       maxlength="15" required="" >#}
+{#                            </div>#}
+{#                        </div>#}
+{#                        <div class="uk-inline uk-width-1-2">#}
+{#                            <div class="uk-inline uk-width-1-1">#}
+{#                                <span class="uk-form-icon" uk-icon="icon: lock"></span>#}
+{#                                <input id="id_password2" name="password2" type="password" placeholder="Powtórz hasło"#}
+{#                                       autocomplete="current-password" class="uk-input uk-border-rounded"#}
+{#                                       maxlength="15" required="" >#}
+{#                            </div>#}
+{#                        </div>#}
+{#                    </div>#}
 
-                    <div style="margin-top: 10px">
-                        <input id="show_pass_ch" name="show_pass" type="checkbox" onclick="show_fuction()"/>
-                        <label for="show_pass" class="inline"> Pokaż hasło</label>
-                    </div>
+{#                    <div style="margin-top: 10px">#}
+{#                        <input id="show_pass_ch" name="show_pass" type="checkbox" onclick="show_fuction()"/>#}
+{#                        <label for="show_pass" class="inline"> Pokaż hasło</label>#}
+{#                    </div>#}
 
                     <legend class="uk-legend" style="margin-top: 40px">Szczegóły</legend>
 
@@ -115,8 +115,8 @@
                         </div>
                         <div class="uk-inline uk-width-1-2" style="margin-top: 10px">
                             <div class=" uk-grid-small uk-child-width-auto uk-grid">
-                                <label><input class="uk-radio" type="radio" name="gender" value="woman" checked> Kobieta</label>
-                                <label><input class="uk-radio" type="radio" name="gender" value="man"> Mężczyzna</label>
+                                <label><input class="uk-radio" type="radio" name="gender" value="woman" {% if gender == 'woman' %}checked{% endif %}> Kobieta</label>
+                                <label><input class="uk-radio" type="radio" name="gender" value="man" {% if gender == 'man' %}checked{% endif %}> Mężczyzna</label>
                             </div>
                         </div>
                     </div>
@@ -133,10 +133,10 @@
 
                     <div class="uk-position-relative uk-position-center uk-position-top-center"
                          style="margin-top: 40px">
-                        <a href="/" class="uk-icon-link uk-margin-small-right" uk-icon="close" uk-tooltip="Anuluj"></a>
-                        <a href="/" class="uk-icon-link uk-margin-small-right" uk-icon="trash" uk-tooltip="Wyczyść"></a>
+                        <a href="/users/profile_details" class="uk-icon-link uk-margin-small-right" uk-icon="close" uk-tooltip="Anuluj"></a>
+                        <a href="/users/edit_profile" class="uk-icon-link uk-margin-small-right" uk-icon="trash" uk-tooltip="Wyczyść"></a>
                         <button href="" class="uk-icon-link uk-margin-small-right" uk-icon="check" type="submit"
-                                uk-tooltip="Zapisz"></button>
+                                uk-tooltip="Zapisz Zmiany"></button>
                     </div>
 
                 </form>

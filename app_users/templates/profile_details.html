@@ -1,0 +1,85 @@
+{% extends 'fragments/layout.html' %}
+{% load static %}
+
+{% block page_title %} Profil - Szczegóły {% endblock %}
+
+{% block page_content %}
+
+    <div class="container">
+        <div class="uk-panel">
+            <img class="uk-align-left uk-margin-remove-adjacent" src="{% static 'background.JPG' %}" width="60"
+                 height="28" alt="info">
+            <h2 class="uk-heading-divider" style="position: relative">Profil - Szczegóły</h2>
+        </div>
+
+        <div style="height: 50px"></div>
+        <div class="uk-card uk-card-default uk-border-rounded">
+            <div class="uk-card-header">
+                <div class="uk-width-expand">
+                    <h3 class="uk-card-title uk-position-relative uk-position-top-center">Szczegóły konta</h3>
+                </div>
+            </div>
+
+            <div class="uk-card-body" style="width:600px; margin: auto">
+
+                    <legend class="uk-legend " style="margin-top: 20px">Dane podstawowe</legend>
+
+                    <div class="uk-grid" style="margin-top: 20px">
+                        <div class="uk-inline uk-width-1-2">
+                            <div class="uk-inline uk-width-1-1">
+                                <span class="uk-form-icon" uk-icon="icon: user"></span>
+                                <span class="uk-input uk-border-rounded ">{{ user.username }}</span>
+                            </div>
+                        </div>
+                        <div class="uk-inline uk-width-1-2">
+                            <div class="uk-inline uk-width-1-1">
+                                <span class="uk-form-icon" uk-icon="icon: mail"></span>
+                                <span class="uk-input uk-border-rounded">{{ user.email }}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="uk-grid" style="margin-top: 20px">
+                        <div class="uk-inline uk-width-1-2">
+                            <div class="uk-inline uk-width-1-1 ">
+                                <span class="uk-form-icon" uk-icon="icon: file-text"></span>
+                                <span class="uk-input uk-border-rounded">{{ user.first_name }}</span>
+                            </div>
+                        </div>
+                        <div class="uk-inline uk-width-1-2">
+                            <div class="uk-inline uk-width-1-1">
+                                <span class="uk-form-icon" uk-icon="icon: file-text"></span>
+                                <span class="uk-input uk-border-rounded">{{ user.last_name }}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <legend class="uk-legend" style="margin-top: 40px">Szczegóły</legend>
+
+                    <div class="uk-grid" style="margin-top: 20px">
+                        <div class="uk-inline uk-width-1-2">
+                            <div class="uk-inline uk-width-1-1">
+                                <span class="uk-form-icon" uk-icon="icon: calendar"></span>
+                                <span class="uk-input uk-border-rounded">{{ time_value }}</span>
+                            </div>
+                        </div>
+                        <div class="uk-inline uk-width-1-2">
+                            <div class="uk-inline uk-width-1-1">
+                                <span class="uk-form-icon" uk-icon="icon: happy"></span>
+                                <span class="uk-input uk-border-rounded">{{ gender }}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="uk-position-relative uk-position-center uk-position-top-center"
+                         style="margin-top: 40px">
+                        <a href="/" class="uk-icon-link uk-margin-small-right" uk-icon="close" uk-tooltip="Anuluj"></a>
+                        <a href="/users/edit_profile" class="uk-icon-link uk-margin-small-right" uk-icon="file-edit" uk-tooltip="Edytuj"></a>
+                        <a href="/users/password_change" class="uk-icon-link uk-margin-small-right" uk-icon="lock" uk-tooltip="Zmiana Hasła"></a>
+                    </div>
+
+            </div>
+
+        </div>
+    </div>
+{% endblock %}
