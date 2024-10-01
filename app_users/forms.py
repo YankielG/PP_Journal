@@ -13,6 +13,7 @@ def validate_date(value):
     if value.date() < datetime.now().date() - timedelta(weeks=5200):
         raise ValidationError(f'{value} nie jest datą max 100 lat wstecz')
 
+
 class RegisterForm(UserCreationForm):
     class Meta:
         model = User
@@ -24,3 +25,8 @@ class UserProfileForm(forms.ModelForm):
         model = User
         fields = ['username', 'first_name', 'last_name', 'email']
 
+
+class UserPasswordForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ['password']
