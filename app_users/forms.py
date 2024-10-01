@@ -5,7 +5,7 @@ from django.core.exceptions import ValidationError
 from . import models
 from datetime import datetime, timedelta
 
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm, PasswordChangeForm
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required, user_passes_test
 
@@ -26,7 +26,7 @@ class UserProfileForm(forms.ModelForm):
         fields = ['username', 'first_name', 'last_name', 'email']
 
 
-class UserPasswordForm(forms.ModelForm):
+class UserPasswordForm(PasswordChangeForm):
     class Meta:
         model = User
-        fields = ['password']
+        fields = ['old_password', 'new_password1', 'new_password2']
