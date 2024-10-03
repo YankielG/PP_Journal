@@ -1,0 +1,116 @@
+{% extends 'fragments/layout.html' %}
+{% load static %}
+
+{% block page_title %} Profil - Edytuj {% endblock %}
+
+{% block page_content %}
+
+    <div class="container">
+        <div class="uk-panel">
+            <img class="uk-align-left uk-margin-remove-adjacent" src="{% static 'background.JPG' %}" width="60"
+                 height="28" alt="info">
+            <h2 class="uk-heading-divider" style="position: relative">Profil - Edytuj</h2>
+        </div>
+
+        <div style="height: 50px"></div>
+        <div class="uk-card uk-card-default uk-border-rounded">
+            <div class="uk-card-header">
+                <div class="uk-width-expand">
+                    <h3 class="uk-card-title uk-position-relative uk-position-top-center">Usuwanie Konta</h3>
+                </div>
+            </div>
+
+            <div class="uk-card-body">
+                <form id="myForm" method="POST" class="form-signin" style="width:600px; margin: auto">
+                    {% csrf_token %}
+
+                    <legend class="uk-legend " style="margin-top: 20px">Potwierdź Tosamość</legend>
+
+                    <div class="uk-grid" style="margin-top: 20px">
+                        <div class="uk-inline uk-width-1-2">
+                            <div class="uk-inline uk-width-1-1">
+                                <span class="uk-form-icon" uk-icon="icon: lock"></span>
+                                <input id="id_password1" name="password1" type="password" placeholder="Hasło"
+                                       autocomplete="current-password" class="uk-input uk-border-rounded"
+                                       maxlength="15" required="">
+                            </div>
+                        </div>
+                        <div class="uk-inline uk-width-1-2">
+                            <div class="uk-inline uk-width-1-1">
+                                <span class="uk-form-icon" uk-icon="icon: lock"></span>
+                                <input id="id_password2" name="password2" type="password"
+                                       placeholder="Powtórz hasło"
+                                       autocomplete="current-password" class="uk-input uk-border-rounded"
+                                       maxlength="15" required="">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="margin-top: 10px">
+                        <input id="show_pass_ch" name="show_pass" type="checkbox" onclick="show_fuction()"/>
+                        <label for="show_pass" class="inline"> Pokaż hasło</label>
+                    </div>
+
+                    {% if form.errors %}
+                        <div class="uk-text-center" style="margin-top: 20px">
+                            <p style="font-size: 15px; color: #ff1c19;">Sprawdź poprawność wprowadzonych danych!</p>
+                        </div>
+                    {% endif %}
+
+                    {{ form.errors }}
+
+                    <div class="uk-position-relative uk-position-center uk-position-top-center"
+                         style="margin-top: 40px">
+                        <a href="/users/profile_details" class="uk-icon-link uk-margin-small-right" uk-icon="close"
+                           uk-tooltip="Anuluj"></a>
+                        <a href="/users/delete_profile" class="uk-icon-link uk-margin-small-right" uk-icon="trash"
+                           uk-tooltip="Wyczyść"></a>
+                        <button href="" class="uk-icon-link uk-margin-small-right" uk-icon="check" type="submit"
+                                uk-tooltip="Kasuj Konto"></button>
+
+                        {#                        <a href="#model-confirmation-all" uk-toggle class="uk-icon-link uk-margin-small-right" uk-icon="check"#}
+                        {#                           uk-tooltip="Kasuj Konto"></a>#}
+                        {##}
+                        {#                        <div id="model-confirmation-all" uk-modal>#}
+                        {#                            <div class="uk-modal-dialog">#}
+                        {#                                <div class="uk-modal-header">#}
+                        {#                                    <h3 class="uk-modal-title uk-text-center" style="color: #FF7F50">Alert</h3>#}
+                        {#                                </div>#}
+                        {#                                <div class="uk-modal-body">#}
+                        {#                                    <p> Potwierdź Kasowanie konta !</p>#}
+                        {#                                    <p> Ta czynność jest nie odwracalna.</p>#}
+                        {#                                </div>#}
+                        {#                                <div class="uk-modal-footer uk-text-center">#}
+                        {#                                    <a href="/users/profile_details" class="uk-icon-link uk-margin-small-right"#}
+                        {#                                       uk-icon="close"#}
+                        {#                                       uk-tooltip="Anuluj"></a>#}
+                        {#                                    <button href="" class="uk-icon-link uk-margin-small-right" uk-icon="check"#}
+                        {#                                            type="submit"#}
+                        {#                                            uk-tooltip="Kasuj Konto"></button>#}
+                        {#                                </div>#}
+                        {#                            </div>#}
+                        {#                        </div>#}
+
+                    </div>
+
+                </form>
+
+            </div>
+
+            <script>
+                function show_fuction() {
+                    let password1 = document.getElementById("id_password1");
+                    let password2 = document.getElementById("id_password2");
+
+                    if (password1.type === "password") {
+                        password1.type = "text";
+                        password2.type = "text";
+                    } else {
+                        password1.type = "password";
+                        password2.type = "password";
+                    }
+                }
+            </script>
+        </div>
+    </div>
+{% endblock %}

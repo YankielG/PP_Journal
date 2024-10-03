@@ -74,7 +74,7 @@
                     {% if messages %}
                         <ul>
                             {% for message in messages %}
-                                <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                                <div class="uk-text-center" style="margin-top: 20px; color: #faa05a"> {{ message }} </div>
                             {% endfor %}
                         </ul>
                     {% endif %}
@@ -84,6 +84,7 @@
                         <a href="/" class="uk-icon-link uk-margin-small-right" uk-icon="close" uk-tooltip="Anuluj"></a>
                         <a href="/users/edit_profile" class="uk-icon-link uk-margin-small-right" uk-icon="file-edit" uk-tooltip="Edytuj"></a>
                         <a href="/users/password_change" class="uk-icon-link uk-margin-small-right" uk-icon="lock" uk-tooltip="Zmiana Hasła"></a>
+                        <a href="/users/delete_profile/" class="uk-icon-link uk-margin-small-right" uk-icon="ban" uk-tooltip="Usuwanie konta"></a>
                     </div>
 
             </div>

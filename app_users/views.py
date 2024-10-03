@@ -11,7 +11,7 @@ from django.core.paginator import Paginator
 
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required, user_passes_test
-from django.contrib.auth import update_session_auth_hash
+from django.contrib.auth import update_session_auth_hash, get_user_model, authenticate
 
 from django.contrib import messages
 
@@ -55,7 +55,7 @@ def password_change(request):
         if form.is_valid():
             logged_user = form.save()
             update_session_auth_hash(request, logged_user)
-            messages.success(request, 'Twoje hasło zostało pomyślnie zaktualizowane!')
+            messages.warning(request, 'Twoje hasło zostało pomyślnie zaktualizowane !')
             return redirect('profile_details_url')
     else:
 
@@ -72,7 +72,7 @@ def edit_profile(request):
         if form.is_valid():
             # logged_user.save()
             form.save()
-            messages.success(request, 'Twoje dane zostały pomyślnie zaktualizowane!')
+            messages.warning(request, 'Twoje dane zostały pomyślnie zaktualizowane !')
             return redirect('profile_details_url')
 
     gender = 'man'
@@ -99,3 +99,20 @@ def profile_details(request):
         'form': RegisterForm()
     }
     return render(request, 'profile_details.html', context)
+
+@login_required
+def delete_profile(request):
+    logged_user = request.user
+    if request.method == 'POST':
+        pass1 = request.POST['password1']
+        pass2 = request.POST['password2']
+        user_pass = authenticate(username=logged_user, password=pass1)
+        if pass1 == pass2 and user_pass is not None:
+            logged_user.delete()
+            messages.success(request, 'Twój profil został pomyślnie usunięty.')
+            return redirect('login')
+        else:
+            messages.error(request, 'Nieprawidłowe hasło. Spróbuj ponownie')
+            return redirect('profile_details_url')
+
+    return render(request, 'delete_profile.html')
