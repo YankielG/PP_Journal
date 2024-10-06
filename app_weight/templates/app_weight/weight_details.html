@@ -56,6 +56,23 @@
                 {% endif %}
 
             </div>
+
+            <div class="uk-position-center uk-position-relative">
+                <span>
+                    {% if prev_view %}
+                        <a href="{% url 'weight_details_url' id=first_view.id %}" style="color: #00BFFF; margin-right: 20px">Pierwszy wpis</a>
+                        <a href="{% url 'weight_details_url' id=prev_view.id %}" style="color: #32CD32">Poprzedni wpis</a>
+                    {% endif %}
+                </span>
+                <span> Ilość wpisów: {{ last_detail}}</span>
+                <span>
+                    {% if next_view %}
+                        <a href="{% url 'weight_details_url' id=next_view.id %}" style="color: #32CD32">Następny wpis</a>
+                        <a href="{% url 'weight_details_url' id=last_view.id %}" style="color: #00BFFF; margin-left: 20px">Ostatni wpis</a>
+                    {% endif %}
+                </span>
+            </div>
+
             <div class="uk-card-footer">
                 <a href="/weights"
                    class="uk-button uk-button-text uk-position-relative uk-position-top-center">Zamknij</a>
