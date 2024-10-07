@@ -61,10 +61,10 @@
                 <span>
                     {% if prev_view %}
                         <a href="{% url 'weight_details_url' id=first_view.id %}" style="color: #00BFFF; margin-right: 20px">Pierwszy wpis</a>
-                        <a href="{% url 'weight_details_url' id=prev_view.id %}" style="color: #32CD32">Poprzedni wpis</a>
+                        <a href="{% url 'weight_details_url' id=prev_view.id %}" style="color: #32CD32; margin-right: 20px">Poprzedni wpis</a>
                     {% endif %}
                 </span>
-                <span> Ilość wpisów: {{ last_detail}}</span>
+{#                <span style="margin-right: 20px"> Wpis {{ current_element_index }} z {{ all_element_index }}</span>#}
                 <span>
                     {% if next_view %}
                         <a href="{% url 'weight_details_url' id=next_view.id %}" style="color: #32CD32">Następny wpis</a>

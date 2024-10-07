@@ -81,7 +81,10 @@ def weight_details(request, id):
     logged_user = request.user
     found_weights = Weight.objects.filter(owner=logged_user).order_by('-creation_date')
     weight_statistical_data = found_weights.aggregate(Avg('weight'), Min('weight'), Max('weight'), Count('weight'))
-    number = request.POST.get('number')
+
+    # if request.method == 'POST':
+    #     number = request.POST.get('number')
+
     found_weight = Weight.objects.get(pk=id)
     # csrf_token = get_token(request)
 
@@ -89,20 +92,17 @@ def weight_details(request, id):
     for i,g in enumerate(found_weights):
         if g.id == found_weight.id:
             current_element_index = i
-            print(i)
-            print(g)
-            print(found_weights)
             break
 
-    first_detail= current_element_index == 0
+    first_detail = current_element_index == 0
     last_detail = current_element_index == len(found_weights) - 1
 
     prev_view = found_weights[current_element_index - 1] if not first_detail else None
     next_view = found_weights[current_element_index + 1] if not last_detail else None
-    first_view = found_weights[0] if not last_detail else None
-    last_view = found_weights[last_detail] if not last_detail else None
-
-    page_num = request.GET.get('page')
+    first_view = found_weights[0] if not first_detail else None
+    last_view = found_weights[len(found_weights) - 1] if not last_detail else None
+    all_element_index = len(found_weights)
+    number = current_element_index + 1
 
     if not found_weight:
         return HttpResponseNotFound('Zasób nie został znaleziony')
@@ -112,10 +112,10 @@ def weight_details(request, id):
         'statistical_data': weight_statistical_data,
         'prev_view': prev_view,
         'next_view': next_view,
-        'page_num': page_num,
         'first_view': first_view,
         'last_view': last_view,
-        'last_detail': len(found_weights),
+        'current_element_index': current_element_index + 1,
+        'all_element_index': all_element_index,
     }
     return render(request,'app_weight/weight_details.html', context)
 
