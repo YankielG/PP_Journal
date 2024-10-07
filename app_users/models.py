@@ -2,7 +2,7 @@ from django.db import models
 from django.core.validators import MinValueValidator, MaxValueValidator, MaxLengthValidator
 from django.core.exceptions import ValidationError
 from datetime import datetime, timedelta
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, AbstractUser
 #
 #
 def validate_date(value):
@@ -14,13 +14,20 @@ class LoginHistory(models.Model):
     login_date = models.DateTimeField(auto_now=True, validators=[validate_date])
 
 
-class UsersProfile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    update_date = models.DateTimeField(auto_now=True, validators=[validate_date])
+# class UsersProfile(models.Model):
+#     user = models.OneToOneField(User, on_delete=models.CASCADE)
+#     birthday = models.DateField(validators=[validate_date])
+#     gender = models.CharField(max_length=1, choices=(('M', 'Male'), ('F', 'Female')), default='M')
+#     update_date = models.DateTimeField(auto_now=True, validators=[validate_date])
+#     history = models.ForeignKey(LoginHistory, on_delete=models.CASCADE)
+
+
+class CustomUser(AbstractUser):
     birthday = models.DateField(validators=[validate_date])
     gender = models.CharField(max_length=1, choices=(('M', 'Male'), ('F', 'Female')), default='M')
+    update_date = models.DateTimeField(auto_now=True, validators=[validate_date])
     history = models.ForeignKey(LoginHistory, on_delete=models.CASCADE)
 
+    # def __str__(self):
+    #     return f'Użyt.: {self.user} Urodz.: {self.birthday} płec: {self.gender} akt.: {self.update_date} historia: {self.history}'
 
-    def __str__(self):
-        return f'Użyt.: {self.user} Urodz.: {self.birthday} płec: {self.gender} akt.: {self.update_date} historia: {self.history}'
