@@ -10,7 +10,7 @@
 #
 #
 # # Create your models here.
-# class Growth(models.Model):
+# class Web(models.Model):
 #     version = models.DecimalField(max_digits=5, decimal_places=1,
 #                                  validators=[MinValueValidator(0), MaxValueValidator(20)])
 #     creation_date = models.DateTimeField(auto_now_add=True, validators=[validate_date])

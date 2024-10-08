@@ -174,8 +174,8 @@ STATICFILES_DIRS = [
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# New User Permissions
-AUTH_USER_MODEL = 'app_users.CustomUser'
+# My new User Permissions
+# AUTH_USER_MODEL = 'app_users.CustomUser'
 
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/users/login'
