@@ -10,31 +10,42 @@ from django.db.models import Avg, Min, Max, Count
 from django.core.paginator import Paginator
 
 from django.contrib.auth.models import User
+from .models import UserProfile, LoginHistory
 from django.contrib.auth.decorators import login_required, user_passes_test
-from django.contrib.auth import update_session_auth_hash, get_user_model, authenticate
+from django.contrib.auth import update_session_auth_hash, get_user_model, authenticate, login
 
 from django.contrib import messages
 
-from .forms import RegisterForm, UserProfileForm, UserPasswordForm
+from .forms import RegisterUserForm, RegisterProfileForm, UserProfileForm, UserPasswordForm, LoginHistoryForm
 
 
 def register(request):
     if request.method == 'POST':
-        register_form = RegisterForm(request.POST)
-        if register_form.is_valid():
-            user_data = register_form.cleaned_data
-            user = register_form.save(commit=False)
+        register_user_form = RegisterUserForm(request.POST)
+        register_profile_form = RegisterProfileForm(request.POST)
+
+        if register_user_form.is_valid() and register_profile_form.is_valid():
+            user_data = register_user_form.cleaned_data
+            user = register_user_form.save(commit=False)
             user.first_name = user_data['first_name']
             user.last_name = user_data['last_name']
             user.email = user_data['email']
             user.save()
+
+            profile_data = register_profile_form.cleaned_data
+            profile = register_profile_form.save(commit=False)
+            profile.birthday = profile_data['birthday']
+            profile.gender = profile_data['gender']
+            profile.save()
+            # login(request, user)
             return redirect('login')
 
     context = {
         'time_value': datetime.now().strftime("%Y-%m-%d"),
         'time_max': datetime.now().strftime("%Y-%m-%d"),
         'time_min': (datetime.now() - timedelta(weeks=5200)).strftime("%Y-%m-%d"),
-        'register_form': RegisterForm()
+        'register_user_form': RegisterUserForm(),
+        'register_profile_form': RegisterProfileForm(),
     }
     return render(request, 'users/register.html', context)
 

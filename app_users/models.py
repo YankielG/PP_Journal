@@ -10,23 +10,26 @@ def validate_date(value):
     if value.date() < datetime.now().date() - timedelta(weeks=5200):
         raise ValidationError(f'{value} nie jest datą max 1 rok wstecz')
 
+def validate_date_only(value):
+    if value.date() < (datetime.now() - timedelta(weeks=5200)).date():
+        raise ValidationError(f'{value} nie jest datą max 1 rok wstecz')
+
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    birthday = models.DateField(validators=[validate_date])
-    gender = models.CharField(max_length=10, choices=(('M', 'Male'), ('F', 'Female')), default='M')
+    birthday = models.DateField(null=True, blank=True)
+    gender = models.CharField(max_length=10, choices=[('M', 'Male'), ('F', 'Female'), ('O', 'Other')], null=True, blank=True)
     update_date = models.DateTimeField(auto_now=True, validators=[validate_date])
-
 
 
 class LoginHistory(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     login_date = models.DateTimeField(auto_now_add= True, validators=[validate_date])
+    user_agent = models.TextField(null=True, blank=True) # przechowa rodaj przeglądarki
+    session_id = models.CharField(max_length=255, null=True, blank=True)  #  unikalne ID sesji do zapamietania logowania
 
     # ip_address = models.GenericIPAddressField(null=True, blank=True)
-    # user_agent = models.TextField(null=True, blank=True) # przechowa rodaj przeglądarki
     # login_status = models.BooleanField(default=False)  #  przechowa status zalogowania udany błędny
     # failed_login_attempts = models.IntegerField(default=0)  #  ilosc błednych logowań
-    # session_id = models.CharField(max_length=255, null=True, blank=True)  #  unikalne ID sesji do zapamietania logowania
 
 
 def __str__(self):
