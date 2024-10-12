@@ -13,5 +13,5 @@ class LoginHistoryAdmin(admin.ModelAdmin):
 
 
 # Register your models here.
-# admin.site.register(UserProfile, LoginHistory)
-# admin.site.register(UserProfileAdmin, LoginHistoryAdmin)
+admin.site.register(UserProfile, UserProfileAdmin)
+admin.site.register(LoginHistory, LoginHistoryAdmin)

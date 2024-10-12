@@ -21,7 +21,7 @@ class RegisterUserForm(UserCreationForm):
         fields = ['username', 'first_name', 'last_name', 'email', 'password1', 'password2']
 
 
-class RegisterProfileForm(forms.ModelForm):
+class RegisterUserDetailsForm(forms.ModelForm):
     class Meta:
         model = UserProfile
         fields = ['birthday', 'gender']
@@ -33,13 +33,19 @@ class LoginHistoryForm(forms.ModelForm):
         fields = ['user_agent', 'session_id']
 
 
-class UserProfileForm(forms.ModelForm):
+class EditUserForm(forms.ModelForm):
     class Meta:
         model = User
         fields = ['username', 'first_name', 'last_name', 'email']
 
 
-class UserPasswordForm(PasswordChangeForm):
+class EditUserDetailsForm(forms.ModelForm):
+    class Meta:
+        model = UserProfile
+        fields = ['birthday', 'gender']
+
+
+class EditUserPasswordForm(PasswordChangeForm):
     class Meta:
         model = User
         fields = ['old_password', 'new_password1', 'new_password2']

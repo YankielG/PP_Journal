@@ -98,13 +98,14 @@
                     </div>
 
 
-                    {% if form.errors %}
+                    {% if form_Edit_user.errors or form_edit_user_details.errors %}
                         <div class="uk-text-center" style="margin-top: 20px">
                             <p style="font-size: 15px; color: #ff1c19;">Sprawdź poprawność wprowadzonych danych!</p>
                         </div>
                     {% endif %}
 
-                    {{ form.errors }}
+                    {{ form_Edit_user.errors }}
+                    {{ form_edit_user_details.errors }}
 
                     <div class="uk-position-relative uk-position-center uk-position-top-center"
                          style="margin-top: 40px">

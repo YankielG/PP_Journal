@@ -12,17 +12,17 @@ from django.core.paginator import Paginator
 from django.contrib.auth.models import User
 from .models import UserProfile, LoginHistory
 from django.contrib.auth.decorators import login_required, user_passes_test
-from django.contrib.auth import update_session_auth_hash, get_user_model, authenticate, login
+from django.contrib.auth import update_session_auth_hash, get_user_model, authenticate, login, logout
 
 from django.contrib import messages
 
-from .forms import RegisterUserForm, RegisterProfileForm, UserProfileForm, UserPasswordForm, LoginHistoryForm
+from .forms import RegisterUserForm, RegisterUserDetailsForm, EditUserForm, EditUserPasswordForm, EditUserDetailsForm, LoginHistoryForm
 
 
 def register(request):
     if request.method == 'POST':
         register_user_form = RegisterUserForm(request.POST)
-        register_profile_form = RegisterProfileForm(request.POST)
+        register_profile_form = RegisterUserDetailsForm(request.POST)
 
         if register_user_form.is_valid() and register_profile_form.is_valid():
             user = register_user_form.save(commit=False)
@@ -44,7 +44,7 @@ def register(request):
         'time_max': datetime.now().strftime("%Y-%m-%d"),
         'time_min': (datetime.now() - timedelta(weeks=5200)).strftime("%Y-%m-%d"),
         'register_user_form': RegisterUserForm(),
-        'register_profile_form': RegisterProfileForm(),
+        'register_profile_form': RegisterUserDetailsForm(),
     }
     return render(request, 'users/register.html', context)
 
@@ -61,15 +61,16 @@ def password_reset(request):
 def password_change(request):
     logged_user = request.user
     if request.method == 'POST':
-        form = UserPasswordForm(user=logged_user, data=request.POST)
+        form = EditUserPasswordForm(user=logged_user, data=request.POST)
         if form.is_valid():
             logged_user = form.save()
             update_session_auth_hash(request, logged_user)
             messages.warning(request, 'Twoje hasło zostało pomyślnie zaktualizowane !')
+            # logout(request)
             return redirect('profile_details_url')
     else:
 
-        form = UserPasswordForm(user=logged_user)
+        form = EditUserPasswordForm(user=logged_user)
 
     return render(request, 'password_change.html', {'form': form})
 
@@ -77,11 +78,15 @@ def password_change(request):
 @login_required
 def edit_profile(request):
     logged_user = request.user
+    user_profile = UserProfile.objects.get(user=request.user)
+
     if request.method == 'POST':
-        form = UserProfileForm(request.POST, instance=logged_user)
-        if form.is_valid():
-            # logged_user.save()
-            form.save()
+        form_Edit_user = EditUserForm(request.POST, instance=logged_user)
+        form_edit_user_details = EditUserDetailsForm(request.POST, instance=user_profile)
+
+        if form_Edit_user.is_valid() and form_edit_user_details.is_valid():
+            form_Edit_user.save()
+            form_edit_user_details.save()
             messages.warning(request, 'Twoje dane zostały pomyślnie zaktualizowane !')
             return redirect('profile_details_url')
 
@@ -90,9 +95,8 @@ def edit_profile(request):
         'time_value': logged_user.userprofile.birthday.strftime("%Y-%m-%d"),
         'time_max': datetime.now().strftime("%Y-%m-%d"),
         'time_min': (datetime.now() - timedelta(weeks=5200)).strftime("%Y-%m-%d"),
-        'form': UserProfileForm(instance=logged_user),
-        'register_user_form': RegisterUserForm(),
-        'register_profile_form': RegisterProfileForm(),
+        'form_Edit_user': EditUserForm(instance=logged_user),
+        'form_edit_user_details': EditUserDetailsForm(instance=user_profile),
     }
     return render(request, 'edit_profile.html', context)
 
@@ -101,11 +105,10 @@ def edit_profile(request):
 def profile_details(request):
     logged_user = request.user
 
-    gender = "Mężczyzna"
     context = {
         'user': logged_user,
         'register_user_form': RegisterUserForm(),
-        'register_profile_form': RegisterProfileForm(),
+        'register_profile_form': RegisterUserDetailsForm(),
     }
     return render(request, 'profile_details.html', context)
 

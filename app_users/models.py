@@ -4,8 +4,7 @@ from django.core.validators import MinValueValidator, MaxValueValidator, MaxLeng
 from django.core.exceptions import ValidationError
 from datetime import datetime, timedelta
 from django.contrib.auth.models import User
-#
-#
+
 def validate_date(value):
     if value.date() < datetime.now().date() - timedelta(weeks=5200):
         raise ValidationError(f'{value} nie jest datą max 1 rok wstecz')
@@ -13,6 +12,7 @@ def validate_date(value):
 def validate_date_only(value):
     if value.date() < (datetime.now() - timedelta(weeks=5200)).date():
         raise ValidationError(f'{value} nie jest datą max 1 rok wstecz')
+
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -34,10 +34,3 @@ class LoginHistory(models.Model):
 
 def __str__(self):
     return f'Użyt.: {self.user} Urodz.: {self.birthday} płec: {self.gender} akt.: {self.update_date} historia: {self.login_date}'
-
-'''
-z dokumentacji wynika ze dostęp jest
-user = User.objects.get(username='example')
-phone_number = user.userprofile.phone_number
-
-'''
