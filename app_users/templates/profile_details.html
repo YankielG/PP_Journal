@@ -60,13 +60,13 @@
                         <div class="uk-inline uk-width-1-2">
                             <div class="uk-inline uk-width-1-1">
                                 <span class="uk-form-icon" uk-icon="icon: calendar"></span>
-                                <span class="uk-input uk-border-rounded">{{ time_value }}</span>
+                               <span class="uk-input uk-border-rounded"> {{ user.userprofile.birthday}} </span> {# |date:'d M Y'#}
                             </div>
                         </div>
                         <div class="uk-inline uk-width-1-2">
                             <div class="uk-inline uk-width-1-1">
                                 <span class="uk-form-icon" uk-icon="icon: happy"></span>
-                                <span class="uk-input uk-border-rounded">{{ gender }}</span>
+                                <span class="uk-input uk-border-rounded">{{ user.userprofile.gender }}</span>
                             </div>
                         </div>
                     </div>

@@ -17,7 +17,7 @@ def validate_date_only(value):
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     birthday = models.DateField(null=True, blank=True)
-    gender = models.CharField(max_length=10, choices=[('M', 'Male'), ('F', 'Female'), ('O', 'Other')], null=True, blank=True)
+    gender = models.CharField(max_length=10, null=True, blank=True)
     update_date = models.DateTimeField(auto_now=True, validators=[validate_date])
 
 

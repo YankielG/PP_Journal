@@ -25,19 +25,18 @@ def register(request):
         register_profile_form = RegisterProfileForm(request.POST)
 
         if register_user_form.is_valid() and register_profile_form.is_valid():
-            user_data = register_user_form.cleaned_data
             user = register_user_form.save(commit=False)
-            user.first_name = user_data['first_name']
-            user.last_name = user_data['last_name']
-            user.email = user_data['email']
+            user.first_name = register_user_form.cleaned_data['first_name']
+            user.last_name = register_user_form.cleaned_data['last_name']
+            user.email = register_user_form.cleaned_data['email']
             user.save()
 
-            profile_data = register_profile_form.cleaned_data
-            profile = register_profile_form.save(commit=False)
-            profile.birthday = profile_data['birthday']
-            profile.gender = profile_data['gender']
+            profile, created = UserProfile.objects.get_or_create(user=user)
+            profile.birthday = register_profile_form.cleaned_data['birthday']
+            profile.gender = register_profile_form.cleaned_data['gender']
             profile.save()
             # login(request, user)
+            # messages.success(request, 'Twój profil został pomyślnie utworzony.')
             return redirect('login')
 
     context = {
@@ -86,14 +85,14 @@ def edit_profile(request):
             messages.warning(request, 'Twoje dane zostały pomyślnie zaktualizowane !')
             return redirect('profile_details_url')
 
-    gender = 'man'
     context = {
         'user': logged_user,
-        'gender': gender,
-        'time_value': datetime.now().strftime("%Y-%m-%d"),
+        'time_value': logged_user.userprofile.birthday.strftime("%Y-%m-%d"),
         'time_max': datetime.now().strftime("%Y-%m-%d"),
         'time_min': (datetime.now() - timedelta(weeks=5200)).strftime("%Y-%m-%d"),
-        'form': UserProfileForm(instance=logged_user)
+        'form': UserProfileForm(instance=logged_user),
+        'register_user_form': RegisterUserForm(),
+        'register_profile_form': RegisterProfileForm(),
     }
     return render(request, 'edit_profile.html', context)
 
@@ -105,9 +104,8 @@ def profile_details(request):
     gender = "Mężczyzna"
     context = {
         'user': logged_user,
-        'gender': gender,
-        'time_value': datetime.now().strftime("%Y-%m-%d"),
-        'form': RegisterForm()
+        'register_user_form': RegisterUserForm(),
+        'register_profile_form': RegisterProfileForm(),
     }
     return render(request, 'profile_details.html', context)
 

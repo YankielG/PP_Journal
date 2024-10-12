@@ -91,8 +91,8 @@
                         </div>
                         <div class="uk-inline uk-width-1-2" style="margin-top: 10px">
                             <div class=" uk-grid-small uk-child-width-auto uk-grid">
-                                <label><input class="uk-radio" type="radio" name="gender" value="woman" {% if gender == 'woman' %}checked{% endif %}> Kobieta</label>
-                                <label><input class="uk-radio" type="radio" name="gender" value="man" {% if gender == 'man' %}checked{% endif %}> Mężczyzna</label>
+                                <label><input class="uk-radio" type="radio" name="gender" value="Kobieta" {% if user.userprofile.gender == 'Kobieta' %}checked{% endif %}> Kobieta</label>
+                                <label><input class="uk-radio" type="radio" name="gender" value="Mężczyzna" {% if user.userprofile.gender == 'Mężczyzna' %}checked{% endif %}> Mężczyzna</label>
                             </div>
                         </div>
                     </div>
@@ -105,7 +105,6 @@
                     {% endif %}
 
                     {{ form.errors }}
-
 
                     <div class="uk-position-relative uk-position-center uk-position-top-center"
                          style="margin-top: 40px">
