@@ -77,15 +77,38 @@ def growth_details(request, id):
     logged_user = request.user
     found_growths = Growth.objects.filter(owner=logged_user)
     growth_statistical_data = found_growths.aggregate(Avg('growth'), Min('growth'), Max('growth'), Count('growth'))
+
     number = request.POST.get('number')
     found_growth = Growth.objects.get(pk=id)
+
+    current_element_index = 0
+    for i,g in enumerate(found_growths):
+        if g.id == found_growth.id:
+            current_element_index = i
+            break
+
+    first_detail = current_element_index == 0
+    last_detail = current_element_index == len(found_growths) - 1
+
+    prev_view = found_growths[current_element_index - 1] if not first_detail else None
+    next_view = found_growths[current_element_index + 1] if not last_detail else None
+    first_view = found_growths[0] if not first_detail else None
+    last_view = found_growths[len(found_growths) - 1] if not last_detail else None
+    all_element_index = len(found_growths)
+    number = current_element_index + 1
 
     if not found_growth:
         return HttpResponseNotFound('Zasób nie został znaleziony')
     context = {
         'number': number,
         'growth': found_growth,
-        'statistical_data': growth_statistical_data
+        'statistical_data': growth_statistical_data,
+        'prev_view': prev_view,
+        'next_view': next_view,
+        'first_view': first_view,
+        'last_view': last_view,
+        'current_element_index': current_element_index + 1,
+        'all_element_index': all_element_index,
     }
     return render(request,'app_growth/growth_details.html', context)
 

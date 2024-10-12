@@ -87,8 +87,25 @@ def pressure_details(request, id):
     shrink_statistical_data = found_pressures.aggregate(Avg('shrink'), Min('shrink'), Max('shrink'), Count('shrink'))
     diastole_statistical_data = found_pressures.aggregate(Avg('diastole'), Min('diastole'), Max('diastole'), Count('diastole'))
     pulse_statistical_data = found_pressures.aggregate(Avg('pulse'), Min('pulse'), Max('pulse'), Count('pulse'))
+
     number = request.POST.get('number')
     found_pressure = Pressure.objects.get(pk=id)
+
+    current_element_index = 0
+    for i,g in enumerate(found_pressures):
+        if g.id == found_pressure.id:
+            current_element_index = i
+            break
+
+    first_detail = current_element_index == 0
+    last_detail = current_element_index == len(found_pressures) - 1
+
+    prev_view = found_pressures[current_element_index - 1] if not first_detail else None
+    next_view = found_pressures[current_element_index + 1] if not last_detail else None
+    first_view = found_pressures[0] if not first_detail else None
+    last_view = found_pressures[len(found_pressures) - 1] if not last_detail else None
+    all_element_index = len(found_pressures)
+    number = current_element_index + 1
 
     if not found_pressure:
         return HttpResponseNotFound('Zasób nie został znaleziony')
@@ -97,7 +114,13 @@ def pressure_details(request, id):
         'pressure': found_pressure,
         'shrink_statistical_data': shrink_statistical_data,
         'diastole_statistical_data': diastole_statistical_data,
-        'pulse_statistical_data': pulse_statistical_data
+        'pulse_statistical_data': pulse_statistical_data,
+        'prev_view': prev_view,
+        'next_view': next_view,
+        'first_view': first_view,
+        'last_view': last_view,
+        'current_element_index': current_element_index + 1,
+        'all_element_index': all_element_index,
     }
     return render(request,'app_pressure/pressure_details.html', context)
 

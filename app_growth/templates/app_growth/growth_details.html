@@ -30,36 +30,58 @@
             </div>
             <div class="uk-card-body">
 
-            <span> <b>Lp.: </b> </span>
-            <span> {{ number }} </span> <br>
-            <span> <b>Wzrost: </b> </span>
-            <span>{{ growth.growth }}</span><br>
-            <span> <b>Data wpisu: </b> </span>
-            <span>{{ growth.creation_date }}</span><br>
-            <span> <b>Data aktualizacji: </b> </span>
-            <span>{{ growth.update_date }}</span><br>
-            <span> <b>Właściciel: </b> </span>
-            <span>{{ growth.owner }}</span><br>
-            <span> <b>Uwagi: </b> </span>
-            <span class="uk-text-break">{{ growth.comments }}</span>
-            <br><br>
-            <b>Nasza ocena: </b>
+                <span> <b>Lp.: </b> </span>
+                <span> {{ number }} </span> <br>
+                <span> <b>Wzrost: </b> </span>
+                <span>{{ growth.growth }}</span><br>
+                <span> <b>Data wpisu: </b> </span>
+                <span>{{ growth.creation_date }}</span><br>
+                <span> <b>Data aktualizacji: </b> </span>
+                <span>{{ growth.update_date }}</span><br>
+                <span> <b>Właściciel: </b> </span>
+                <span>{{ growth.owner }}</span><br>
+                <span> <b>Uwagi: </b> </span>
+                <span class="uk-text-break">{{ growth.comments }}</span>
+                <br><br>
+                <b>Nasza ocena: </b>
 
-            {% if growth.growth > statistical_data.growth__avg %}
-                <span class="uk-text-danger"> Jesteś powyżej średniej </span>
+                {% if growth.growth > statistical_data.growth__avg %}
+                    <span class="uk-text-danger"> Jesteś powyżej średniej </span>
 
-            {% elif  growth.growth < statistical_data.growth__avg %}
-                <span class="uk-text-success">  Jesteś poniżej średniej </span>
+                {% elif  growth.growth < statistical_data.growth__avg %}
+                    <span class="uk-text-success">  Jesteś poniżej średniej </span>
 
-            {% else %}
-                <span class="uk-text-warning"> Jesteś na poziomie średniej </span>
-            {% endif %}
+                {% else %}
+                    <span class="uk-text-warning"> Jesteś na poziomie średniej </span>
+                {% endif %}
 
+            </div>
+
+            <div class="uk-position-center uk-position-relative">
+                <span>
+                    {% if prev_view %}
+                        <a href="{% url 'growth_details_url' id=first_view.id %}"
+                           style="color: #00BFFF; margin-right: 20px">Pierwszy wpis</a>
+                        <a href="{% url 'growth_details_url' id=prev_view.id %}"
+                           style="color: #32CD32; margin-right: 20px">Poprzedni wpis</a>
+                    {% endif %}
+                </span>
+                {#                <span style="margin-right: 20px"> Wpis {{ current_element_index }} z {{ all_element_index }}</span>#}
+                <span>
+                    {% if next_view %}
+                        <a href="{% url 'growth_details_url' id=next_view.id %}"
+                           style="color: #32CD32">Następny wpis</a>
+                        <a href="{% url 'growth_details_url' id=last_view.id %}"
+                           style="color: #00BFFF; margin-left: 20px">Ostatni wpis</a>
+                    {% endif %}
+                </span>
+            </div>
+
+            <div class="uk-card-footer">
+                <a href="/growths"
+                   class="uk-button uk-button-text uk-position-relative uk-position-top-center">Zamknij</a>
+            </div>
         </div>
-        <div class="uk-card-footer">
-            <a href="/growths" class="uk-button uk-button-text uk-position-relative uk-position-top-center">Zamknij</a>
-        </div>
-    </div>
 
 
     </div>
