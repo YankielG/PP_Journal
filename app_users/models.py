@@ -26,10 +26,10 @@ class LoginHistory(models.Model):
     login_date = models.DateTimeField(auto_now_add= True, validators=[validate_date])
     user_agent = models.TextField(null=True, blank=True) # przechowa rodaj przeglądarki
     session_id = models.CharField(max_length=255, null=True, blank=True)  #  unikalne ID sesji do zapamietania logowania
-
-    # ip_address = models.GenericIPAddressField(null=True, blank=True)
-    # login_status = models.BooleanField(default=False)  #  przechowa status zalogowania udany błędny
-    # failed_login_attempts = models.IntegerField(default=0)  #  ilosc błednych logowań
+    ip_address = models.GenericIPAddressField(null=True, blank=True)
+    failed_login_attempts = models.IntegerField(default=0)  #  ilosc błednych logowań
+    cnt_modification = models.IntegerField(default=0) # ilość modyfikacji podczas zalogowania
+    cnt_entries = models.IntegerField(default=0) # ilość wpisów podczas zalogowania
 
 
 def __str__(self):

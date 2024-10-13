@@ -128,3 +128,31 @@ def delete_profile(request):
             return redirect('profile_details_url')
 
     return render(request, 'delete_profile.html')
+
+
+@login_required
+def history(request):
+    logged_user = request.user
+
+    filter_value = request.GET.get('search')
+
+    if filter_value and len(filter_value) > 2:
+        found_history = LoginHistory.objects.filter(user=logged_user, user_agent__contains = filter_value).order_by('-login_date')
+    else:
+        found_history = LoginHistory.objects.filter(user=logged_user).order_by('-login_date')
+
+    page_num = request.GET.get('page', 1)
+    pages = Paginator(found_history, 10)
+
+    pages_max = pages.num_pages
+    pages_max_elements = pages.count
+    page_results = pages.get_page(page_num)
+
+    context = {
+        'filter_value': filter_value,
+        'pages_max': pages_max,
+        'pages_max_elements': pages_max_elements,
+        'history': page_results,
+        'user': logged_user,
+    }
+    return render(request, 'history.html', context)
