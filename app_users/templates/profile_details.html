@@ -17,6 +17,10 @@
             <div class="uk-card-header">
                 <div class="uk-width-expand">
                     <h3 class="uk-card-title uk-position-relative uk-position-top-center">Szczegóły konta</h3>
+                    <div class="uk-flex uk-flex-between ">
+                        <div><b> Utworzenie Konta:</b> {{ user.date_joined }}</div>
+                        <div><b> Ostatnia Aktualizacja:</b> {{ user.userprofile.update_date }}</div>
+                    </div>
                 </div>
             </div>
 

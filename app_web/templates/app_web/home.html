@@ -48,9 +48,9 @@
 
         <div style="margin-outside: 40px"><h2 class="uk-heading-divider"></h2></div>
 
-        <div style="background-color: #F5F5F5; height: 350px">
+        <div class="uk-border-rounded" style="background-color: #F5F5F5; height: 350px">
 
-            <div uk-grid>
+            <div class="uk-grid">
                 <div class="uk-width-1-2">
                     <h3 class="uk-heading-medium" style="margin-left: 50px; margin-top: 40px;">Twoje
                         BMI: {{ bmi_value |floatformat:1 }}</h3>
@@ -60,7 +60,8 @@
                 </div>
 
                 <div class="uk-width-1-2">
-                    <div class="uk-position-center uk-position-relative" style="margin-top: 15px; height: 250px; width: 250px">
+                    <div class="uk-position-center uk-position-relative"
+                         style="margin-top: 15px; height: 250px; width: 250px">
                         <canvas id="line-chart"></canvas>
                     </div>
                 </div>
@@ -104,8 +105,29 @@
             </div>
         </div>
 
-        <div class="uk-padding"></div>
+        <div class="uk-padding-small"></div>
 
+        <div class="uk-border-rounded" style="background-color: #F5F5F5; height: 350px">
+
+            <div class="uk-grid">
+                <div class="uk-width-1-2">
+                    <div class="uk-position-center uk-position-relative"
+                         style="margin-top: 15px; margin-left: 15px; height: 350px; width: auto">
+                        <img class="uk-align-left uk-margin-remove-adjacent" src="{% static 'metabolism.jpg' %}"
+                             alt="info">
+                    </div>
+                </div>
+                <div class="uk-width-1-2">
+                    <h3 class="uk-heading-medium" style="margin-right: 50px; margin-top: 40px;">Twoje
+                        PPM: {{ ppm_value |floatformat:1 }}</h3>
+                    <h2 style="margin-left: 50px; margin-top: 30px; color: {{ bmi_color }}">{{ ppm_rate }}</h2>
+                    <h4 style="margin-left: 50px; margin-top: 40px; color:dodgerblue ">{{ ppm_comment }}</h4>
+                    <h5 style="margin-left: 50px; margin-top: 30px; color:gray ">PPM - Podstawowa Przemiana Materii</h5>
+                </div>
+            </div>
+        </div>
+
+        <div style="margin-bottom: 100px"></div>
 
     </div>
 {% endblock %}
