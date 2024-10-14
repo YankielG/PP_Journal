@@ -47,8 +47,75 @@
         <h2>KORZYSTANIE Z PROGRAMU NIE ZASTĘPUJE PORADY LEKARSKIEJ.</h2>
 
         <div style="margin-outside: 40px"><h2 class="uk-heading-divider"></h2></div>
+        <div>
 
-        <div class="uk-border-rounded" style="background-color: #F5F5F5; height: 350px">
+            <div class="uk-child-width-1-2@m" uk-grid>
+                <div>
+                    <div>
+                        <div class="uk-card-body" style="background-color: #A9A9A9; border-radius: 1rem">
+                            <h3 class="uk-card-title">Ostatnie Wpisy</h3>
+                            <span> <b>Wzrost: </b> </span>
+                            <span>{{ last_growth.growth }}</span><br>
+                            <span> <b>Waga: </b> </span>
+                            <span>{{ last_weight.weight }}</span><br>
+                            <span> <b>Cisnienie Skurczowe: </b> </span>
+                            <span>{{ last_pressure.shrink }}</span><br>
+                            <span> <b>Cisnienie Rozkurczowe: </b> </span>
+                            <span>{{ last_pressure.diastole }}</span><br>
+                            <span> <b>Tętno: </b> </span>
+                            <span>{{ last_pressure.pulse }}</span><br>
+                        </div>
+
+                        <div class="uk-padding-small"></div>
+
+                        <div class="uk-card-body" style="background-color: #D3D3D3; border-radius: 1rem">
+                            <h3 class="uk-card-title">Konto</h3>
+                            <span> <b>Utworzenie Konta: </b> </span>
+                            <span>{{ user.date_joined }}</span><br>
+                            <span> <b>Ostatnia Aktualizacja: </b> </span>
+                            <span>{{ user.userprofile.update_date }}</span><br>
+                            <span> <b>Ostatnia Wizyta: </b> </span>
+                            <span>{{ user.last_login }}</span><br>
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <div>
+                        <div class="uk-card-body" style="background-color: #D3D3D3; border-radius: 1rem">
+                            <h3 class="uk-card-title">Statystyki</h3>
+                            <span> <b>Ilość Odwiedzin: </b> </span>
+                            <span>{{ cnt_visits.login_count }}</span><br>
+                            <span> <b>Ilość Wpisów: </b> </span>
+                            <span>{{ total_entries }}</span><br>
+                            <span> <b>Jesteś z nami dni: </b> </span>
+                            <span>{{ date_account }}</span><br>
+                        </div>
+
+                        <div class="uk-padding-small"></div>
+
+                        <div class="uk-card-body" style="background-color: #A9A9A9; border-radius: 1rem">
+                            <h3 class="uk-card-title">Użytkownik</h3>
+                            <span> <b>Imie: </b> </span>
+                            <span>{{ user.first_name }}</span><br>
+                            <span> <b>Nazwisko: </b> </span>
+                            <span>{{ user.last_name }}</span><br>
+                            <span> <b>Email: </b> </span>
+                            <span>{{ user.email }}</span><br>
+                            <span> <b>Wiek: </b> </span>
+                            <span>{{ age }}</span><br>
+                            <span> <b>Płeć: </b> </span>
+                            <span>{{ user.userprofile.gender }}</span><br>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+
+        <div class="uk-padding-small"></div>
+
+        <div style="background-color: #F5F5F5; height: 350px; border-radius: 1rem">
 
             <div class="uk-grid">
                 <div class="uk-width-1-2">
@@ -107,7 +174,7 @@
 
         <div class="uk-padding-small"></div>
 
-        <div class="uk-border-rounded" style="background-color: #F5F5F5; height: 350px">
+        <div style="background-color: #F5F5F5; height: 350px; border-radius: 1rem">
 
             <div class="uk-grid">
                 <div class="uk-width-1-2">

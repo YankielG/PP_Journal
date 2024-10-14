@@ -22,6 +22,7 @@ from django.contrib.auth import update_session_auth_hash, get_user_model, authen
 
 from django.contrib import messages
 
+
 @login_required
 def info(request):
     logged_user = request.user
@@ -29,7 +30,7 @@ def info(request):
         'time_value': datetime.now().strftime("%Y-%m-%dT%H:%M"),
         'message': ''
     }
-    return  render(request, 'app_web/info.html', context)
+    return render(request, 'app_web/info.html', context)
 
 
 def error(request):
@@ -37,13 +38,15 @@ def error(request):
         'time_value': datetime.now().strftime("%Y-%m-%d  %H:%M"),
         'message': ''
     }
-    return  render(request, '404.html', context)
+    return render(request, '404.html', context)
+
 
 @login_required
 def home(request):
     logged_user = request.user
     last_login = logged_user.last_login
     date_joined = logged_user.date_joined
+    cnt_visits = LoginHistory.objects.filter(user=logged_user).aggregate(login_count=Count('login_date'))
 
     user_profile = UserProfile.objects.get(user=logged_user)
     gender = user_profile.gender
@@ -51,16 +54,34 @@ def home(request):
 
     today = datetime.now()
     age = today.year - birthday.year - ((today.month, today.day) < (birthday.month, birthday.day))
+    date_account = today.year - date_joined.year - ((today.month, today.day) < (date_joined.month, date_joined.day))
 
     found_growth = Growth.objects.filter(owner=logged_user)
     found_pressure = Pressure.objects.filter(owner=logged_user)
     found_pulse = Pulse.objects.filter(owner=logged_user)
     found_weight = Weight.objects.filter(owner=logged_user)
 
-    if found_weight and found_growth:
-        last_weight = Weight.objects.latest('creation_date')
+    total_entries = found_growth.count() + found_pressure.count() + found_pulse.count() + found_weight.count()
+
+    if found_growth:
         last_growth = Growth.objects.latest("creation_date")
-        bmi_value = float(round(last_weight.weight / (last_growth.growth/100 * last_growth.growth/100), 2))
+    else:
+        last_growth = None
+    if found_pressure:
+        last_pressure = Pressure.objects.latest("creation_date")
+    else:
+        last_pressure = None
+    if found_pulse:
+        last_pulse = Pulse.objects.latest("creation_date")
+    else:
+        last_pulse = None
+    if found_weight:
+        last_weight = Weight.objects.latest('creation_date')
+    else:
+        last_weight = None
+
+    if found_weight and found_growth:
+        bmi_value = float(round(last_weight.weight / (last_growth.growth / 100 * last_growth.growth / 100), 2))
         value_chart = 50 - bmi_value
         chart = [bmi_value, value_chart]
         if gender == 'Mężczyzna':
@@ -89,7 +110,7 @@ def home(request):
 
     if bmi_value < 5:
         pass
-    elif bmi_value < 18.5 :
+    elif bmi_value < 18.5:
         bmi_rate = 'Niskie'
         ppm_rate = 'Niskie BMI'
         bmi_color = '#0000FF'
@@ -114,8 +135,12 @@ def home(request):
         bmi_comment = 'Twoje BMI przekracza limit. Muszisz więcej ćwiczyć i stosować dietę. Skonsultuj sie z lekarzem.'
         ppm_comment = 'Jesz za dużo kalorii, trzymaj się swojego poziomu. Skonsultuj sie z lekarzem.'
 
-
     context = {
+        'logged_user': logged_user,
+        'date_account': date_account,
+        'cnt_visits': cnt_visits,
+        'total_entries': total_entries,
+        'age': age,
         'chart': chart,
         'bmi_value': bmi_value,
         'ppm_value': ppm_value,
@@ -124,5 +149,10 @@ def home(request):
         'bmi_color': bmi_color,
         'bmi_comment': bmi_comment,
         'ppm_comment': ppm_comment,
+        'last_growth': last_growth,
+        'last_weight': last_weight,
+        'last_pressure': last_pressure,
+        'last_pulse': last_pulse,
+
     }
-    return  render(request, 'app_web//home.html', context)
+    return render(request, 'app_web//home.html', context)
