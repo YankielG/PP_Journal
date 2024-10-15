@@ -6,7 +6,7 @@ from . import models
 from datetime import datetime, timedelta
 
 from .models import UserProfile, LoginHistory
-from django.contrib.auth.forms import UserCreationForm, PasswordChangeForm
+from django.contrib.auth.forms import UserCreationForm, PasswordChangeForm, AuthenticationForm
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required, user_passes_test
 
@@ -50,3 +50,6 @@ class EditUserPasswordForm(PasswordChangeForm):
         model = User
         fields = ['old_password', 'new_password1', 'new_password2']
 
+
+class CustomLoginForm(AuthenticationForm):
+    remember_me = forms.BooleanField(required=False)

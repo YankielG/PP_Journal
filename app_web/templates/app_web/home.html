@@ -7,11 +7,13 @@
 
     <div class="container">
         <h2 class="uk-heading-divider" style="position:center">
-            <span>Witaj użytkowniku, widzieliśmy się {{ date_last_visits }} </span>
-            {% if date_last_visits == 1 %}
-                <span> dzień temu. </span>
+            <span>Witaj użytkowniku, widzieliśmy się </span>
+            {% if date_last_visits == 0 %}
+                <span> nie dawno. </span>
+            {% elif date_last_visits == 1 %}
+                <span> {{ date_last_visits }} dzień temu. </span>
             {% else %}
-                <span> dni temu. </span>
+                <span> {{ date_last_visits }} dni temu. </span>
             {% endif %}
         </h2>
 

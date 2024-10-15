@@ -177,6 +177,10 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # My new User Permissions for abstractbaseuser
 # AUTH_USER_MODEL = 'app_users.CustomUser'
 
+# My login session settings
+# SESSION_COOKIE_AGE = 1209600  # 2 tygodnie
+# SESSION_EXPIRE_AT_BROWSER_CLOSE = True  # Sesja wygasa po zamknięciu przeglądarki
+
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/users/login'
 LOGIN_URL = '/users/login'

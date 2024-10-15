@@ -16,8 +16,31 @@ from django.contrib.auth import update_session_auth_hash, get_user_model, authen
 
 from django.contrib import messages
 
-from .forms import RegisterUserForm, RegisterUserDetailsForm, EditUserForm, EditUserPasswordForm, EditUserDetailsForm, LoginHistoryForm
+from .forms import RegisterUserForm, RegisterUserDetailsForm, EditUserForm, EditUserPasswordForm, EditUserDetailsForm
+from .forms import LoginHistoryForm, CustomLoginForm
 
+
+def login_view(request):
+    if request.method == 'POST':
+        form = CustomLoginForm(request, data=request.POST)
+        if form.is_valid():
+            user = form.get_user()
+            login(request, user)
+
+            # Ustawienie sesji na podstawie opcji "pamiętaj mnie"
+
+            print(form.cleaned_data.get('remember_me'))
+            if form.cleaned_data.get('remember_me'):
+
+                request.session.set_expiry(10)  # Sesja trwa do zamknięcia przeglądarki
+            else:
+                request.session.set_expiry(1)  # Sesja trwa 2 tygodnie - 1209600
+
+            return redirect('home')
+    else:
+        form = CustomLoginForm()
+
+    return render(request, 'registration/login.html', {'form': form})
 
 def register(request):
     if request.method == 'POST':
