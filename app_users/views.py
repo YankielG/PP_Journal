@@ -26,9 +26,8 @@ def LoginView(request):
         if form.is_valid():
             user = form.get_user()
             login(request, user)
-            print(form.cleaned_data['remember_me'])
             if form.cleaned_data['remember_me']:
-                request.session.set_expiry(604800)  # 1 tygodnień
+                request.session.set_expiry(604800)  # 1 tydznień
             else:
                 request.session.set_expiry(0)  # Sesja przeglądarki
             return redirect('home_url')

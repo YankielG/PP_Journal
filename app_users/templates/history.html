@@ -20,7 +20,7 @@
                 </div>
             </div>
 
-            <div class="uk-card-body" style="width:1100px; margin: auto">
+            <div class="uk-card-body" style="width:1120px; margin: auto">
                 <div>
                     <a href uk-icon="icon: search" uk-tooltip="Wyszukaj" style="margin-left: 5px"></a>
                     <div class="uk-drop" uk-drop="mode: click; pos: right-center; offset: 5">
@@ -45,7 +45,8 @@
                         <th style="width:5%; text-align: center" class="uk-text-middle">Lp.</th>
                         <th style="width:30%; text-align: center" class="uk-text-middle">Data</th>
                         <th style="width:20%; text-align: center" class="uk-text-middle">Klijent</th>
-                        <th style="width:30%; text-align: center" class="uk-text-middle">IP</th>
+                        <th style="width:15%; text-align: center" class="uk-text-middle">IP</th>
+                        <th style="width:5%; text-align: center" class="uk-text-middle">Czas aktywnosci min.</th>
                         <th style="width:5%; text-align: center" class="uk-text-middle">Błędy logowania</th>
                         <th style="width:5%; text-align: center" class="uk-text-middle">Liczba nowych wpisów</th>
                         <th style="width:5%; text-align: center" class="uk-text-middle">Liczba modyfikacji</th>
@@ -65,6 +66,7 @@
                             <td>{{ value.login_date |date:'D, d M Y,' }} {{ value.login_date |time:"H:i" }}</td>
                             <td>{{ value.user_agent }}</td>
                             <td>{{ value.ip_address }}</td>
+                            <td>{{ value.cnt_activity }}</td>
                             <td>{{ value.failed_login_attempts }}</td>
                             <td>{{ value.cnt_entries }}</td>
                             <td>{{ value.cnt_modification }}</td>

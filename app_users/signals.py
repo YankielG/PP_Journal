@@ -64,4 +64,6 @@ def log_failed_login(sender, credentials, request, **kwargs):
 def log_user_logout(sender, request, user, **kwargs):
     login_history = LoginHistory.objects.filter(user=user).last()
     login_history.logout_date = datetime.now()
+    login_date = login_history.login_date.replace(tzinfo=None)
+    login_history.cnt_activity = round((datetime.now() - login_date).total_seconds() / 60)
     login_history.save()

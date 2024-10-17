@@ -25,6 +25,7 @@ class LoginHistory(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     login_date = models.DateTimeField(auto_now_add= True, validators=[validate_date])
     logout_date = models.DateTimeField(null=True, blank=True, validators=[validate_date])
+    cnt_activity = models.IntegerField(default=0)  # czas aktywnosci
     user_agent = models.TextField(null=True, blank=True) # przechowa rodaj przeglądarki
     ip_address = models.GenericIPAddressField(null=True, blank=True)
     failed_login_attempts = models.IntegerField(default=0)  #  ilosc błednych logowań
