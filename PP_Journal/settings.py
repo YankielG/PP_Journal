@@ -178,7 +178,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # AUTH_USER_MODEL = 'app_users.CustomUser'
 
 # My login session settings
-# SESSION_COOKIE_AGE = 1209600  # 2 tygodnie
+# SESSION_COOKIE_AGE = 604800  # 1 tydzień
 # SESSION_EXPIRE_AT_BROWSER_CLOSE = True  # Sesja wygasa po zamknięciu przeglądarki
 
 LOGIN_REDIRECT_URL = '/'

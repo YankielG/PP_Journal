@@ -1,8 +1,10 @@
 from django.db.models.signals import post_save
 from django.dispatch import receiver
-from django.contrib.auth.signals import user_logged_in, user_login_failed
+from django.contrib.auth.signals import user_logged_in, user_login_failed, user_logged_out
 from django.contrib.auth.models import User
 from user_agents import parse
+from datetime import datetime, timedelta
+from django.utils import timezone
 
 from .models import UserProfile, LoginHistory
 
@@ -27,9 +29,7 @@ def log_user_login(sender, request, user, **kwargs):
     else:
         ip = request.META.get('REMOTE_ADDR')
 
-    session_id = request.session.session_key
-
-    LoginHistory.objects.create(user=user, user_agent=browser_info, ip_address=ip, session_id=session_id)
+    LoginHistory.objects.create(user=user, user_agent=browser_info, ip_address=ip)
 
 @receiver(user_login_failed)
 def log_failed_login(sender, credentials, request, **kwargs):
@@ -52,11 +52,16 @@ def log_failed_login(sender, credentials, request, **kwargs):
                 else:
                     ip = request.META.get('REMOTE_ADDR')
 
-                session_id = request.session.session_key
-
                 LoginHistory.objects.create(
-                    user=user, user_agent=browser_info, ip_address=ip, session_id=session_id, failed_login_attempts=1)
+                    user=user, user_agent=browser_info, ip_address=ip, failed_login_attempts=1)
 
         except User.DoesNotExist:
             # Użytkownik nie istnieje
             pass
+
+
+@receiver(user_logged_out)
+def log_user_logout(sender, request, user, **kwargs):
+    login_history = LoginHistory.objects.filter(user=user).last()
+    login_history.logout_date = datetime.now()
+    login_history.save()

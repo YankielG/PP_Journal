@@ -30,7 +30,7 @@ class RegisterUserDetailsForm(forms.ModelForm):
 class LoginHistoryForm(forms.ModelForm):
     class Meta:
         model = LoginHistory
-        fields = ['user_agent', 'session_id']
+        fields = ['user_agent']
 
 
 class EditUserForm(forms.ModelForm):
@@ -52,4 +52,5 @@ class EditUserPasswordForm(PasswordChangeForm):
 
 
 class CustomLoginForm(AuthenticationForm):
-    remember_me = forms.BooleanField(required=False)
+    remember_me = forms.BooleanField(initial=False, required=False)
+
