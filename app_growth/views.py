@@ -5,6 +5,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.template.context_processors import request
 
 from .models import Growth
+from app_users.models import LoginHistory
 from django.http import HttpResponseNotFound, HttpResponseForbidden, HttpResponseRedirect
 
 from .forms import Add_growth_Form
@@ -120,6 +121,10 @@ def add_growth(request):
         date = request.POST['date']
         comments = request.POST['comment']
         Growth.objects.create(growth=growth, creation_date=date, comments=comments, owner=logged_user)
+
+        login_history = LoginHistory.objects.filter(user=logged_user).last()
+        login_history.cnt_entries +=1
+        login_history.save()
         return redirect('all_growths_url')
 
     context = {
@@ -140,6 +145,10 @@ def edit_growth(request, id):
         comments = request.POST['comment']
         found_growth.delete()
         Growth.objects.create(pk=id, growth=growth, creation_date=date, comments=comments, owner=logged_user)
+
+        login_history = LoginHistory.objects.filter(user=logged_user).last()
+        login_history.cnt_modification +=1
+        login_history.save()
         return redirect('all_growths_url')
 
     context = {
@@ -156,6 +165,10 @@ def delete_growth(request, id):
     logged_user = request.user
     found_growth = Growth.objects.get(pk=id)
     found_growth.delete()
+
+    login_history = LoginHistory.objects.filter(user=logged_user).last()
+    login_history.cnt_deleted += 1
+    login_history.save()
     return redirect('all_growths_url')
 
 @login_required
@@ -163,4 +176,8 @@ def delete_all_growth(request):
     logged_user = request.user
     found_growths = Growth.objects.filter(owner=logged_user)
     found_growths.delete()
+
+    login_history = LoginHistory.objects.filter(user=logged_user).last()
+    login_history.cnt_all_deleted += 1
+    login_history.save()
     return redirect('all_growths_url')

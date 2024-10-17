@@ -5,6 +5,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.template.context_processors import request
 
 from .models import Weight
+from app_users.models import LoginHistory
 from django.http import HttpResponseNotFound, HttpResponseForbidden, HttpResponseRedirect
 
 from .forms import Add_weight_Form
@@ -128,6 +129,10 @@ def add_weight(request):
         comments = request.POST['comment']
         object = Weight(weight=weight, creation_date=date, comments=comments, owner=logged_user)
         object.save()
+
+        login_history = LoginHistory.objects.filter(user=logged_user).last()
+        login_history.cnt_entries +=1
+        login_history.save()
         return redirect('all_weights_url')
 
     context = {
@@ -152,6 +157,10 @@ def edit_weight(request, id):
         comments = request.POST['comment']
         found_weight.delete()
         Weight.objects.create(pk=id, weight=weight, creation_date=date, comments=comments, owner=logged_user)
+
+        login_history = LoginHistory.objects.filter(user=logged_user).last()
+        login_history.cnt_modification +=1
+        login_history.save()
         return redirect('all_weights_url')
 
     context = {
@@ -168,6 +177,10 @@ def delete_weight(request, id):
     logged_user = request.user
     found_weight = Weight.objects.get(pk=id)
     found_weight.delete()
+
+    login_history = LoginHistory.objects.filter(user=logged_user).last()
+    login_history.cnt_deleted += 1
+    login_history.save()
     return redirect('all_weights_url')
 
 @login_required
@@ -175,4 +188,8 @@ def delete_all_weight(request):
     logged_user = request.user
     found_weights = Weight.objects.filter(owner=logged_user)
     found_weights.delete()
+
+    login_history = LoginHistory.objects.filter(user=logged_user).last()
+    login_history.cnt_all_deleted += 1
+    login_history.save()
     return redirect('all_weights_url')

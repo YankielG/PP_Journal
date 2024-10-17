@@ -30,6 +30,8 @@ class LoginHistory(models.Model):
     failed_login_attempts = models.IntegerField(default=0)  #  ilosc błednych logowań
     cnt_modification = models.IntegerField(default=0) # ilość modyfikacji podczas zalogowania
     cnt_entries = models.IntegerField(default=0) # ilość wpisów podczas zalogowania
+    cnt_deleted = models.IntegerField(default=0) # ilość skasowanych wpisów podczas zalogowania
+    cnt_all_deleted = models.IntegerField(default=0) # ilość czyszczenia wszystkich wpisów podczas zalogowania
 
 
 def __str__(self):

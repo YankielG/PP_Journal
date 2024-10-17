@@ -5,6 +5,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.template.context_processors import request
 
 from .models import Pulse
+from app_users.models import LoginHistory
 from django.http import HttpResponseNotFound, HttpResponseForbidden, HttpResponseRedirect
 
 from .forms import Add_pulse_Form
@@ -120,6 +121,10 @@ def add_pulse(request):
         date = request.POST['date']
         comments = request.POST['comment']
         Pulse.objects.create(pulse=pulse, creation_date=date, comments=comments, owner=logged_user)
+
+        login_history = LoginHistory.objects.filter(user=logged_user).last()
+        login_history.cnt_entries +=1
+        login_history.save()
         return redirect('all_pulses_url')
 
     context = {
@@ -140,6 +145,10 @@ def edit_pulse(request, id):
         comments = request.POST['comment']
         found_pulse.delete()
         Pulse.objects.create(pk=id, pulse=pulse, creation_date=date, comments=comments, owner=logged_user)
+
+        login_history = LoginHistory.objects.filter(user=logged_user).last()
+        login_history.cnt_modification +=1
+        login_history.save()
         return redirect('all_pulses_url')
 
     context = {
@@ -156,6 +165,10 @@ def delete_pulse(request, id):
     logged_user = request.user
     found_pulse = Pulse.objects.get(pk=id)
     found_pulse.delete()
+
+    login_history = LoginHistory.objects.filter(user=logged_user).last()
+    login_history.cnt_deleted += 1
+    login_history.save()
     return redirect('all_pulses_url')
 
 @login_required
@@ -163,4 +176,8 @@ def delete_all_pulse(request):
     logged_user = request.user
     found_pulses = Pulse.objects.filter(owner=logged_user)
     found_pulses.delete()
+
+    login_history = LoginHistory.objects.filter(user=logged_user).last()
+    login_history.cnt_all_deleted += 1
+    login_history.save()
     return redirect('all_pulses_url')

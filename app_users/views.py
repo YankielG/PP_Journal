@@ -137,7 +137,7 @@ def history(request):
     filter_value = request.GET.get('search')
 
     if filter_value and len(filter_value) > 2:
-        found_history = LoginHistory.objects.filter(user=logged_user, user_agent__contains = filter_value).order_by('-login_date')
+        found_history = LoginHistory.objects.filter(user=logged_user, ip_address__contains = filter_value).order_by('-login_date')
     else:
         found_history = LoginHistory.objects.filter(user=logged_user).order_by('-login_date')
 

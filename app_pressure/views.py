@@ -5,6 +5,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.template.context_processors import request
 
 from .models import Pressure
+from app_users.models import LoginHistory
 from django.http import HttpResponseNotFound, HttpResponseForbidden, HttpResponseRedirect
 
 from .forms import Add_pressure_Form
@@ -134,6 +135,10 @@ def add_pressure(request):
         date = request.POST['date']
         comments = request.POST['comment']
         Pressure.objects.create(shrink=shrink, diastole=diastole, pulse=pulse, creation_date=date, comments=comments, owner=logged_user)
+
+        login_history = LoginHistory.objects.filter(user=logged_user).last()
+        login_history.cnt_entries +=1
+        login_history.save()
         return redirect('all_pressures_url')
 
     context = {
@@ -156,6 +161,10 @@ def edit_pressure(request, id):
         comments = request.POST['comment']
         found_pressure.delete()
         Pressure.objects.create(pk=id, shrink=shrink, diastole=diastole, pulse=pulse, creation_date=date, comments=comments, owner=logged_user)
+
+        login_history = LoginHistory.objects.filter(user=logged_user).last()
+        login_history.cnt_modification +=1
+        login_history.save()
         return redirect('all_pressures_url')
 
     context = {
@@ -172,6 +181,10 @@ def delete_pressure(request, id):
     logged_user = request.user
     found_pressure = Pressure.objects.get(pk=id)
     found_pressure.delete()
+
+    login_history = LoginHistory.objects.filter(user=logged_user).last()
+    login_history.cnt_deleted += 1
+    login_history.save()
     return redirect('all_pressures_url')
 
 @login_required
@@ -179,4 +192,8 @@ def delete_all_pressure(request):
     logged_user = request.user
     found_pressures = Pressure.objects.filter(owner=logged_user)
     found_pressures.delete()
+
+    login_history = LoginHistory.objects.filter(user=logged_user).last()
+    login_history.cnt_all_deleted += 1
+    login_history.save()
     return redirect('all_pressures_url')

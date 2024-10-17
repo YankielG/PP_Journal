@@ -1,4 +1,5 @@
 from datetime import datetime, timedelta
+from django.utils import timezone
 from functools import wraps
 from lib2to3.fixes.fix_input import context
 
@@ -54,7 +55,8 @@ def home(request):
 
     today = datetime.now()
     age = today.year - birthday.year - ((today.month, today.day) < (birthday.month, birthday.day))
-    date_account = today.year - date_joined.year - ((today.month, today.day) < (date_joined.month, date_joined.day))
+    date_account = (timezone.now() - date_joined).days
+    date_last_visits = (timezone.now() - last_login).days
 
     found_growth = Growth.objects.filter(owner=logged_user)
     found_pressure = Pressure.objects.filter(owner=logged_user)
@@ -140,6 +142,7 @@ def home(request):
         'date_account': date_account,
         'cnt_visits': cnt_visits,
         'total_entries': total_entries,
+        'date_last_visits': date_last_visits,
         'age': age,
         'chart': chart,
         'bmi_value': bmi_value,
