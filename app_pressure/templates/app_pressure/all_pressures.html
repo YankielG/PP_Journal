@@ -5,29 +5,12 @@
 
 {% block page_content %}
 
-<div class="container">
-    <div class="uk-panel">
-        <img class="uk-align-left uk-margin-remove-adjacent" src="{% static 'background.JPG' %}" width="60" height="28" alt="info">
-        <h2 class="uk-heading-divider" style="position: relative">Ciśnienie</h2>
-    </div>
-
-    <a uk-icon="info" uk-tooltip="Info" href="#modal-center" uk-toggle></a>
-    <div id="modal-center" class="uk-flex-top" uk-modal>
-        <div class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">
-{#            <button class="uk-modal-close-default" type="button" uk-close></button>#}
-            <p>Pomiary ciśnienia najlepiej wykonywać o stałej porze dnia, gdyż ciśnienie w ciągu doby ulega zmianom.</p>
-            <p>Badanie powinno odbywać się w warunkach spoczynkowych.</p>
-           <p>Kategoria - Ciśnienie skurczowe / Ciśnienie rozkurczowe:</p>
-            <ul class="uk-list uk-list-bullet">
-                <li>Ciśnienie optymalne: < 120 mm Hg / < 80 Hg,</li>
-                <li>Ciśnienie prawidłowe: 120 - 129 mm Hg / 80 - 84 mm Hg,</li>
-                <li>Ciśnienie wysokie prawidłowe: 130 - 139 mm Hg / 85 - 89 mm Hg,</li>
-                <li>Nadciśnienie tętnicze 1. stopnia: 140 - 159 mm Hg / 90 - 99 mm Hg</li>
-                <li>Nadciśnienie tętnicze 2. stopnia: 160 - 179 mm Hg / 100 - 109 mm Hg</li>
-                <li>Nadciśnienie tętnicze 3. stopnia: ≥ 180 mm Hg / ≥ 110 mm Hg.</li>
-            </ul>
+    <div class="container">
+        <div class="uk-panel">
+            <img class="uk-align-left uk-margin-remove-adjacent" src="{% static 'background.JPG' %}" width="60"
+                 height="28" alt="info">
+            <h2 class="uk-heading-divider" style="position: relative">Ciśnienie</h2>
         </div>
-    </div>
 
         <div class="uk-section">
             <div style="max-width: 1000px; margin: 50px auto">
@@ -38,7 +21,7 @@
 
                 var label_list = [];
                 {% for value in chart_x %}
-                label_list.push("{{ value }}");
+                    label_list.push("{{ value }}");
                 {% endfor %}
 
                 new Chart(document.getElementById("line-chart"), {
@@ -51,40 +34,41 @@
                             borderColor: "#3e95cd",
                             fill: false
                         },
-                        {
-                            data: {{chart_y2}},
-                            label: "Ciśnienie rozkurczowe",
-                            borderColor: "#3cba9f",
-                            fill: false
-                        },
-                        {
-                            data: {{chart_y3}},
-                            label: "Tętno",
-                            borderColor: "#c45850",
-                            fill: false
-                        }]
+                            {
+                                data: {{chart_y2}},
+                                label: "Ciśnienie rozkurczowe",
+                                borderColor: "#3cba9f",
+                                fill: false
+                            },
+                            {
+                                data: {{chart_y3}},
+                                label: "Tętno",
+                                borderColor: "#c45850",
+                                fill: false
+                            }]
                     },
-                     options: {
-                         plugins: {
-                             legend: {display: true},
-                             title: {
+                    options: {
+                        plugins: {
+                            legend: {display: true},
+                            title: {
                                 text: 'Wartości w czasie',
                                 display: false
-                             }
-                         },
+                            }
+                        },
                         responsive: true,
-                        scales:{
+                        scales: {
                             x: {
                                 display: true,
                                 stacked: true,
                                 title: {
                                     display: true,
-                                    text: 'Data'}
+                                    text: 'Data'
+                                }
                             },
                             y: {
                                 display: true,
                                 stacked: true,
-                                title:{
+                                title: {
                                     display: true,
                                     text: 'Cićnienie / Tętno'
                                 },
@@ -99,44 +83,83 @@
                 });
 
             </script>
-    </div>
+        </div>
 
-    <a href="add" uk-icon="icon: copy" uk-tooltip="Dodaj"></a>
-    <a href="#model-confirmation-all" uk-toggle uk-icon="icon: trash" uk-tooltip="Wyczyść" style="margin-left: 5px"></a>
-
-    <div id="model-confirmation-all" uk-modal>
-        <div class="uk-modal-dialog">
-            <div class="uk-modal-header">
-                <h3 class="uk-modal-title uk-text-center" style="color: #FF7F50">Alert</h3>
-            </div>
-            <div class="uk-modal-body">
-                <p> Potwierdź wyczyszczenie wszystkich wpisów !</p>
-                <p> Ta czynność jest nie odwracalna.</p>
-            </div>
-            <div class="uk-modal-footer uk-text-center">
-                <a href="/pressures/" class="uk-icon-link uk-margin-small-right" uk-icon="close" uk-tooltip="Anuluj"></a>
-                <a href="delete/all" uk-icon="check" uk-tooltip="Wyczyść"></a>
+        <a uk-icon="info" uk-tooltip="Info" href="#modal-center" uk-toggle></a>
+        <div id="modal-center" class="uk-flex-top" uk-modal>
+            <div class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">
+                {#            <button class="uk-modal-close-default" type="button" uk-close></button>#}
+                <p>Pomiary ciśnienia najlepiej wykonywać o stałej porze dnia, gdyż ciśnienie w ciągu doby ulega
+                    zmianom.</p>
+                <p>Badanie powinno odbywać się w warunkach spoczynkowych.</p>
+                <p>Kategoria - Ciśnienie skurczowe / Ciśnienie rozkurczowe:</p>
+                <ul class="uk-list uk-list-bullet">
+                    <li>Ciśnienie optymalne: < 120 mm Hg / < 80 Hg,</li>
+                    <li>Ciśnienie prawidłowe: 120 - 129 mm Hg / 80 - 84 mm Hg,</li>
+                    <li>Ciśnienie wysokie prawidłowe: 130 - 139 mm Hg / 85 - 89 mm Hg,</li>
+                    <li>Nadciśnienie tętnicze 1. stopnia: 140 - 159 mm Hg / 90 - 99 mm Hg</li>
+                    <li>Nadciśnienie tętnicze 2. stopnia: 160 - 179 mm Hg / 100 - 109 mm Hg</li>
+                    <li>Nadciśnienie tętnicze 3. stopnia: ≥ 180 mm Hg / ≥ 110 mm Hg.</li>
+                </ul>
             </div>
         </div>
-    </div>
 
-    <a href uk-icon="icon: search" uk-tooltip="Wyszukaj" style="margin-left: 5px"></a>
-    <div class="uk-drop" uk-drop="mode: click; pos: right-center; offset: 5">
-        <form class="uk-search uk-width-1-1">
-            <input name="search" class="uk-search-input" type="search"
-                   placeholder="Wyszukaj po Uwagach, 3-10 znaków." minlength="3" maxlength="10" aria-label="Search"
-                   autofocus>
-        </form>
-    </div>
-    {% if filter_value %}
-        <span style="color: #4169E1; margin-left: 50px">Zastosowany Filtr:</span>
-        <span style="color: #FF7F50"> {{ filter_value }} </span>
-    {% endif %}
+        <a href="add" uk-icon="icon: copy" uk-tooltip="Dodaj" style="margin-left: 5px"></a>
+        <a href="#model-confirmation-all" uk-toggle uk-icon="icon: trash" uk-tooltip="Wyczyść"
+           style="margin-left: 5px"></a>
 
-    <span class="uk-position-relative uk-align-right"> Ilość wpisów: {{ pages_max_elements }} </span>
+        <div id="model-confirmation-all" uk-modal>
+            <div class="uk-modal-dialog">
+                <div class="uk-modal-header">
+                    <h3 class="uk-modal-title uk-text-center" style="color: #FF7F50">Alert</h3>
+                </div>
+                <div class="uk-modal-body">
+                    <p> Potwierdź wyczyszczenie wszystkich wpisów !</p>
+                    <p> Ta czynność jest nie odwracalna.</p>
+                </div>
+                <div class="uk-modal-footer uk-text-center">
+                    <a href="/pressures/" class="uk-icon-link uk-margin-small-right" uk-icon="close"
+                       uk-tooltip="Anuluj"></a>
+                    <a href="delete/all" uk-icon="check" uk-tooltip="Wyczyść"></a>
+                </div>
+            </div>
+        </div>
 
-    <table class="uk-table uk-table-striped uk-table-hover uk-table-small" uk-sortable>
-        <thead>
+        <a href uk-icon="icon: settings" uk-tooltip="Sortuj"></a>
+        <div class="uk-drop" uk-drop="mode: click; pos: bottom; offset: 5">
+            <div class="uk-grid" style="margin-left: 55px; width: 8500px">
+                <a href="/pressures/" style="color: {% if sort_value == None %} #FF7F50 {% else %} gray {% endif %} ;">Domyślne</a>
+                <a href="/pressures/?sort_by=shrink"
+                   style="color: {% if sort_value == 'shrink' %} #FF7F50 {% else %} gray {% endif %} ;">Skurczowe</a>
+                <a href="/pressures/?sort_by=diastole"
+                   style="color: {% if sort_value == 'diastole' %} #FF7F50 {% else %} gray {% endif %} ;">Rozkurczowe</a>
+                <a href="/pressures/?sort_by=pulse"
+                   style="color: {% if sort_value == 'pulse' %} #FF7F50 {% else %} gray {% endif %} ;">Tętno</a>
+                <a href="/pressures/?sort_by=creation_date"
+                   style="color: {% if sort_value == 'creation_date' %} #FF7F50 {% else %} gray {% endif %} ;">Data</a>
+                <a href="/pressures/?sort_by=comments"
+                   style="color: {% if sort_value == 'comments' %} #FF7F50 {% else %} gray {% endif %} ;">Uwagi</a>
+            </div>
+        </div>
+
+        <a href uk-icon="icon: search" uk-tooltip="Wyszukaj" style="margin-left: 5px"></a>
+        <div class="uk-drop" uk-drop="mode: click; pos: right-center; offset: 5">
+            <form class="uk-search uk-width-1-1">
+                <input name="search" class="uk-search-input" type="search"
+                       placeholder="Wyszukaj po Uwagach, 3-10 znaków." minlength="3" maxlength="10" aria-label="Search"
+                       autofocus>
+            </form>
+        </div>
+
+        {% if filter_value %}
+            <span style="color: #4169E1; margin-left: 20px">Zastosowany Filtr: </span>
+            <span style="color: #FF7F50; margin-left: 5px"> {{ filter_value }} </span>
+        {% endif %}
+
+        <span class="uk-position-relative uk-align-right"> Ilość wpisów: {{ pages_max_elements }} </span>
+
+        <table class="uk-table uk-table-striped uk-table-hover uk-table-small" uk-sortable>
+            <thead>
             <tr>
                 <th style="width:5%; text-align: center" class="uk-text-middle">Lp.</th>
                 <th style="width:7%; text-align: center" class="uk-text-middle">Ciśnienie Skurczowe</th>
@@ -146,43 +169,47 @@
                 <th style="width:44%; text-align: center" class="uk-text-middle">Uwagi</th>
                 <th style="width:10%; text-align: center" class="uk-text-middle">Opcje</th>
             </tr>
-        </thead>
+            </thead>
 
-        <tbody>
-        {% for value in pressures %}
-            <tr style="text-align: center">
-                <form method="POST" action="{% url 'pressure_details_url' id=value.id %}">
-                    {% csrf_token %}
-                    <td>
-                        <input name="number" value="{{ pressures.start_index|add:forloop.counter0 }}" type="hidden">
-                        {{ pressures.start_index|add:forloop.counter0 }}
-                    </td>
-                    <td>{{ value.shrink |floatformat:1}}</td>
-                    <td>{{ value.diastole |floatformat:1}}</td>
-                    <td>{{ value.pulse |floatformat:1}}</td>
-                    <td>{{ value.creation_date |date:'D, d M Y,'}} {{value.creation_date |time:"H:i"}}</td>
-                    <td class="uk-text-break">{{ value.comments }}</td>
-                    <td>
-                        <a href=" {% url 'edit_pressure_url' id=value.id %}" uk-icon="icon: file-edit" uk-tooltip="Edytuj"></a>
-                        <button href="{% url 'pressure_details_url' id=value.id %}" uk-icon="icon: info" uk-tooltip="Szczegóły" type="submit"></button>
-                        <a href="" uk-icon="icon: trash" uk-tooltip="Usuń"></a>
-                        <div class="uk-card uk-card-small uk-width-small uk-card-body uk-card-default uk-border-circle uk-box-shadow-medium" uk-drop="mode: click">
-                            <p>Czy jesteś pewien? </p>
-                            <a href="{% url 'delete_pressure_url' id=value.id %}" uk-icon="check" uk-tooltip="Potwierdź" style="color: #FF7F50"></a>
-                        </div>
-                    </td>
-                </form>
-            </tr>
-        {% endfor %}
-        </tbody>
+            <tbody>
+            {% for value in pressures %}
+                <tr style="text-align: center">
+                    <form method="POST" action="{% url 'pressure_details_url' id=value.id %}">
+                        {% csrf_token %}
+                        <td>
+                            <input name="number" value="{{ pressures.start_index|add:forloop.counter0 }}" type="hidden">
+                            {{ pressures.start_index|add:forloop.counter0 }}
+                        </td>
+                        <td>{{ value.shrink |floatformat:1 }}</td>
+                        <td>{{ value.diastole |floatformat:1 }}</td>
+                        <td>{{ value.pulse |floatformat:1 }}</td>
+                        <td>{{ value.creation_date |date:'D, d M Y,' }} {{ value.creation_date |time:"H:i" }}</td>
+                        <td class="uk-text-break">{{ value.comments }}</td>
+                        <td>
+                            <a href=" {% url 'edit_pressure_url' id=value.id %}" uk-icon="icon: file-edit"
+                               uk-tooltip="Edytuj"></a>
+                            <button href="{% url 'pressure_details_url' id=value.id %}" uk-icon="icon: info"
+                                    uk-tooltip="Szczegóły" type="submit"></button>
+                            <a href="" uk-icon="icon: trash" uk-tooltip="Usuń"></a>
+                            <div class="uk-card uk-card-small uk-width-small uk-card-body uk-card-default uk-border-circle uk-box-shadow-medium"
+                                 uk-drop="mode: click">
+                                <p>Czy jesteś pewien? </p>
+                                <a href="{% url 'delete_pressure_url' id=value.id %}" uk-icon="check"
+                                   uk-tooltip="Potwierdź" style="color: #FF7F50"></a>
+                            </div>
+                        </td>
+                    </form>
+                </tr>
+            {% endfor %}
+            </tbody>
 
-    </table>
+        </table>
 
         <div class="uk-position-center uk-position-relative">
           <span>
              {% if pressures.has_previous %}
-                <a href="?page=1" style="color: #00BFFF; margin-right: 20px">&laquo; Pierwsza</a>
-                <a href="?page={{ pressures.previous_page_number }}" style="color: #32CD32">Poprzednia </a>
+                 <a href="?page=1" style="color: #00BFFF; margin-right: 20px">&laquo; Pierwsza</a>
+                 <a href="?page={{ pressures.previous_page_number }}" style="color: #32CD32">Poprzednia </a>
              {% endif %}
               <span>Strona {{ pressures.number }} z {{ pressures.paginator.num_pages }}</span>
               {% if pressures.has_next %}
@@ -192,7 +219,7 @@
           </span>
         </div>
 
-    <div class="uk-padding"></div>
+        <div class="uk-padding"></div>
 
-</div>
+    </div>
 {% endblock %}

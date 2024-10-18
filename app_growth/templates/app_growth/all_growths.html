@@ -5,29 +5,12 @@
 
 {% block page_content %}
 
-<div class="container">
-    <div class="uk-panel">
-        <img class="uk-align-left uk-margin-remove-adjacent" src="{% static 'background.JPG' %}" width="60" height="28" alt="info">
-        <h2 class="uk-heading-divider" style="position: relative">Wzrost</h2>
-    </div>
-
-    <a uk-icon="info" uk-tooltip="Info" href="#modal-center" uk-toggle></a>
-    <div id="modal-center" class="uk-flex-top" uk-modal>
-        <div class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">
-{#            <button class="uk-modal-close-default" type="button" uk-close></button>#}
-            <p>Wzrost człowieka mierzony od czubka głowy do podeszwy stopy w pozycji wyprostowanej. Rano i wieczorem wzrost może się różnić o 2–3 cm.</p>
-            <p>Szacowanie średniego wzrostu ludzi jest trudne. Średni wzrost ludzi zmienia się na przestrzeni wieków / lat.
-                A także zależy od kontynętu.</p>
-            <p>Na tą chwilę można przyjąć:</p>
-            <ul class="uk-list uk-list-bullet">
-                <li>wzrost karłowaty - do 152,9 cm,</li>
-                <li>wzrost niski (153-162,9 cm),</li>
-                <li>wzrost średni (163-175,0 cm),</li>
-                <li>wzrost wysoki (175-184,9 cm),</li>
-                <li>wzrost bardzo wysoki (powyżej 178 cm).</li>
-            </ul>
+    <div class="container">
+        <div class="uk-panel">
+            <img class="uk-align-left uk-margin-remove-adjacent" src="{% static 'background.JPG' %}" width="60"
+                 height="28" alt="info">
+            <h2 class="uk-heading-divider" style="position: relative">Wzrost</h2>
         </div>
-    </div>
 
         <div class="uk-section">
             <div style="max-width: 1000px; margin: 50px auto">
@@ -38,7 +21,7 @@
 
                 var label_list = [];
                 {% for value in chart_x %}
-                label_list.push("{{ value }}");
+                    label_list.push("{{ value }}");
                 {% endfor %}
 
                 new Chart(document.getElementById("line-chart"), {
@@ -52,27 +35,28 @@
                             fill: false
                         }]
                     },
-                     options: {
-                         plugins: {
-                             legend: {display: true},
-                             title: {
+                    options: {
+                        plugins: {
+                            legend: {display: true},
+                            title: {
                                 text: 'Wartości w czasie',
                                 display: false
-                             }
-                         },
+                            }
+                        },
                         responsive: true,
-                        scales:{
+                        scales: {
                             x: {
                                 display: true,
                                 stacked: true,
                                 title: {
                                     display: true,
-                                    text: 'Data'}
+                                    text: 'Data'
+                                }
                             },
                             y: {
                                 display: true,
                                 stacked: true,
-                                title:{
+                                title: {
                                     display: true,
                                     text: 'Wzrost'
                                 },
@@ -87,44 +71,77 @@
                 });
 
             </script>
-    </div>
+        </div>
 
-    <a href="add" uk-icon="icon: copy" uk-tooltip="Dodaj"></a>
-    <a href="#model-confirmation-all" uk-toggle uk-icon="icon: trash" uk-tooltip="Wyczyść" style="margin-left: 5px"></a>
-
-    <div id="model-confirmation-all" uk-modal>
-        <div class="uk-modal-dialog">
-            <div class="uk-modal-header">
-                <h3 class="uk-modal-title uk-text-center" style="color: #FF7F50">Alert</h3>
-            </div>
-            <div class="uk-modal-body">
-                <p> Potwierdź wyczyszczenie wszystkich wpisów !</p>
-                <p> Ta czynność jest nie odwracalna.</p>
-            </div>
-            <div class="uk-modal-footer uk-text-center">
-                <a href="/growths/" class="uk-icon-link uk-margin-small-right" uk-icon="close" uk-tooltip="Anuluj"></a>
-                <a href="delete/all" uk-icon="check" uk-tooltip="Wyczyść"></a>
+        <a uk-icon="info" uk-tooltip="Info" href="#modal-center" uk-toggle></a>
+        <div id="modal-center" class="uk-flex-top" uk-modal>
+            <div class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">
+                {#            <button class="uk-modal-close-default" type="button" uk-close></button>#}
+                <p>Wzrost człowieka mierzony od czubka głowy do podeszwy stopy w pozycji wyprostowanej. Rano i wieczorem
+                    wzrost może się różnić o 2–3 cm.</p>
+                <p>Szacowanie średniego wzrostu ludzi jest trudne. Średni wzrost ludzi zmienia się na przestrzeni wieków
+                    / lat.
+                    A także zależy od kontynętu.</p>
+                <p>Na tą chwilę można przyjąć:</p>
+                <ul class="uk-list uk-list-bullet">
+                    <li>wzrost karłowaty - do 152,9 cm,</li>
+                    <li>wzrost niski (153-162,9 cm),</li>
+                    <li>wzrost średni (163-175,0 cm),</li>
+                    <li>wzrost wysoki (175-184,9 cm),</li>
+                    <li>wzrost bardzo wysoki (powyżej 178 cm).</li>
+                </ul>
             </div>
         </div>
-    </div>
 
-    <a href uk-icon="icon: search" uk-tooltip="Wyszukaj" style="margin-left: 5px"></a>
-    <div class="uk-drop" uk-drop="mode: click; pos: right-center; offset: 5">
-        <form class="uk-search uk-width-1-1">
-            <input name="search" class="uk-search-input" type="search"
-                   placeholder="Wyszukaj po Uwagach, 3-10 znaków." minlength="3" maxlength="10" aria-label="Search"
-                   autofocus>
-        </form>
-    </div>
-    {% if filter_value %}
-        <span style="color: #4169E1; margin-left: 50px">Zastosowany Filtr:</span>
-        <span style="color: #FF7F50"> {{ filter_value }} </span>
-    {% endif %}
+        <a href="add" uk-icon="icon: copy" uk-tooltip="Dodaj" style="margin-left: 5px"></a>
+        <a href="#model-confirmation-all" uk-toggle uk-icon="icon: trash" uk-tooltip="Wyczyść"
+           style="margin-left: 5px"></a>
 
-    <span class="uk-position-relative uk-align-right"> Ilość wpisów: {{ pages_max_elements }} </span>
+        <div id="model-confirmation-all" uk-modal>
+            <div class="uk-modal-dialog">
+                <div class="uk-modal-header">
+                    <h3 class="uk-modal-title uk-text-center" style="color: #FF7F50">Alert</h3>
+                </div>
+                <div class="uk-modal-body">
+                    <p> Potwierdź wyczyszczenie wszystkich wpisów !</p>
+                    <p> Ta czynność jest nie odwracalna.</p>
+                </div>
+                <div class="uk-modal-footer uk-text-center">
+                    <a href="/growths/" class="uk-icon-link uk-margin-small-right" uk-icon="close"
+                       uk-tooltip="Anuluj"></a>
+                    <a href="delete/all" uk-icon="check" uk-tooltip="Wyczyść"></a>
+                </div>
+            </div>
+        </div>
 
-    <table class="uk-table uk-table-striped uk-table-hover uk-table-small" uk-sortable>
-        <thead>
+        <a href uk-icon="icon: settings" uk-tooltip="Sortuj"></a>
+        <div class="uk-drop" uk-drop="mode: click; pos: bottom; offset: 5">
+            <div class="uk-grid" style="margin-left: 55px; width: 8500px">
+                <a href="/growths/" style="color: {% if sort_value == None %} #FF7F50 {% else %} gray {% endif %} ;">Domyślne</a>
+                <a href="/growths/?sort_by=growth" style="color: {% if sort_value == 'growth' %} #FF7F50 {% else %} gray {% endif %} ;">Wzrost</a>
+                <a href="/growths/?sort_by=creation_date" style="color: {% if sort_value == 'creation_date' %} #FF7F50 {% else %} gray {% endif %} ;">Data</a>
+                <a href="/growths/?sort_by=comments" style="color: {% if sort_value == 'comments' %} #FF7F50 {% else %} gray {% endif %} ;">Uwagi</a>
+            </div>
+        </div>
+
+        <a href uk-icon="icon: search" uk-tooltip="Wyszukaj" style="margin-left: 5px"></a>
+        <div class="uk-drop" uk-drop="mode: click; pos: right-center; offset: 5">
+            <form class="uk-search uk-width-1-1">
+                <input name="search" class="uk-search-input" type="search"
+                       placeholder="Wyszukaj po Uwagach, 3-10 znaków." minlength="3" maxlength="10" aria-label="Search"
+                       autofocus>
+            </form>
+        </div>
+
+        {% if filter_value %}
+            <span style="color: #4169E1; margin-left: 20px">Zastosowany Filtr: </span>
+            <span style="color: #FF7F50; margin-left: 5px"> {{ filter_value }} </span>
+        {% endif %}
+
+        <span class="uk-position-relative uk-align-right"> Ilość wpisów: {{ pages_max_elements }} </span>
+
+        <table class="uk-table uk-table-striped uk-table-hover uk-table-small" uk-sortable>
+            <thead>
             <tr>
                 <th style="width:5%; text-align: center">Lp.</th>
                 <th style="width:7%; text-align: center">Wzrost</th>
@@ -132,41 +149,45 @@
                 <th style="width:58%; text-align: center">Uwagi</th>
                 <th style="width:10%; text-align: center">Opcje</th>
             </tr>
-        </thead>
+            </thead>
 
-        <tbody>
-        {% for value in growths %}
-            <tr style="text-align: center">
-                <form method="POST" action="{% url 'growth_details_url' id=value.id %}">
-                    {% csrf_token %}
-                    <td>
-                        <input name="number" value="{{ growths.start_index|add:forloop.counter0 }}" type="hidden">
-                        {{ growths.start_index|add:forloop.counter0 }}
-                    </td>
-                    <td>{{ value.growth |floatformat:1}}</td>
-                    <td>{{ value.creation_date |date:'D, d M Y,'}} {{value.creation_date |time:"H:i"}}</td>
-                    <td class="uk-text-break">{{ value.comments }}</td>
-                    <td>
-                        <a href="{% url 'edit_growth_url' id=value.id %}" uk-icon="icon: file-edit" uk-tooltip="Edytuj"></a>
-                        <button href="{% url 'growth_details_url' id=value.id %}" uk-icon="icon: info" uk-tooltip="Szczegóły" type="submit"></button>
-                        <a href="" uk-icon="icon: trash" uk-tooltip="Usuń"></a>
-                        <div class="uk-card uk-card-small uk-width-small uk-card-body uk-card-default uk-border-circle uk-box-shadow-medium" uk-drop="mode: click">
-                            <p>Czy jesteś pewien? </p>
-                            <a href="{% url 'delete_growth_url' id=value.id %}" uk-icon="check" uk-tooltip="Potwierdź" style="color: #FF7F50"></a>
-                        </div>
-                    </td>
-                </form>
-            </tr>
-        {% endfor %}
-        </tbody>
+            <tbody>
+            {% for value in growths %}
+                <tr style="text-align: center">
+                    <form method="POST" action="{% url 'growth_details_url' id=value.id %}">
+                        {% csrf_token %}
+                        <td>
+                            <input name="number" value="{{ growths.start_index|add:forloop.counter0 }}" type="hidden">
+                            {{ growths.start_index|add:forloop.counter0 }}
+                        </td>
+                        <td>{{ value.growth |floatformat:1 }}</td>
+                        <td>{{ value.creation_date |date:'D, d M Y,' }} {{ value.creation_date |time:"H:i" }}</td>
+                        <td class="uk-text-break">{{ value.comments }}</td>
+                        <td>
+                            <a href="{% url 'edit_growth_url' id=value.id %}" uk-icon="icon: file-edit"
+                               uk-tooltip="Edytuj"></a>
+                            <button href="{% url 'growth_details_url' id=value.id %}" uk-icon="icon: info"
+                                    uk-tooltip="Szczegóły" type="submit"></button>
+                            <a href="" uk-icon="icon: trash" uk-tooltip="Usuń"></a>
+                            <div class="uk-card uk-card-small uk-width-small uk-card-body uk-card-default uk-border-circle uk-box-shadow-medium"
+                                 uk-drop="mode: click">
+                                <p>Czy jesteś pewien? </p>
+                                <a href="{% url 'delete_growth_url' id=value.id %}" uk-icon="check"
+                                   uk-tooltip="Potwierdź" style="color: #FF7F50"></a>
+                            </div>
+                        </td>
+                    </form>
+                </tr>
+            {% endfor %}
+            </tbody>
 
-    </table>
+        </table>
 
         <div class="uk-position-center uk-position-relative">
           <span>
              {% if growths.has_previous %}
-                <a href="?page=1" style="color: #00BFFF; margin-right: 20px">&laquo; Pierwsza</a>
-                <a href="?page={{ growths.previous_page_number }}" style="color: #32CD32">Poprzednia </a>
+                 <a href="?page=1" style="color: #00BFFF; margin-right: 20px">&laquo; Pierwsza</a>
+                 <a href="?page={{ growths.previous_page_number }}" style="color: #32CD32">Poprzednia </a>
              {% endif %}
               <span>Strona {{ growths.number }} z {{ growths.paginator.num_pages }}</span>
               {% if growths.has_next %}
@@ -176,7 +197,7 @@
           </span>
         </div>
 
-    <div class="uk-padding"></div>
+        <div class="uk-padding"></div>
 
-</div>
+    </div>
 {% endblock %}
