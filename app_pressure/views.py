@@ -169,13 +169,13 @@ def edit_pressure(request, id):
     number = current_element_index + 1
 
     if request.method == 'POST':
-        shrink = request.POST['shrink']
-        diastole = request.POST['diastole']
-        pulse = request.POST['pulse']
-        date = request.POST['date']
-        comments = request.POST['comment']
-        found_pressure.delete()
-        Pressure.objects.create(pk=id, shrink=shrink, diastole=diastole, pulse=pulse, creation_date=date, comments=comments, owner=logged_user)
+        found_pressure.shrink = request.POST['shrink']
+        found_pressure.diastole = request.POST['diastole']
+        found_pressure.pulse = request.POST['pulse']
+        found_pressure.creation_date = request.POST['date']
+        found_pressure.comments = request.POST['comment']
+        found_pressure.cnt_modification +=1
+        found_pressure.save()
 
         login_history = LoginHistory.objects.filter(user=logged_user).last()
         login_history.cnt_modification +=1

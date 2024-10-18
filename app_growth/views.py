@@ -162,11 +162,11 @@ def edit_growth(request, id):
     number = current_element_index + 1
 
     if request.method == 'POST':
-        growth = request.POST['growth']
-        date = request.POST['date']
-        comments = request.POST['comment']
-        found_growth.delete()
-        Growth.objects.create(pk=id, growth=growth, creation_date=date, comments=comments, owner=logged_user)
+        found_growth.growth = request.POST['growth']
+        found_growth.creation_date = request.POST['date']
+        found_growth.comments = request.POST['comment']
+        found_growth.cnt_modification +=1
+        found_growth.save()
 
         login_history = LoginHistory.objects.filter(user=logged_user).last()
         login_history.cnt_modification +=1

@@ -155,11 +155,11 @@ def edit_pulse(request, id):
     number = current_element_index + 1
 
     if request.method == 'POST':
-        pulse = request.POST['pulse']
-        date = request.POST['date']
-        comments = request.POST['comment']
-        found_pulse.delete()
-        Pulse.objects.create(pk=id, pulse=pulse, creation_date=date, comments=comments, owner=logged_user)
+        found_pulse.pulse = request.POST['pulse']
+        found_pulse.creation_date = request.POST['date']
+        found_pulse.comments = request.POST['comment']
+        found_pulse.cnt_modification +=1
+        found_pulse.save()
 
         login_history = LoginHistory.objects.filter(user=logged_user).last()
         login_history.cnt_modification +=1

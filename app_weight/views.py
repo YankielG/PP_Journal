@@ -163,15 +163,11 @@ def edit_weight(request, id):
     number = current_element_index + 1
 
     if request.method == 'POST':
-        # found_weight.weight = request.POST['weight']
-        # found_weight.creation_date = request.POST['date']
-        # found_weight.comments = request.POST['comment']
-        # found_weight.save()
-        weight = request.POST['weight']
-        date = request.POST['date']
-        comments = request.POST['comment']
-        found_weight.delete()
-        Weight.objects.create(pk=id, weight=weight, creation_date=date, comments=comments, owner=logged_user)
+        found_weight.weight = request.POST['weight']
+        found_weight.creation_date = request.POST['date']
+        found_weight.comments = request.POST['comment']
+        found_weight.cnt_modification +=1
+        found_weight.save()
 
         login_history = LoginHistory.objects.filter(user=logged_user).last()
         login_history.cnt_modification +=1
