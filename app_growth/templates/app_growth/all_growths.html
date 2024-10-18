@@ -117,10 +117,11 @@
         <a href uk-icon="icon: settings" uk-tooltip="Sortuj" style="margin-left: 5px"></a>
         <div class="uk-drop" uk-drop="mode: click; pos: bottom; offset: 5">
             <div class="uk-grid" style="margin-left: 55px; width: 8500px">
-                <a href="/growths/" style="color: {% if sort_value == None %} #FF7F50 {% else %} gray {% endif %} ;">Domyślne</a>
-                <a href="/growths/?sort_by=growth" style="color: {% if sort_value == 'growth' %} #FF7F50 {% else %} gray {% endif %} ;">Wzrost</a>
-                <a href="/growths/?sort_by=creation_date" style="color: {% if sort_value == 'creation_date' %} #FF7F50 {% else %} gray {% endif %} ;">Data</a>
-                <a href="/growths/?sort_by=comments" style="color: {% if sort_value == 'comments' %} #FF7F50 {% else %} gray {% endif %} ;">Uwagi</a>
+                <a href="/growths/?filtering_by={{ sort_value }}&search={{ filter_value }}" style="color: {% if filtering_by == '' %} #4169E1 {% else %} gray {% endif %} ;">Filtruj po...</a>
+                <a href="/growths/?search={{ filter_value }}" style="color: {% if sort_value == '' %} #FF7F50 {% else %} gray {% endif %} ;">Domyślne</a>
+                <a href="/growths/?sort_by=growth&search={{ filter_value }}" style="color: {% if sort_value == 'growth' %} #FF7F50 {% else %} gray {% endif %} ;">Wzrost</a>
+                <a href="/growths/?sort_by=creation_date&search={{ filter_value }}" style="color: {% if sort_value == 'creation_date' %} #FF7F50 {% else %} gray {% endif %} ;">Data</a>
+                <a href="/growths/?sort_by=comments&search={{ filter_value }}" style="color: {% if sort_value == 'comments' %} #FF7F50 {% else %} gray {% endif %} ;">Uwagi</a>
             </div>
         </div>
 
@@ -128,7 +129,7 @@
         <div class="uk-drop" uk-drop="mode: click; pos: right-center; offset: 5">
             <form class="uk-search uk-width-1-1">
                 <input name="search" class="uk-search-input" type="search"
-                       placeholder="Wyszukaj po Uwagach, 3-10 znaków." minlength="3" maxlength="10" aria-label="Search"
+                       placeholder="Wyszukaj po Uwagach, 3-10 znaków." minlength="2" maxlength="10" aria-label="Search"
                        autofocus>
             </form>
         </div>
