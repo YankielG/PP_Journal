@@ -110,9 +110,9 @@
         <div class="uk-drop" uk-drop="mode: click; pos: bottom; offset: 5">
             <div class="uk-grid" style="margin-left: 55px; width: 8500px">
 {#                <a href="/pulses/" style="color: {% if sort_value == None %} #FF7F50 {% else %} gray {% endif %} ;">Domyślne</a>#}
-                <a href="/pulses/?sort_by=pulse" style="color: {% if sort_value == 'pulse' %} #FF7F50 {% else %} gray {% endif %} ;">Tętno</a>
-                <a href="/pulses/?sort_by=-creation_date" style="color: {% if sort_value == '-creation_date' %} #FF7F50 {% else %} gray {% endif %} ;">Data</a>
-                <a href="/pulses/?sort_by=comments" style="color: {% if sort_value == 'comments' %} #FF7F50 {% else %} gray {% endif %} ;">Uwagi</a>
+                <a href="/pulses/?sort_by=pulse&search={{ filter_value }}&filtering_by={{ filtering_by }}" style="color: {% if sort_value == 'pulse' %} #FF7F50 {% else %} gray {% endif %} ;">Tętno</a>
+                <a href="/pulses/?sort_by=-creation_date&search={{ filter_value }}&filtering_by={{ filtering_by }}" style="color: {% if sort_value == '-creation_date' %} #FF7F50 {% else %} gray {% endif %} ;">Data</a>
+                <a href="/pulses/?sort_by=comments&search={{ filter_value }}&filtering_by={{ filtering_by }}" style="color: {% if sort_value == 'comments' %} #FF7F50 {% else %} gray {% endif %} ;">Uwagi</a>
             </div>
         </div>
 
@@ -120,7 +120,7 @@
         <div class="uk-drop" uk-drop="mode: click; pos: right-center; offset: 5">
             <form class="uk-search ">
                 <input name="search" class="uk-search-input" type="search"
-                       placeholder="Wyszukaj po 2-10 znaków." minlength="2" maxlength="10" aria-label="Search">
+                       placeholder="Wyszukaj po 1-10 znaków." minlength="1" maxlength="10" aria-label="Search">
                 <div class=" uk-grid-small uk-child-width-auto uk-grid">
                     <label><input class="uk-radio" type="radio" name="filtering_by" value="pulse"> Tętno</label>
                     <label><input class="uk-radio" type="radio" name="filtering_by" value="comments" checked> Uwagi</label>

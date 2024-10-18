@@ -23,44 +23,52 @@
             <div class="uk-card-body" style="width:1140px; margin: auto">
                 <div>
 
-                    <a href uk-icon="icon: settings" uk-tooltip="Sortuj"></a>
+                    <a href uk-icon="icon: settings" uk-tooltip="Sortuj" style="margin-left: 5px"></a>
                     <div class="uk-drop" uk-drop="mode: click; pos: bottom; offset: 5">
-                        <div class="uk-grid" style="margin-left: 55px; width: 8500px">
-                            <a href="/history/"
-                               style="color: {% if sort_value == None %} #FF7F50 {% else %} gray {% endif %} ;">Domyślne</a>
-                            <a href="/users/history/?sort_by=user_agent"
+                        <div class="uk-grid" style="margin-left: 110px; width: 8500px">
+{#                            <a href="/history/"#}
+{#                               style="color: {% if sort_value == None %} #FF7F50 {% else %} gray {% endif %} ;">Domyślne</a>#}
+                            <a href="/users/history/?sort_by=user_agent&search={{ filter_value }}&filtering_by={{ filtering_by }}"
                                style="color: {% if sort_value == 'user_agent' %} #FF7F50 {% else %} gray {% endif %} ;">Klijent</a>
-                            <a href="/users/history/?sort_by=ip_address"
+                            <a href="/users/history/?sort_by=ip_address&search={{ filter_value }}&filtering_by={{ filtering_by }}"
                                style="color: {% if sort_value == 'ip_address' %} #FF7F50 {% else %} gray {% endif %} ;">IP</a>
-                            <a href="/users/history/?sort_by=cnt_activity"
+                            <a href="/users/history/?sort_by=cnt_activity&search={{ filter_value }}&filtering_by={{ filtering_by }}"
                                style="color: {% if sort_value == 'cnt_activity' %} #FF7F50 {% else %} gray {% endif %} ;">Aktywność</a>
-                            <a href="/users/history/?sort_by=login_date"
-                               style="color: {% if sort_value == 'creation_date' %} #FF7F50 {% else %} gray {% endif %} ;">Data</a>
-                            <a href="/users/history/?sort_by=failed_login_attempts"
+                            <a href="/users/history/?sort_by=login_date&search={{ filter_value }}&filtering_by={{ filtering_by }}"
+                               style="color: {% if sort_value == '-logout_date' %} #FF7F50 {% else %} gray {% endif %} ;">Data</a>
+                            <a href="/users/history/?sort_by=failed_login_attempts&search={{ filter_value }}&filtering_by={{ filtering_by }}"
                                style="color: {% if sort_value == 'failed_login_attempts' %} #FF7F50 {% else %} gray {% endif %} ;">Błędy</a>
-                            <a href="/users/history/?sort_by=cnt_entries"
+                            <a href="/users/history/?sort_by=cnt_entries&search={{ filter_value }}&filtering_by={{ filtering_by }}"
                                style="color: {% if sort_value == 'cnt_entries' %} #FF7F50 {% else %} gray {% endif %} ;">Wpisy</a>
-                            <a href="/users/history/?sort_by=cnt_modification"
+                            <a href="/users/history/?sort_by=cnt_modification&search={{ filter_value }}&filtering_by={{ filtering_by }}"
                                style="color: {% if sort_value == 'cnt_modification' %} #FF7F50 {% else %} gray {% endif %} ;">Edycja</a>
-                            <a href="/users/history/?sort_by=cnt_deleted"
+                            <a href="/users/history/?sort_by=cnt_deleted&search={{ filter_value }}&filtering_by={{ filtering_by }}"
                                style="color: {% if sort_value == 'cnt_deleted' %} #FF7F50 {% else %} gray {% endif %} ;">Usuwanie</a>
-                            <a href="/users/history/?sort_by=cnt_all_deleted"
+                            <a href="/users/history/?sort_by=cnt_all_deleted&search={{ filter_value }}&filtering_by={{ filtering_by }}"
                                style="color: {% if sort_value == 'cnt_all_deleted' %} #FF7F50 {% else %} gray {% endif %} ;">Czyszczenie</a>
                         </div>
                     </div>
 
                     <a href uk-icon="icon: search" uk-tooltip="Wyszukaj" style="margin-left: 5px"></a>
                     <div class="uk-drop" uk-drop="mode: click; pos: right-center; offset: 5">
-                        <form class="uk-search uk-width-1-1">
+                        <form class="uk-search ">
                             <input name="search" class="uk-search-input" type="search"
-                                   placeholder="Wyszukaj po IP, 3-10 znaków." minlength="3" maxlength="10"
-                                   aria-label="Search"
-                                   autofocus>
+                                   placeholder="Wyszukaj po 1-10 znaków." minlength="1" maxlength="10" aria-label="Search">
+                            <div class="uk-grid" style="width: 1500px">
+                                <label><input class="uk-radio" type="radio" name="filtering_by" value="user_agent" checked> Klijent</label>
+                                <label><input class="uk-radio" type="radio" name="filtering_by" value="ip_address"> IP</label>
+                                <label><input class="uk-radio" type="radio" name="filtering_by" value="cnt_activity"> Aktywność</label>
+                                <label><input class="uk-radio" type="radio" name="filtering_by" value="failed_login_attempts"> Błędy</label>
+                                <label><input class="uk-radio" type="radio" name="filtering_by" value="cnt_entries"> Wpisy</label>
+                                <label><input class="uk-radio" type="radio" name="filtering_by" value="cnt_modification"> Edycja</label>
+                                <label><input class="uk-radio" type="radio" name="filtering_by" value="cnt_deleted"> Usuwanie</label>
+                                <label><input class="uk-radio" type="radio" name="filtering_by" value="cnt_all_deleted"> Czyszczenie</label>
+                            </div>
                         </form>
                     </div>
 
                     {% if filter_value %}
-                        <span style="color: #4169E1; margin-left: 20px">Zastosowany Filtr: </span>
+                        <span style="color: #4169E1; margin-left: 390px">Zastosowany Filtr: </span>
                         <span style="color: #FF7F50; margin-left: 5px"> {{ filter_value }} </span>
                     {% endif %}
 

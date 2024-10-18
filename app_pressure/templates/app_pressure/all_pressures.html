@@ -129,15 +129,15 @@
         <div class="uk-drop" uk-drop="mode: click; pos: bottom; offset: 5">
             <div class="uk-grid" style="margin-left: 55px; width: 8500px">
 {#                <a href="/pressures/" style="color: {% if sort_value == None %} #FF7F50 {% else %} gray {% endif %} ;">Domyślne</a>#}
-                <a href="/pressures/?sort_by=shrink"
+                <a href="/pressures/?sort_by=shrink&search={{ filter_value }}&filtering_by={{ filtering_by }}"
                    style="color: {% if sort_value == 'shrink' %} #FF7F50 {% else %} gray {% endif %} ;">Skurczowe</a>
-                <a href="/pressures/?sort_by=diastole"
+                <a href="/pressures/?sort_by=diastole&search={{ filter_value }}&filtering_by={{ filtering_by }}"
                    style="color: {% if sort_value == 'diastole' %} #FF7F50 {% else %} gray {% endif %} ;">Rozkurczowe</a>
-                <a href="/pressures/?sort_by=pulse"
+                <a href="/pressures/?sort_by=pulse&search={{ filter_value }}&filtering_by={{ filtering_by }}"
                    style="color: {% if sort_value == 'pulse' %} #FF7F50 {% else %} gray {% endif %} ;">Tętno</a>
-                <a href="/pressures/?sort_by=-creation_date"
+                <a href="/pressures/?sort_by=-creation_date&search={{ filter_value }}&filtering_by={{ filtering_by }}"
                    style="color: {% if sort_value == '-creation_date' %} #FF7F50 {% else %} gray {% endif %} ;">Data</a>
-                <a href="/pressures/?sort_by=comments"
+                <a href="/pressures/?sort_by=comments&search={{ filter_value }}&filtering_by={{ filtering_by }}"
                    style="color: {% if sort_value == 'comments' %} #FF7F50 {% else %} gray {% endif %} ;">Uwagi</a>
             </div>
         </div>
@@ -146,7 +146,7 @@
         <div class="uk-drop" uk-drop="mode: click; pos: right-center; offset: 5">
             <form class="uk-search ">
                 <input name="search" class="uk-search-input" type="search"
-                       placeholder="Wyszukaj po 2-10 znaków." minlength="2" maxlength="10" aria-label="Search">
+                       placeholder="Wyszukaj po 1-10 znaków." minlength="1" maxlength="10" aria-label="Search">
                 <div class="uk-grid" style="width: 500px">
                     <label><input class="uk-radio" type="radio" name="filtering_by" value="shrink"> Skurczowe</label>
                     <label><input class="uk-radio" type="radio" name="filtering_by" value="diastole"> Rozkurczowe</label>

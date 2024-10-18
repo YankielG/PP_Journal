@@ -16,6 +16,7 @@ class Pulse(models.Model):
                                 validators=[MinValueValidator(40), MaxValueValidator(150)])
     creation_date = models.DateTimeField(validators=[validate_date])
     update_date = models.DateTimeField(auto_now=True, validators=[validate_date])
+    cnt_modification = models.IntegerField(default=0)  # ilość modyfikacji wpisu
     comments = models.CharField(max_length=255, validators=[MaxLengthValidator(150)])
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
 
