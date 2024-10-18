@@ -55,7 +55,7 @@ def all_pressures(request):
             found_pressures = Pressure.objects.filter(owner=logged_user).order_by('-creation_date')
 
     page_num = request.GET.get('page', 1)
-    pages = Paginator(found_pressures, 3)
+    pages = Paginator(found_pressures, 5)
 
     pages_max = pages.num_pages
     pages_max_elements = pages.count
