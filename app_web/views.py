@@ -48,6 +48,12 @@ def home(request):
     last_login = logged_user.last_login
     date_joined = logged_user.date_joined
     cnt_visits = LoginHistory.objects.filter(user=logged_user).aggregate(login_count=Count('login_date'))
+    cnt_activity = LoginHistory.objects.filter(user=logged_user).last().cnt_activity
+
+    cnt_activity_h = cnt_activity // 60
+    cnt_activity_m = cnt_activity % 60
+    cnt_activity = f'{cnt_activity_h}h {cnt_activity_m}m'
+
 
     user_profile = UserProfile.objects.get(user=logged_user)
     gender = user_profile.gender
@@ -141,6 +147,7 @@ def home(request):
         'logged_user': logged_user,
         'date_account': date_account,
         'cnt_visits': cnt_visits,
+        'cnt_activity': cnt_activity,
         'total_entries': total_entries,
         'date_last_visits': date_last_visits,
         'age': age,

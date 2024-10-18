@@ -6,18 +6,26 @@
 {% block page_content %}
 
     <div class="container">
-        <h2 class="uk-heading-divider" style="position:center">
-            <span>Witaj użytkowniku, widzieliśmy się </span>
-            {% if date_last_visits == 0 %}
-                <span> nie dawno. </span>
-            {% elif date_last_visits == 1 %}
-                <span> {{ date_last_visits }} dzień temu. </span>
-            {% else %}
-                <span> {{ date_last_visits }} dni temu. </span>
-            {% endif %}
-        </h2>
+        <div class="uk-grid">
+            <div class="uk-width-4-5">
+                <h2 >
+                    <span>Witaj użytkowniku, widzieliśmy się </span>
+                    {% if date_last_visits == 0 %}
+                        <span> nie dawno. </span>
+                    {% elif date_last_visits == 1 %}
+                        <span> {{ date_last_visits }} dzień temu. </span>
+                    {% else %}
+                        <span> {{ date_last_visits }} dni temu. </span>
+                    {% endif %}
+                </h2>
+            </div>
+            <div class="uk-width-1-5 uk-flex uk-flex-right">
+                <span>Aktywność: {{ cnt_activity }}</span>
+            </div>
+        </div>
+        <div class="uk-heading-divider" ></div>
 
-        <div class="uk-panel">
+        <div class="uk-panel" style="margin-top: 10px;">
             <img class="uk-align-left uk-margin-remove-adjacent" src="{% static 'background.JPG' %}" width="300"
                  height="140" alt="info">
             <p>Przejmij kontrolę nad organizmem i zacznij decydować o swoim zdrowiu!</p>
