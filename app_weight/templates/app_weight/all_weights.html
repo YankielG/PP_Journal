@@ -111,24 +111,27 @@
         <a href uk-icon="icon: settings" uk-tooltip="Sortuj" style="margin-left: 5px"></a>
         <div class="uk-drop" uk-drop="mode: click; pos: bottom; offset: 5">
             <div class="uk-grid" style="margin-left: 55px; width: 8500px">
-                <a href="/weights/" style="color: {% if sort_value == None %} #FF7F50 {% else %} gray {% endif %} ;">Domyślne</a>
+{#                <a href="/weights/" style="color: {% if sort_value == None %} #FF7F50 {% else %} gray {% endif %} ;">Domyślne</a>#}
                 <a href="/weights/?sort_by=weight" style="color: {% if sort_value == 'weight' %} #FF7F50 {% else %} gray {% endif %} ;">Waga</a>
-                <a href="/weights/?sort_by=creation_date" style="color: {% if sort_value == 'creation_date' %} #FF7F50 {% else %} gray {% endif %} ;">Data</a>
+                <a href="/weights/?sort_by=-creation_date" style="color: {% if sort_value == 'creation_date' %} #FF7F50 {% else %} gray {% endif %} ;">Data</a>
                 <a href="/weights/?sort_by=comments" style="color: {% if sort_value == 'comments' %} #FF7F50 {% else %} gray {% endif %} ;">Uwagi</a>
             </div>
         </div>
     
         <a href uk-icon="icon: search" uk-tooltip="Wyszukaj" style="margin-left: 5px"></a>
         <div class="uk-drop" uk-drop="mode: click; pos: right-center; offset: 5">
-            <form class="uk-search uk-width-1-1">
+            <form class="uk-search ">
                 <input name="search" class="uk-search-input" type="search"
-                       placeholder="Wyszukaj po Uwagach, 3-10 znaków." minlength="3" maxlength="10" aria-label="Search"
-                       autofocus>
+                       placeholder="Wyszukaj po 2-10 znaków." minlength="2" maxlength="10" aria-label="Search">
+                <div class=" uk-grid-small uk-child-width-auto uk-grid">
+                    <label><input class="uk-radio" type="radio" name="filtering_by" value="weight"> Waga</label>
+                    <label><input class="uk-radio" type="radio" name="filtering_by" value="comments" checked> Uwagi</label>
+                </div>
             </form>
         </div>
     
         {% if filter_value %}
-            <span style="color: #4169E1; margin-left: 20px">Zastosowany Filtr: </span>
+            <span style="color: #4169E1; margin-left: 390px">Zastosowany Filtr: </span>
             <span style="color: #FF7F50; margin-left: 5px"> {{ filter_value }} </span>
         {% endif %}
 

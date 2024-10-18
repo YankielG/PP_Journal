@@ -44,15 +44,14 @@ def all_pulses(request):
     logged_user = request.user
 
     filter_value = request.GET.get('search')
-    sort_value = request.GET.get('sort_by')
+    sort_value = request.GET.get('sort_by', '-creation_date')
+    search_category = request.GET.get('filtering_by')
 
-    if filter_value and len(filter_value) > 2:
-        found_pulses = Pulse.objects.filter(owner=logged_user, comments__contains = filter_value)
+    if filter_value and len(filter_value) > 1:
+        query = {f"{search_category}__icontains": filter_value}
+        found_pulses = Pulse.objects.filter(owner=logged_user, **query).order_by(sort_value)
     else:
-        if sort_value:
-            found_pulses = Pulse.objects.filter(owner=logged_user).order_by('-sort_value')
-        else:
-            found_pulses = Pulse.objects.filter(owner=logged_user).order_by('-creation_date')
+        found_pulses = Pulse.objects.filter(owner=logged_user).order_by(sort_value)
 
     page_num = request.GET.get('page', 1)
     pages = Paginator(found_pulses, 5)
