@@ -152,11 +152,15 @@ def history(request):
     logged_user = request.user
 
     filter_value = request.GET.get('search')
+    sort_value = request.GET.get('sort_by')
 
     if filter_value and len(filter_value) > 2:
         found_history = LoginHistory.objects.filter(user=logged_user, ip_address__contains = filter_value).order_by('-ip_address')
     else:
-        found_history = LoginHistory.objects.filter(user=logged_user).order_by('-login_date')
+        if sort_value:
+            found_history = LoginHistory.objects.filter(user=logged_user).order_by('-sort_value')
+        else:
+            found_history = LoginHistory.objects.filter(user=logged_user).order_by('-login_date')
 
     page_num = request.GET.get('page', 1)
     pages = Paginator(found_history, 8)
@@ -167,6 +171,7 @@ def history(request):
 
     context = {
         'filter_value': filter_value,
+        'sort_value': sort_value,
         'pages_max': pages_max,
         'pages_max_elements': pages_max_elements,
         'history': page_results,

@@ -46,11 +46,15 @@ def all_weights(request):
     logged_user = request.user
 
     filter_value = request.GET.get('search')
+    sort_value = request.GET.get('sort_by')
 
     if filter_value and len(filter_value) > 2:
         found_weights = Weight.objects.filter(owner=logged_user, comments__contains = filter_value)
     else:
-        found_weights = Weight.objects.filter(owner=logged_user).order_by('-creation_date')
+        if sort_value:
+            found_weights = Weight.objects.filter(owner=logged_user).order_by('-sort_value')
+        else:
+            found_weights = Weight.objects.filter(owner=logged_user).order_by('-creation_date')
 
     page_num = request.GET.get('page', 1)
     pages = Paginator(found_weights, 3)
@@ -67,6 +71,7 @@ def all_weights(request):
 
     context = {
         'filter_value' : filter_value,
+        'sort_value': sort_value,
         'pages_max': pages_max,
         'pages_max_elements': pages_max_elements,
         'weights': page_results,
@@ -146,7 +151,16 @@ def add_weight(request):
 @check_owner
 def edit_weight(request, id):
     logged_user = request.user
+    found_weights = Weight.objects.filter(owner=logged_user).order_by('-creation_date')
     found_weight = Weight.objects.get(pk=id)
+
+    current_element_index = 0
+    for i,g in enumerate(found_weights):
+        if g.id == found_weight.id:
+            current_element_index = i
+            break
+    number = current_element_index + 1
+
     if request.method == 'POST':
         # found_weight.weight = request.POST['weight']
         # found_weight.creation_date = request.POST['date']
@@ -165,6 +179,7 @@ def edit_weight(request, id):
 
     context = {
         'weight': found_weight,
+        'number': number,
         'time_value': found_weight.creation_date.strftime("%Y-%m-%dT%H:%M"),
         'time_max': datetime.now().strftime("%Y-%m-%dT%H:%M"),
         'time_min': (datetime.now() - timedelta(weeks=52)).strftime("%Y-%m-%dT%H:%M")

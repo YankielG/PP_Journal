@@ -42,15 +42,20 @@ def check_owner(private_view):
 @login_required
 def all_growths(request):
     logged_user = request.user
+
     filter_value = request.GET.get('search')
+    sort_value = request.GET.get('sort_by')
 
     if filter_value and len(filter_value) > 2:
         found_growths = Growth.objects.filter(owner=logged_user, comments__contains = filter_value)
     else:
-        found_growths = Growth.objects.filter(owner=logged_user).order_by('-creation_date')
+        if sort_value:
+            found_growths = Growth.objects.filter(owner=logged_user).order_by(sort_value)
+        else:
+            found_growths = Growth.objects.filter(owner=logged_user).order_by('-creation_date')
 
     page_num = request.GET.get('page', 1)
-    pages = Paginator(found_growths, 3)
+    pages = Paginator(found_growths, 5)
 
     pages_max = pages.num_pages
     pages_max_elements = pages.count
@@ -64,11 +69,12 @@ def all_growths(request):
 
     context = {
         'filter_value': filter_value,
+        'sort_value': sort_value,
         'pages_max': pages_max,
         'pages_max_elements': pages_max_elements,
         'growths': page_results,
         'chart_x': chart_x,
-        'chart_y': chart_y
+        'chart_y': chart_y,
     }
     return render(request,'app_growth/all_growths.html', context)
 
@@ -138,7 +144,16 @@ def add_growth(request):
 @check_owner
 def edit_growth(request, id):
     logged_user = request.user
+    found_growths = Growth.objects.filter(owner=logged_user).order_by('-creation_date')
     found_growth = Growth.objects.get(pk=id)
+
+    current_element_index = 0
+    for i,g in enumerate(found_growths):
+        if g.id == found_growth.id:
+            current_element_index = i
+            break
+    number = current_element_index + 1
+
     if request.method == 'POST':
         growth = request.POST['growth']
         date = request.POST['date']
@@ -153,6 +168,7 @@ def edit_growth(request, id):
 
     context = {
         'growth': found_growth,
+        'number': number,
         'time_value': found_growth.creation_date.strftime("%Y-%m-%dT%H:%M"),
         'time_max': datetime.now().strftime("%Y-%m-%dT%H:%M"),
         'time_min': (datetime.now() - timedelta(weeks=52)).strftime("%Y-%m-%dT%H:%M")

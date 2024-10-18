@@ -42,12 +42,17 @@ def check_owner(private_view):
 @login_required
 def all_pulses(request):
     logged_user = request.user
+
     filter_value = request.GET.get('search')
+    sort_value = request.GET.get('sort_by')
 
     if filter_value and len(filter_value) > 2:
         found_pulses = Pulse.objects.filter(owner=logged_user, comments__contains = filter_value)
     else:
-        found_pulses = Pulse.objects.filter(owner=logged_user).order_by('-creation_date')
+        if sort_value:
+            found_pulses = Pulse.objects.filter(owner=logged_user).order_by('-sort_value')
+        else:
+            found_pulses = Pulse.objects.filter(owner=logged_user).order_by('-creation_date')
 
     page_num = request.GET.get('page', 1)
     pages = Paginator(found_pulses, 3)
@@ -64,6 +69,7 @@ def all_pulses(request):
 
     context = {
         'filter_value': filter_value,
+        'sort_value': sort_value,
         'pages_max': pages_max,
         'pages_max_elements': pages_max_elements,
         'pulses': page_results,
@@ -138,7 +144,16 @@ def add_pulse(request):
 @check_owner
 def edit_pulse(request, id):
     logged_user = request.user
+    found_pulses = Pulse.objects.filter(owner=logged_user)
     found_pulse = Pulse.objects.get(pk=id)
+
+    current_element_index = 0
+    for i,g in enumerate(found_pulses):
+        if g.id == found_pulse.id:
+            current_element_index = i
+            break
+    number = current_element_index + 1
+
     if request.method == 'POST':
         pulse = request.POST['pulse']
         date = request.POST['date']
@@ -153,6 +168,7 @@ def edit_pulse(request, id):
 
     context = {
         'pulse': found_pulse,
+        'number': number,
         'time_value': found_pulse.creation_date.strftime("%Y-%m-%dT%H:%M"),
         'time_max': datetime.now().strftime("%Y-%m-%dT%H:%M"),
         'time_min': (datetime.now() - timedelta(weeks=52)).strftime("%Y-%m-%dT%H:%M")

@@ -42,12 +42,17 @@ def check_owner(private_view):
 @login_required
 def all_pressures(request):
     logged_user = request.user
+
     filter_value = request.GET.get('search')
+    sort_value = request.GET.get('sort_by')
 
     if filter_value and len(filter_value) > 2:
         found_pressures = Pressure.objects.filter(owner=logged_user, comments__contains = filter_value)
     else:
-        found_pressures = Pressure.objects.filter(owner=logged_user).order_by('-creation_date')
+        if sort_value:
+            found_pressures = Pressure.objects.filter(owner=logged_user).order_by('-sort_value')
+        else:
+            found_pressures = Pressure.objects.filter(owner=logged_user).order_by('-creation_date')
 
     page_num = request.GET.get('page', 1)
     pages = Paginator(found_pressures, 3)
@@ -70,6 +75,7 @@ def all_pressures(request):
 
     context = {
         'filter_value': filter_value,
+        'sort_value': sort_value,
         'pages_max': pages_max,
         'pages_max_elements': pages_max_elements,
         'pressures': page_results,
@@ -152,7 +158,16 @@ def add_pressure(request):
 @check_owner
 def edit_pressure(request, id):
     logged_user = request.user
+    found_pressures = Pressure.objects.filter(owner=logged_user)
     found_pressure = Pressure.objects.get(pk=id)
+
+    current_element_index = 0
+    for i,g in enumerate(found_pressures):
+        if g.id == found_pressure.id:
+            current_element_index = i
+            break
+    number = current_element_index + 1
+
     if request.method == 'POST':
         shrink = request.POST['shrink']
         diastole = request.POST['diastole']
@@ -169,6 +184,7 @@ def edit_pressure(request, id):
 
     context = {
         'pressure': found_pressure,
+        'number': number,
         'time_value': found_pressure.creation_date.strftime("%Y-%m-%dT%H:%M"),
         'time_max': datetime.now().strftime("%Y-%m-%dT%H:%M"),
         'time_min': (datetime.now() - timedelta(weeks=52)).strftime("%Y-%m-%dT%H:%M")
