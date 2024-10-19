@@ -31,8 +31,11 @@ https://google.com
 
 9.	Wbudowana baza db.sqlite3 ma gotową strukturę danych:
 
-	- UŻYTKOWNIK:  Tomek 	HASŁO:  abcabcabc
-	- UŻYTKOWNIK:  Monika 	HASŁO:  abcabcabc
+	- UŻYTKOWNIK:  grzes 	TYP: ADMIN          HASŁO:  ***100
+	- UŻYTKOWNIK:  Ala 	    TYP: Uzytkownik     HASŁO:  ***200
+	- UŻYTKOWNIK:  Tom  	TYP: Uzytkownik     HASŁO:  ***300
+	- UŻYTKOWNIK:  Monika 	TYP: Uzytkownik     HASŁO:  ***400
+	***400 - końcówka hasła, początek zostanie podany
 
 10.	Niema różnic między zastosowana bazą danych.
 
