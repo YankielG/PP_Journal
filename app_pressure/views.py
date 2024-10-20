@@ -43,15 +43,22 @@ def check_owner(private_view):
 def all_pressures(request):
     logged_user = request.user
 
-    filter_value = request.GET.get('search')
+    filter_value = request.GET.get('search', '')
     sort_value = request.GET.get('sort_by', '-creation_date')
-    search_category = request.GET.get('filtering_by')
+    search_category = request.GET.get('filtering_by', '')
 
     if filter_value and len(filter_value) > 0:
         query = {f"{search_category}__icontains": filter_value}
         found_pressures = Pressure.objects.filter(owner=logged_user, **query).order_by(sort_value)
     else:
         found_pressures = Pressure.objects.filter(owner=logged_user).order_by(sort_value)
+
+    # if sort_value is None:
+    #     sort_value = ''
+    # if filter_value is None:
+    #     filter_value = ''
+    # if search_category is None:
+    #     search_category = ''
 
     page_num = request.GET.get('page', 1)
     pages = Paginator(found_pressures, 5)
