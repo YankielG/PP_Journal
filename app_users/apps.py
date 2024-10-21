@@ -7,3 +7,4 @@ class AppUsersConfig(AppConfig):
 
     def ready(self):
         import app_users.signals
+
